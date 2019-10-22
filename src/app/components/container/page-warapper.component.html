@@ -1,0 +1,26 @@
+<div class="page-wrapper">
+    <div class="page-inner">
+        <!-- BEGIN Left Aside -->
+        <aside class="page-sidebar">
+            <page-logo></page-logo>
+            <nav id="js-primary-nav" class="primary-nav" role="navigation">
+                <nav-filter></nav-filter>
+                <userinfo-card></userinfo-card>
+                <nav-menus></nav-menus>
+            </nav>
+
+        </aside>
+        <!-- END Left Aside -->
+        <div class="page-content-wrapper">
+            <!-- BEGIN Page Header -->
+            <page-header></page-header>
+            <!-- END Page Header -->
+            <!-- BEGIN Page Content -->
+            <!-- the #js-page-content id is needed for some plugins to initialize -->
+            <main id="js-page-content" role="main" class="page-content">
+                <router-outlet></router-outlet>
+            </main>
+        </div>
+
+    </div>
+</div>

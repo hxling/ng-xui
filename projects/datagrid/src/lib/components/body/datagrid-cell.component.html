@@ -1,0 +1,10 @@
+<div class="xui-datagrid-cell-content" #cellContainer [style.width.px]="column.width - (lastColumn ? 6 : 0)">
+    <ng-container *ngIf="!isEditing && !column.template">
+        <span *ngIf="column.formatter" [innerHtml]=" column | formatCellData: rowData | safe: 'html'"></span>
+        <span *ngIf="!column.formatter"> {{ column | formatCellData: rowData }} </span>
+    </ng-container>
+    <ng-container *ngIf="!isEditing && column.template" [ngTemplateOutlet]="column.template"
+                    [ngTemplateOutletContext]="{$implicit: cellContext}"></ng-container>
+    <ng-container #editorTemplate *ngIf="isEditing" 
+            cell-editor [rowData]="rowData" [value]="value" [column]="column" [group]="dr.form"></ng-container>
+</div>

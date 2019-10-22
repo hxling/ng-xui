@@ -1,0 +1,600 @@
+
+
+&-datagrid {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    font-size: 14px;
+    color: $grid-text-color;
+    background-color: $grid-bgcolor;
+   
+    table {
+        table-layout: fixed;
+        border-collapse: separate;
+    }
+    &-unselect {
+        user-select: none;
+    }
+
+    &-bg {
+        background: -webkit-linear-gradient(top, transparent 35px, blue 40px);
+        background-size: 36px 36px;
+    }
+
+    &-full{
+        position: relative;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex: 1;
+        height: 100%;
+    }
+
+    .xui-datagrid-ah td{
+        padding: 0px 5px;
+    }
+
+    &-group {
+        &-row {
+            span.xui-icon {
+                background-size: 16px;
+                background-position: 3px 4px;
+                background-repeat: no-repeat;
+                cursor: pointer;
+            }
+
+            .xui-datagrid-group-expanded {
+                background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.072 8l-4.357 4.357.618.619L11 8.309v-.618L6.333 3.024l-.618.619L10.072 8z' fill='%23252526'/%3E%3C/svg%3E")
+            }
+
+            .xui-datagrid-group-collapsed {
+                background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M7.976 10.072l4.357-4.357.62.618L8.284 11h-.618L3 6.333l.619-.618 4.357 4.357z' fill='%23252526'/%3E%3C/svg%3E")
+            }
+
+            .xui-datagrid-group-action {
+                text-align: center;
+            }
+        }
+
+        &-footer {
+            background-color: #fbfbfb;
+
+            .xui-datagrid-cell-checkbox {
+                background-color: #fbfbfb;
+            }
+            .xui-datagrid-cell {
+                background-color: transparent;
+            }
+        }
+    }
+    
+    &-header {
+        z-index: 2;
+        position: relative;
+        height: $header-cell-height;
+        color: $header-color;
+        background-color: $header-bgcolor;
+        font-weight: 400;
+        overflow: hidden;
+        width: 100%;
+        border-bottom: 1px solid $border-color;
+        transition: all .15s ease;
+
+        table { 
+            width:100%;
+        }
+
+        .xui-datagrid-cell-group-left-shadow, .xui-datagrid-cell-group-right-shadow {
+            height:$header-cell-height;
+        }
+
+        &-row {
+            background-color: $header-bgcolor;
+        }
+
+        &-cell {
+            height: $header-cell-height;
+            overflow: hidden;
+            white-space: normal;
+            
+            &-content {
+                padding-left: 5px;
+                white-space: nowrap;
+            }
+
+            &:hover {
+                background: $header-hover-bgcolor;
+            }
+
+            &-resize {
+                background-clip: padding-box;
+                position: relative;
+
+                .column-resize-bar {
+                    display: block;
+                    position: absolute!important;
+                    top: 0;
+                    right: 0;
+                    margin: 0;
+                    width: 12px;
+                    height: 100%;
+                    padding: 0;
+                    cursor: e-resize;
+                    border: 1px solid transparent;
+                }
+            }
+
+            &.column-resizeing {
+                background-color: $header-hover-bgcolor;
+            }
+
+            &-group {
+                border-bottom: 1px solid $border-color!important;
+            }
+        }
+   
+        &-fixed-left, &-fixed-right {
+            position: absolute;
+            z-index: 4;
+            background: #fff;
+        }
+    }
+
+    &-body {
+        position: absolute;
+        overflow: hidden;
+        z-index: 0;
+        left: 0;
+
+        &-wheel-area {
+            overflow:hidden; 
+            position: relative;
+        }
+
+        &-fixed-left {
+            position: absolute;
+            z-index: 1;
+            background: transparent;
+
+            .xui-datagrid-row-hover,
+            .xui-datagrid-row-selected {
+                .xui-datagrid-cell-rownumber {
+                    background-color: #ededed !important;
+                }
+            }
+        }
+
+        &-fixed-right {
+            position: absolute;
+            width: 200px;
+            background: transparent;
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        &-row {
+            overflow: hidden;
+            height: $cell-height;
+            width: 100%;
+            top: 0;
+            transition: all .15s ease
+        }
+
+    }
+
+    &-table {
+        tr td:last-child {
+            border-right-width: 0;
+        }
+    }
+
+    &-rowhover {
+
+        .xui-datagrid-body-fixed-left tr:not(.xui-datagrid-row-selected):not(.xui-datagrid-group-row):not(.xui-datagrid-group-footer):hover {
+            cursor: pointer;
+            background: $row-hover-bgcolor!important;
+            color: $row-hover-color!important;
+            transition: background-color 0.1s ease-in;
+            
+            .xui-datagrid-cell-rownumber {
+                background-color: #ededed !important;
+            }
+
+            .xui-datagrid-cell {
+                background-color: transparent;
+            }
+        }
+
+        .xui-datagrid-table tr:not(.xui-datagrid-row-selected):not(.xui-datagrid-group-row):not(.xui-datagrid-group-footer):hover, 
+        .xui-datagrid-body-fixed-right tr:not(.xui-datagrid-row-selected):hover,
+        .xui-datagrid-ah tbody tr:hover {
+            cursor: pointer;
+            background: $row-hover-bgcolor!important;
+            color: $row-hover-color!important;
+            transition: background-color 0.1s ease-in;
+            .xui-datagrid-cell {
+                background-color: transparent;
+            }
+            // box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+        }
+
+       
+    }
+
+    &-row {
+        overflow: hidden;
+        height: $cell-height;
+        width: 100%;
+        top: 0;
+        border-bottom: 1px solid $border-color;
+        background-color: #fff;
+        transition: all .15s ease;
+
+        &-body {
+            .xui-datagrid-cell-group-left-shadow,
+            .xui-datagrid-cell-group-right-shadow {
+                height:$cell-height;
+            }
+        }
+
+        &-hover {
+            cursor: pointer;
+            background: $row-hover-bgcolor!important;
+            color: $row-hover-color!important;
+            transition: background-color 0.1s ease-in;
+        }
+
+        &-selected {
+            background-color: $selected-row-bgcolor;
+            color: $selected-row-color;
+            border-color: #e9e9e9;
+
+            .xui-datagrid-cell {
+                background-color: $selected-row-bgcolor!important;
+                color: $selected-row-color;
+            }
+        }
+    }
+
+    &-virtual-row{
+        overflow: hidden;
+        pointer-events: none;
+        background-color: transparent!important;
+        border-width: 0;
+        width:1px;
+    }
+  
+    &-cell {
+        height: $cell-height;
+        border-style: solid;
+        border-width: 0 0 1px;
+        border-color: $border-color;
+        overflow: hidden;
+        white-space: normal;
+        background-color: white;
+
+        &-formgroup {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            datagrid-tooltip {
+                height: 100%;
+                width: 100%;
+                align-items: center;
+                justify-content: center;
+                display: flex;
+            }
+
+            textarea.ng-invalid {
+                border: 1px solid red;
+            }
+        }
+        &-editor{
+            width: 100%;
+            height: calc(#{$cell-height} - 3px);
+            border:0;
+        }
+
+        &-selected {
+            border: 0px solid $selected-cell-border-color!important;
+            background-color: $selected-cell-bgcolor!important;
+        }
+
+        &-edit {
+            .xui-datagrid-cell-content {
+                padding: 0;
+            }
+        }
+
+        &-content {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            width: 100%;
+            margin: 0;
+            padding: 0 1px;
+            height: calc(#{$cell-height} - 3px);
+            line-height: calc(#{$cell-height} - 3px);
+
+            &>span {
+                padding: 0 5px;
+                display: block;
+            }
+        }
+
+        &-rownumber {
+            background-color: $row-number-bgcolor!important;
+            color: #000!important;
+            text-align: center;
+            .xui-datagrid-cell-content {
+                padding: 0;
+                text-align: center;
+            }
+
+            &.rownumber-selected{
+                background-color: #d9d9d9 !important;
+            }
+        }
+    
+        &-checkbox {
+            text-align: center;
+            background: white;
+        }
+    }
+
+    &-pager {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: $pager-height;
+        border-top: 1px solid #ccc;
+        background:$pager-bgcolor;
+
+        .pagination {
+            margin: 0 10px;
+            padding: 0;
+            height: $pager-height;
+            align-items: center;
+        }
+    }
+
+
+    .ps--active-x > .ps__rail-x,
+    .ps--active-y > .ps__rail-y {
+        z-index: 999;
+    }
+    
+    &-body-fixed-left {
+        >.ps__rail-x,
+        >.ps__rail-y {
+            display: none !important;
+        }
+    }
+
+    &-strip {
+        .xui-datagrid-body, .xui-datagrid-ah {
+            .xui-datagrid-row-selected {
+                color: $grid-text-color;
+                background-color: $selected-row-bgcolor!important;
+                color: $selected-row-color;
+                .xui-datagrid-cell {
+                    background-color: $selected-row-bgcolor!important;
+                    color: $selected-row-color;
+                }
+            }
+            tr:nth-child(odd) {
+                background-color: $row-odd-bgcolor;
+                color: $grid-text-color;
+                .xui-datagrid-cell {
+                    background-color: transparent;
+                    border-color: $grid-border-color
+                }
+            }
+
+            tr:nth-child(even) {
+                background-color: $row-even-bgcolor;
+                .xui-datagrid-cell {
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+
+
+    &-bordered {
+        border: 1px solid $grid-border-color;
+
+        .xui-datagrid-cell {
+            border-width: 0 1px 1px 0;
+        }
+
+        .xui-datagrid-body-fixed-right {
+            border-left: 1px solid $border-color;
+        }
+
+        .xui-datagrid-header {
+            &-cell {
+                border: 1px solid $grid-border-color;
+                border-width: 0 1px 0 0;
+            }
+
+            tr td:last-child {
+                border-right: 1px solid $border-color;
+            }
+
+            &-fixed-right {
+                border-left: 1px solid $border-color;
+            }
+            &-fixed-left {
+                tr td:last-child {
+                    border-right: 1px solid $border-color;
+                }
+            }
+        }
+
+        .xui-datagrid-ah {
+            .xui-datagrid-header-cell {
+                border-width: 0 1px 1px 0;
+            }
+        }
+
+        &-both {}
+        &-bottom {}
+        &-right {}
+    }
+
+    /**
+    * 拖动列宽
+    */
+    &-resize-proxy {
+        width: 1px;
+        border-left: 1px dashed $resize-proxy-border-color;
+        left: 0px;
+        display: none;
+        position: absolute;
+        height: 100%;
+        z-index: 99;
+    }
+    
+    &-resize-bg{
+        z-index: 98;width: 100%;height: 100%;
+        cursor: e-resize;
+        background: transparent;position: absolute; display: none;
+    }
+
+    /** 排序 */
+    &-sort {
+        float: right;
+        width: 20px;
+        text-align: center;
+        cursor: pointer;
+        opacity: .65;
+
+        &:hover {
+            color: blue;
+            opacity: 1;
+        }
+        &-asc, &-desc {
+            opacity: 1;
+        }
+    }
+
+    /** 折行 */
+    &-wrap &-cell-content {
+        white-space: normal;
+        word-break: break-all;
+        word-spacing: normal;
+        height: auto;
+        line-height: 24px;
+    }
+
+    &-footer {
+        background: #fff;
+        z-index: 97;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        table {
+            table-layout: fixed;
+        }
+
+        &>div {
+            border-top:1px solid #ccc;
+        }
+        /** 合计行单元格不折行 */
+        .xui-datagrid-cell-content {
+            word-break: normal;
+            word-wrap: normal;
+        }
+    }
+
+    &-sm {
+        .xui-datagrid-body-row,.xui-datagrid-cell {
+            height: $grid-row-size-type-sm;
+            min-height: $grid-row-size-type-sm;
+        }
+
+        .xui-datagrid-cell-content {
+            height: calc(#{$grid-row-size-type-sm} - 3px);
+            line-height: calc(#{$grid-row-size-type-sm} - 3px);
+        }
+
+        .xui-datagrid-bg{
+            background: -webkit-linear-gradient(top, transparent 27px, #c3c3c3 30px);
+            background-size: 28px 28px;
+        }
+    }
+    &-lg {
+        .xui-datagrid-body-row,.xui-datagrid-cell {
+            height: $grid-row-size-type-lg;
+            min-height: $grid-row-size-type-lg;
+        }
+        .xui-datagrid-cell-content {
+            height: calc(#{$grid-row-size-type-lg} - 3px);
+            line-height: calc(#{$grid-row-size-type-lg} - 3px);
+        }
+
+        .xui-datagrid-bg{
+            background: -webkit-linear-gradient(top, transparent 47px, #c3c3c3  50px);
+            background-size: 48px 48px;
+        }
+    }
+    &-xl {
+        .xui-datagrid-body-row,.xui-datagrid-cell {
+            height: $grid-row-size-type-xl;
+            min-height: $grid-row-size-type-xl;
+        }
+
+        .xui-datagrid-cell-content {
+            height: calc(#{$grid-row-size-type-xl} - 3px);
+            line-height: calc(#{$grid-row-size-type-xl} - 3px);
+        }
+
+        .xui-datagrid-bg{
+            background: -webkit-linear-gradient(top, transparent 59px, #c3c3c3 63px);
+            background-size: 60px 60px;
+        }
+    }
+
+    &-wrap {
+        &.xui-datagrid-sm {
+            .xui-datagrid-cell-content, .xui-datagrid-body-row,.xui-datagrid-cell {
+                height: auto;
+                line-height: 24px;
+                min-height: $grid-row-size-type-sm;
+            }
+        }
+        &.xui-datagrid-md {
+            .xui-datagrid-cell-content, .xui-datagrid-body-row,.xui-datagrid-cell {
+                height: auto;
+                line-height: 24px;
+                min-height: $grid-row-size-type-md;
+            }
+        }
+        &.xui-datagrid-lg {
+            .xui-datagrid-cell-content, .xui-datagrid-body-row,.xui-datagrid-cell {
+                height: auto;
+                line-height: 24px;
+                min-height: $grid-row-size-type-lg;
+            }
+        }
+        &.xui-datagrid-xl{
+            .xui-datagrid-cell-content, .xui-datagrid-body-row,.xui-datagrid-cell {
+                height: auto;
+                line-height: 24px;
+                min-height: $grid-row-size-type-xl;
+            }
+        }
+    }
+}
+ 
+

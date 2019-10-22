@@ -1,0 +1,43 @@
+<!--
+ * @Author: 疯狂秀才(Lucas Huang)
+ * @Date: 2019-08-06 07:43:07
+ * @LastEditors: 疯狂秀才(Lucas Huang)
+ * @LastEditTime: 2019-10-22 18:14:21
+ * @QQ: 1055818239
+ * @Version: v0.0.1
+ -->
+<div  class="xui-datagrid-body" [ngStyle]="bodyStyle" [style.top.px]="top">
+
+    <div [scrollbar]="psConfig" class="ps xui-datagrid-body-wheel-area" #ps="ngxScrollbar"
+        [ngStyle]="bodyStyle" (psXReachEnd)="onPsXReachEnd($event)"
+        (psScrollY)="onScrollToY($event)"
+        (psScrollX)="onScrollToX($event)" (psXReachStart)="onPsXReachStart($event)">
+       
+        <div [style.display]="dg.flatColumns.length ? '': 'none'" [style.height.px]="wheelHeight" [style.width.px]="columnsGroup?.totalWidth" 
+            [class.xui-datagrid-bg]="dg.virtualized">
+
+            <div #fixedLeft class="xui-datagrid-body-fixed-left"  [class.xui-datagrid-fixed-left-shadow]="!!scrollLeft && !dg.groupRows"
+                *ngIf="dg.showLineNumber || dg.showCheckbox " [style.transform]="'translate3d('+ scrollLeft +'px, '+ topHideHeight +'px, 0px)'"
+                [style.width.px]="leftFixedWidth" [style.height.px]="wheelHeight - topHideHeight">
+
+                <fixed-left-rows [columns]="columnsGroup?.leftFixed" ></fixed-left-rows>
+           </div>
+
+            <div #fixedRight class="xui-datagrid-body-fixed-right" [style.width.px]="rightFixedWidth" 
+                *ngIf="columnsGroup?.rightFixed && columnsGroup?.rightFixed.length"
+                [style.transform]="'translate3d('+ fixedRightScrollLeft +'px, '+ topHideHeight +'px, 0px)'"
+                [class.xui-datagrid-fixed-right-shadow]="showRightShadow" [style.height.px]="wheelHeight - topHideHeight">
+                
+                <datagrid-rows #mainTable [startRowIndex]="startRowIndex" [columns]="columnsGroup?.rightFixed" [data]="data"></datagrid-rows>
+            </div>
+
+            <div #main [style.width.px]="colsWidth" style="position: relative;" [style.left.px]="leftFixedWidth" class="xui-datagrid-table"
+                [style.transform]="'translate3d(0px, '+ topHideHeight +'px, 0px)'" [style.height.px]="wheelHeight - topHideHeight">
+
+                <datagrid-rows #tableRows [startRowIndex]="startRowIndex" [columns]="columnsGroup?.normalColumns" [data]="data"></datagrid-rows>
+               
+            </div>
+           
+        </div>
+    </div>
+</div>

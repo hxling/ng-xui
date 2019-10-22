@@ -1,0 +1,79 @@
+<!--
+ * @Author: 疯狂秀才(Lucas Huang)
+ * @Date: 2019-08-06 07:43:07
+ * @LastEditors: 疯狂秀才(Lucas Huang)
+ * @LastEditTime: 2019-10-14 16:07:15
+ * @QQ: 1055818239
+ * @Version: v0.0.1
+ -->
+ <!-- [class.xui-datagrid-row-hover]="dg.rowHover && dgb.hoverRowIndex === hoverRow.rowIndex" 
+        [class.xui-datagrid-row-odd]="odd && dg.striped"
+        [class.xui-datagrid-row-even]="!odd && dg.striped"
+-->
+<table #tableEl style="border:0; width: 100%" class="xui-datagrid-rows" cellpadding=0 cellspacing="0">
+    <colgroup>
+        <col *ngFor="let col of columns" [width]="col.width + 'px'"/>
+    </colgroup>
+
+    <ng-container *ngFor="let row of data; trackBy: dg.trackByRows; let i = index">
+
+        <ng-container *ngIf="dg.groupRows">
+            <tr *ngIf="row[isGroupRow]" class="xui-datagrid-body-row xui-datagrid-group-row" >
+                <td class="xui-datagrid-cell" [attr.colspan]="row['colspan']">
+                    <ng-container *ngIf="!dg.showLineNumber && !dg.showCheckbox">
+                        <span class="f-icon f-icon-plus xui-datagrid-group-expanded" *ngIf="!row.expanded" (click)="row.expanded = true"></span>
+                        <span class="f-icon f-icon-minus xui-datagrid-group-collapsed" *ngIf="row.expanded" (click)="row.expanded = false"></span>
+                    </ng-container>
+                    <span [innerHTML]="row | formatGroupRow: dg.groupFormatter | safe: 'html'"></span>
+                    
+                </td>
+            </tr>
+
+
+            <ng-container *ngIf="!row[isGroupRow]">
+                <ng-container *ngIf="row[isGroupFooter]">
+                    <tr *ngIf="!row[isGroupRow]" class="xui-datagrid-body-row xui-datagrid-group-footer" [attr.index]="startRowIndex + i"
+                        [style.display]="row[groupRow].expanded ? '': 'none'"
+                    >
+                        <td [attr.field]="col.field" class="xui-datagrid-cell" [attr.align]="col.align" 
+                            *ngFor="let col of columns; trackBy: trackByField; let ci = index;"
+                            [innerHTML]="col | formatCellData: row : true: false | safe: 'html'">
+                        </td>
+                    </tr>
+                </ng-container>
+                
+                <ng-container *ngIf="!row[isGroupFooter]">
+                    <tr class="xui-datagrid-body-row" [row-hover]="row" [attr.id]="row | rowDataId" [attr.index]="startRowIndex + i"
+                        [grid-row]="row" [editable]="dg.editable" [rowIndex]="startRowIndex + i" #dr="gridRow" [formGroup]="dr.form"
+                        [class.xui-datagrid-row-selected]="dgb.currentRowId === row[dg.idField] || dgb.isSelected(row)"
+                        [style.display]="row[groupRow].expanded ? '': 'none'"
+                    >
+                        <td [cell-editable]="row" [column]="col" [attr.field]="col.field"
+                            class="xui-datagrid-cell" [attr.align]="col.align" *ngFor="let col of columns; trackBy: trackByField; let ci = index;">
+                            <grid-body-cell [width]="col.width" [height]="dg.rowHeight" [column]="col" [rowData]="row" [rowIndex]="startRowIndex + i"></grid-body-cell>
+                        </td>
+                    </tr>
+                </ng-container>
+
+            </ng-container>
+            
+
+            
+        </ng-container>
+
+        <ng-container *ngIf="!dg.groupRows">
+            <tr class="xui-datagrid-body-row" [row-hover]="row" [attr.id]="row | rowDataId" [attr.index]="startRowIndex + i"
+                [grid-row]="row" [editable]="dg.editable" [rowIndex]="startRowIndex + i" #dr="gridRow" [formGroup]="dr.form"
+                [class.xui-datagrid-row-selected]="dgb.currentRowId === row[dg.idField] || dgb.isSelected(row)"
+            >
+                <td [cell-editable]="row" [column]="col" [attr.field]="col.field"
+                    class="xui-datagrid-cell" [attr.align]="col.align" *ngFor="let col of columns; trackBy: trackByField; index as ci; last as islast;">
+                    <grid-body-cell [width]="col.width" [height]="dg.rowHeight" [lastColumn]="islast" [column]="col" [rowData]="row" [rowIndex]="startRowIndex + i"></grid-body-cell>
+                </td>
+            </tr>
+        </ng-container>
+
+    </ng-container>
+    
+    
+</table>

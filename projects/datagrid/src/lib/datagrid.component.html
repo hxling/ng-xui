@@ -1,0 +1,45 @@
+<!--
+ * @Author: 疯狂秀才(Lucas Huang)
+ * @Date: 2019-08-10 11:02:50
+ * @LastEditors: 疯狂秀才(Lucas Huang)
+ * @LastEditTime: 2019-10-22 18:07:30
+ * @QQ: 1055818239
+ * @Version: v0.0.1
+ -->
+
+<div #datagridContainer class="xui-datagrid" 
+    [class.xui-datagrid-rowhover]="rowHover"
+    [class.xui-datagrid-bordered]="showBorder"
+    [class.xui-datagrid-wrap]="!nowrap"
+    [class.xui-datagrid-strip]="striped" 
+    [class.xui-datagrid-sm]="sizeType === 'sm'" [class.xui-datagrid-lg]="sizeType === 'lg'" [class.xui-datagrid-xl]="sizeType === 'xl'"
+    [ngStyle]="{'width': width + 'px', 'height': height + 'px' }"
+    *ngIf="!autoHeight">
+
+    <datagrid-header class="d-flex flex-fill" *ngIf="showHeader" #header [columns]="columns" [columnsGroup]="colGroup" [height]="realHeaderHeight"></datagrid-header>
+    
+    <datagrid-body [columnsGroup]="colGroup" [data]="ds.rows | paginate: pagerOpts" [startRowIndex]="ds.index"
+        [topHideHeight]="ds.top" [bottomHideHeight]="ds.bottom" [footerHeight]="footerHeight"></datagrid-body>
+            
+    <datagrid-footer [width]="footerWidth" [columnsGroup]="colGroup" [columns]="colGroup?.normalColumns" [data]="footerData" *ngIf="showFooter"></datagrid-footer>
+    
+    <datagrid-pager *ngIf="pagination" #dgPager [showPageList]="showPageList" [id]="pagerOpts.id" [locked]="lockPagination"
+        (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></datagrid-pager>
+
+    <div class="xui-datagrid-resize-bg" #resizeProxyBg></div>
+    <div #resizeProxy class="xui-datagrid-resize-proxy" *ngIf="resizeColumn"></div>
+    <datagrid-loading *ngIf="loading"></datagrid-loading>
+</div>
+
+
+<div #datagridContainer class="xui-datagrid" 
+[class.xui-datagrid-rowhover]="rowHover"
+[class.xui-datagrid-bordered]="showBorder"
+[class.xui-datagrid-wrap]="!nowrap"
+[class.xui-datagrid-strip]="striped" 
+[class.xui-datagrid-sm]="sizeType === 'sm'" [class.xui-datagrid-lg]="sizeType === 'lg'" [class.xui-datagrid-xl]="sizeType === 'xl'"
+*ngIf="autoHeight" style="border-right: 0px; border-bottom: 0px;">
+
+    <auto-height [columnsGroup]="colGroup" [columns]="columns" [data]="ds.rows"></auto-height>
+    <datagrid-loading *ngIf="loading"></datagrid-loading>
+</div>

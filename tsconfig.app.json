@@ -1,0 +1,30 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": [],
+    "paths": {
+      "ng-xui/datagrid": [
+        "projects/datagrid/src/public-api"
+      ],
+      "ng-xui/utils": [
+        "projects/utils/src/public-api"
+      ]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableIvy": false
+  },
+  "files": [
+    "src/main.ts",
+    "src/polyfills.ts"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/test.ts",
+    "src/**/*.spec.ts"
+  ]
+  
+}

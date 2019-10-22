@@ -1,0 +1,79 @@
+<!--
+ * @Author: 疯狂秀才(Lucas Huang)
+ * @Date: 2019-08-12 15:02:10
+ * @LastEditors: 疯狂秀才(Lucas Huang)
+ * @LastEditTime: 2019-10-15 18:50:10
+ * @QQ: 1055818239
+ * @Version: v0.0.1
+ -->
+<div #footerContainer class="xui-datagrid-footer" [style.height.px]="height" [style.bottom.px]="dg.pagination ? dg.pagerHeight: 0">
+    <!-- 你瞅啥？ 瞅你咋地！！！ -->
+    <div #fixedLeft class="xui-datagrid-body-fixed-left" [style.width.px]="columnsGroup?.leftFixedWidth" [style.height.px]="height" *ngIf="columnsGroup?.leftFixed && columnsGroup?.leftFixed.length  || dg?.showLineNumber || dg?.showCheckbox "> 
+        <table cellpadding="0" cellspacing="0" border="0">
+            <colgroup>
+                <col [width]="dg.lineNumberWidth + 'px'" *ngIf="dg.showLineNumber"/>
+                <col width="36px" *ngIf="dg.showCheckbox"/>
+                <col *ngFor="let col of columnsGroup?.leftFixed" [width]="col.width + 'px'"/>
+            </colgroup>
+            <tbody>
+                <tr class="xui-datagrid-body-row fixed-left-row" [style.height.px]="dg.footerRowHeight" *ngFor="let row of data;trackBy: dg.trackByRows">
+                    <td *ngIf="dg.showLineNumber" class="xui-datagrid-cell xui-datagrid-cell-rownumber" ></td>
+                    <td *ngIf="dg.showCheckbox" class="xui-datagrid-cell xui-datagrid-cell-checkbox" style="text-align: center"></td>
+                    
+                    <td [attr.field]="col.field" class="xui-datagrid-cell" [attr.align]="col.align" *ngFor="let col of columnsGroup?.leftFixed; let ci = index;">
+                        <div class="xui-datagrid-cell-content" [style.width.px]="col.width">
+                            <span *ngIf="col.footer && col.footer.formatter" [innerHtml]="col | formatCellData: row : false: true | safe: 'html'"></span>
+                            <span *ngIf="!col.footer || !col.footer.formatter">{{ col | formatCellData: row  }}</span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div #fixedRight *ngIf="columnsGroup?.rightFixed && columnsGroup?.rightFixed.length" [style.width.px]="columnsGroup?.rightFixedWidth"
+        class="xui-datagrid-body-fixed-right" [style.height.px]="height">
+        <table cellpadding="0" cellspacing="0">
+           
+            <colgroup>
+                <ng-container *ngFor="let col of columnsGroup?.rightFixed">
+                    <col [width]="col.width + 'px'">
+                </ng-container>
+            </colgroup>
+            <tbody>
+                <tr class="xui-datagrid-body-row" *ngFor="let row of data">
+                    <td class="xui-datagrid-cell" [attr.align]="col.align" *ngFor="let col of columnsGroup?.rightFixed; let isFirst = first">
+                        <div class="xui-datagrid-cell-content" [style.width.px]="col.width">
+                            <span *ngIf="col.footer && col.footer.formatter" [innerHtml]="col | formatCellData: row : false: true | safe: 'html'"></span>
+                            <span *ngIf="!col.footer || !col.footer.formatter">{{ col | formatCellData: row }}</span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        
+        </table>
+    </div>
+
+    <div #footerBody class="xui-datagrid-footer-rows" [style.left.px]="columnsGroup?.leftFixedWidth" [style.width.px]="columnsGroup?.normalWidth" style="position: absolute;">
+        <table #tableEl style="border:0; width: 100%" class="xui-datagrid-rows" cellpadding=0 cellspacing="0">
+            
+            <colgroup>
+                <ng-container *ngFor="let col of columnsGroup?.normalColumns">
+                    <col [width]="col.width + 'px'">
+                </ng-container>
+            </colgroup>
+            <tbody>
+                <tr class="xui-datagrid-body-row" *ngFor="let row of data">
+                    <td class="xui-datagrid-cell" [attr.align]="col.align" *ngFor="let col of columnsGroup?.normalColumns; let isFirst = first"
+                    [attr.title]="col | formatCellData: row ">
+                        <div class="xui-datagrid-cell-content" [style.width.px]="col.width">
+                            <span *ngIf="col.footer && col.footer.formatter" [innerHtml]=" col | formatCellData: row : false: true | safe: 'html'"></span>
+                            <span *ngIf="!col.footer || !col.footer.formatter">{{ col | formatCellData: row }}</span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            
+        </table>
+    </div>
+</div>
