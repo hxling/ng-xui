@@ -1,0 +1,679 @@
+@charset "UTF-8";
+* {
+  box-sizing: border-box;
+}
+
+xui-datagrid {
+  position: absolute;
+}
+
+.xui-datagrid {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.75);
+  background-color: #fff;
+  /**
+  * 拖动列宽
+  */
+  /** 排序 */
+  /** 折行 */
+}
+.xui-datagrid table {
+  table-layout: fixed;
+  border-collapse: separate;
+}
+.xui-datagrid-unselect {
+  user-select: none;
+}
+.xui-datagrid-bg {
+  background: -webkit-linear-gradient(top, transparent 35px, blue 40px);
+  background-size: 36px 36px;
+}
+.xui-datagrid-full {
+  position: relative;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex: 1;
+  height: 100%;
+}
+.xui-datagrid .xui-datagrid-ah td {
+  padding: 0px 5px;
+}
+.xui-datagrid-group-row span.xui-icon {
+  background-size: 16px;
+  background-position: 3px 4px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.xui-datagrid-group-row .xui-datagrid-group-expanded {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.072 8l-4.357 4.357.618.619L11 8.309v-.618L6.333 3.024l-.618.619L10.072 8z' fill='%23252526'/%3E%3C/svg%3E");
+}
+.xui-datagrid-group-row .xui-datagrid-group-collapsed {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M7.976 10.072l4.357-4.357.62.618L8.284 11h-.618L3 6.333l.619-.618 4.357 4.357z' fill='%23252526'/%3E%3C/svg%3E");
+}
+.xui-datagrid-group-row .xui-datagrid-group-action {
+  text-align: center;
+}
+.xui-datagrid-group-footer {
+  background-color: #fbfbfb;
+}
+.xui-datagrid-group-footer .xui-datagrid-cell-checkbox {
+  background-color: #fbfbfb;
+}
+.xui-datagrid-group-footer .xui-datagrid-cell {
+  background-color: transparent;
+}
+.xui-datagrid-header {
+  z-index: 2;
+  position: relative;
+  height: 45px;
+  color: #000;
+  background-color: #fafafa;
+  font-weight: 400;
+  overflow: hidden;
+  width: 100%;
+  border-bottom: 1px solid #e9e9e9;
+  transition: all 0.15s ease;
+}
+.xui-datagrid-header table {
+  width: 100%;
+}
+.xui-datagrid-header .xui-datagrid-cell-group-left-shadow, .xui-datagrid-header .xui-datagrid-cell-group-right-shadow {
+  height: 45px;
+}
+.xui-datagrid-header-row {
+  background-color: #fafafa;
+}
+.xui-datagrid-header-cell {
+  height: 45px;
+  overflow: hidden;
+  white-space: normal;
+}
+.xui-datagrid-header-cell-content {
+  padding-left: 5px;
+  white-space: nowrap;
+}
+.xui-datagrid-header-cell:hover {
+  background: #e6e6e6;
+}
+.xui-datagrid-header-cell-resize {
+  background-clip: padding-box;
+  position: relative;
+}
+.xui-datagrid-header-cell-resize .column-resize-bar {
+  display: block;
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  margin: 0;
+  width: 12px;
+  height: 100%;
+  padding: 0;
+  cursor: e-resize;
+  border: 1px solid transparent;
+}
+.xui-datagrid-header-cell.column-resizeing {
+  background-color: #e6e6e6;
+}
+.xui-datagrid-header-cell-group {
+  border-bottom: 1px solid #e9e9e9 !important;
+}
+.xui-datagrid-header-fixed-left, .xui-datagrid-header-fixed-right {
+  position: absolute;
+  z-index: 4;
+  background: #fff;
+}
+.xui-datagrid-body {
+  position: absolute;
+  overflow: hidden;
+  z-index: 0;
+  left: 0;
+}
+.xui-datagrid-body-wheel-area {
+  overflow: hidden;
+  position: relative;
+}
+.xui-datagrid-body-fixed-left {
+  position: absolute;
+  z-index: 1;
+  background: transparent;
+}
+.xui-datagrid-body-fixed-left .xui-datagrid-row-hover .xui-datagrid-cell-rownumber,
+.xui-datagrid-body-fixed-left .xui-datagrid-row-selected .xui-datagrid-cell-rownumber {
+  background-color: #ededed !important;
+}
+.xui-datagrid-body-fixed-right {
+  position: absolute;
+  width: 200px;
+  background: transparent;
+  z-index: 999;
+  overflow: hidden;
+}
+.xui-datagrid-body-row {
+  overflow: hidden;
+  height: 40px;
+  width: 100%;
+  top: 0;
+  transition: all 0.15s ease;
+}
+.xui-datagrid-table tr td:last-child {
+  border-right-width: 0;
+}
+.xui-datagrid-rowhover .xui-datagrid-body-fixed-left tr:not(.xui-datagrid-row-selected):not(.xui-datagrid-group-row):not(.xui-datagrid-group-footer):hover {
+  cursor: pointer;
+  background: #f3fbff !important;
+  color: black !important;
+  transition: background-color 0.1s ease-in;
+}
+.xui-datagrid-rowhover .xui-datagrid-body-fixed-left tr:not(.xui-datagrid-row-selected):not(.xui-datagrid-group-row):not(.xui-datagrid-group-footer):hover .xui-datagrid-cell-rownumber {
+  background-color: #ededed !important;
+}
+.xui-datagrid-rowhover .xui-datagrid-body-fixed-left tr:not(.xui-datagrid-row-selected):not(.xui-datagrid-group-row):not(.xui-datagrid-group-footer):hover .xui-datagrid-cell {
+  background-color: transparent;
+}
+.xui-datagrid-rowhover .xui-datagrid-table tr:not(.xui-datagrid-row-selected):not(.xui-datagrid-group-row):not(.xui-datagrid-group-footer):hover,
+.xui-datagrid-rowhover .xui-datagrid-body-fixed-right tr:not(.xui-datagrid-row-selected):hover,
+.xui-datagrid-rowhover .xui-datagrid-ah tbody tr:hover {
+  cursor: pointer;
+  background: #f3fbff !important;
+  color: black !important;
+  transition: background-color 0.1s ease-in;
+}
+.xui-datagrid-rowhover .xui-datagrid-table tr:not(.xui-datagrid-row-selected):not(.xui-datagrid-group-row):not(.xui-datagrid-group-footer):hover .xui-datagrid-cell,
+.xui-datagrid-rowhover .xui-datagrid-body-fixed-right tr:not(.xui-datagrid-row-selected):hover .xui-datagrid-cell,
+.xui-datagrid-rowhover .xui-datagrid-ah tbody tr:hover .xui-datagrid-cell {
+  background-color: transparent;
+}
+.xui-datagrid-row {
+  overflow: hidden;
+  height: 40px;
+  width: 100%;
+  top: 0;
+  border-bottom: 1px solid #e9e9e9;
+  background-color: #fff;
+  transition: all 0.15s ease;
+}
+.xui-datagrid-row-body .xui-datagrid-cell-group-left-shadow,
+.xui-datagrid-row-body .xui-datagrid-cell-group-right-shadow {
+  height: 40px;
+}
+.xui-datagrid-row-hover {
+  cursor: pointer;
+  background: #f3fbff !important;
+  color: black !important;
+  transition: background-color 0.1s ease-in;
+}
+.xui-datagrid-row-selected {
+  background-color: #D1EBFF;
+  color: #222;
+  border-color: #e9e9e9;
+}
+.xui-datagrid-row-selected .xui-datagrid-cell {
+  background-color: #D1EBFF !important;
+  color: #222;
+}
+.xui-datagrid-virtual-row {
+  overflow: hidden;
+  pointer-events: none;
+  background-color: transparent !important;
+  border-width: 0;
+  width: 1px;
+}
+.xui-datagrid-cell {
+  height: 40px;
+  border-style: solid;
+  border-width: 0 0 1px;
+  border-color: #e9e9e9;
+  overflow: hidden;
+  white-space: normal;
+  background-color: white;
+}
+.xui-datagrid-cell-formgroup {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.xui-datagrid-cell-formgroup datagrid-tooltip {
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.xui-datagrid-cell-formgroup textarea.ng-invalid {
+  border: 1px solid red;
+}
+.xui-datagrid-cell-editor {
+  width: 100%;
+  height: calc(40px - 3px);
+  border: 0;
+}
+.xui-datagrid-cell-selected {
+  border: 0px solid #388fff !important;
+  background-color: #c7d8ff !important;
+}
+.xui-datagrid-cell-edit .xui-datagrid-cell-content {
+  padding: 0;
+}
+.xui-datagrid-cell-content {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+  margin: 0;
+  padding: 0 1px;
+  height: calc(40px - 3px);
+  line-height: calc(40px - 3px);
+}
+.xui-datagrid-cell-content > span {
+  padding: 0 5px;
+  display: block;
+}
+.xui-datagrid-cell-rownumber {
+  background-color: #fafafa !important;
+  color: #000 !important;
+  text-align: center;
+}
+.xui-datagrid-cell-rownumber .xui-datagrid-cell-content {
+  padding: 0;
+  text-align: center;
+}
+.xui-datagrid-cell-rownumber.rownumber-selected {
+  background-color: #d9d9d9 !important;
+}
+.xui-datagrid-cell-checkbox {
+  text-align: center;
+  background: white;
+}
+.xui-datagrid-pager {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3.5rem;
+  border-top: 1px solid #ccc;
+  background: #fff;
+}
+.xui-datagrid-pager .pagination {
+  margin: 0;
+  padding: 0;
+  height: 3.5rem;
+  align-items: center;
+}
+.xui-datagrid .ps--active-x > .ps__rail-x,
+.xui-datagrid .ps--active-y > .ps__rail-y {
+  z-index: 999;
+}
+.xui-datagrid-body-fixed-left > .ps__rail-x,
+.xui-datagrid-body-fixed-left > .ps__rail-y {
+  display: none !important;
+}
+.xui-datagrid-strip .xui-datagrid-body .xui-datagrid-row-selected, .xui-datagrid-strip .xui-datagrid-ah .xui-datagrid-row-selected {
+  color: rgba(0, 0, 0, 0.75);
+  background-color: #D1EBFF !important;
+  color: #222;
+}
+.xui-datagrid-strip .xui-datagrid-body .xui-datagrid-row-selected .xui-datagrid-cell, .xui-datagrid-strip .xui-datagrid-ah .xui-datagrid-row-selected .xui-datagrid-cell {
+  background-color: #D1EBFF !important;
+  color: #222;
+}
+.xui-datagrid-strip .xui-datagrid-body tr:nth-child(odd), .xui-datagrid-strip .xui-datagrid-ah tr:nth-child(odd) {
+  background-color: #FCFDFE;
+  color: rgba(0, 0, 0, 0.75);
+}
+.xui-datagrid-strip .xui-datagrid-body tr:nth-child(odd) .xui-datagrid-cell, .xui-datagrid-strip .xui-datagrid-ah tr:nth-child(odd) .xui-datagrid-cell {
+  background-color: transparent;
+  border-color: #e9e9e9;
+}
+.xui-datagrid-strip .xui-datagrid-body tr:nth-child(even), .xui-datagrid-strip .xui-datagrid-ah tr:nth-child(even) {
+  background-color: #fff;
+}
+.xui-datagrid-strip .xui-datagrid-body tr:nth-child(even) .xui-datagrid-cell, .xui-datagrid-strip .xui-datagrid-ah tr:nth-child(even) .xui-datagrid-cell {
+  background-color: transparent;
+}
+.xui-datagrid-bordered {
+  border: 1px solid #e9e9e9;
+}
+.xui-datagrid-bordered .xui-datagrid-cell {
+  border-width: 0 1px 1px 0;
+}
+.xui-datagrid-bordered .xui-datagrid-body-fixed-right {
+  border-left: 1px solid #e9e9e9;
+}
+.xui-datagrid-bordered .xui-datagrid-header-cell {
+  border: 1px solid #e9e9e9;
+  border-width: 0 1px 0 0;
+}
+.xui-datagrid-bordered .xui-datagrid-header tr td:last-child {
+  border-right: 1px solid #e9e9e9;
+}
+.xui-datagrid-bordered .xui-datagrid-header-fixed-right {
+  border-left: 1px solid #e9e9e9;
+}
+.xui-datagrid-bordered .xui-datagrid-header-fixed-left tr td:last-child {
+  border-right: 1px solid #e9e9e9;
+}
+.xui-datagrid-bordered .xui-datagrid-ah .xui-datagrid-header-cell {
+  border-width: 0 1px 1px 0;
+}
+.xui-datagrid-resize-proxy {
+  width: 1px;
+  border-left: 1px dashed #939292;
+  left: 0px;
+  display: none;
+  position: absolute;
+  height: 100%;
+  z-index: 99;
+}
+.xui-datagrid-resize-bg {
+  z-index: 98;
+  width: 100%;
+  height: 100%;
+  cursor: e-resize;
+  background: transparent;
+  position: absolute;
+  display: none;
+}
+.xui-datagrid-sort {
+  float: right;
+  width: 20px;
+  text-align: center;
+  cursor: pointer;
+  opacity: 0.65;
+}
+.xui-datagrid-sort:hover {
+  color: blue;
+  opacity: 1;
+}
+.xui-datagrid-sort-asc, .xui-datagrid-sort-desc {
+  opacity: 1;
+}
+.xui-datagrid-wrap .xui-datagrid-cell-content {
+  white-space: normal;
+  word-break: break-all;
+  word-spacing: normal;
+  height: auto;
+  line-height: 24px;
+}
+.xui-datagrid-footer {
+  background: #fff;
+  z-index: 97;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  /** 合计行单元格不折行 */
+}
+.xui-datagrid-footer table {
+  table-layout: fixed;
+}
+.xui-datagrid-footer > div {
+  border-top: 1px solid #ccc;
+}
+.xui-datagrid-footer .xui-datagrid-cell-content {
+  word-break: normal;
+  word-wrap: normal;
+}
+.xui-datagrid-sm .xui-datagrid-body-row, .xui-datagrid-sm .xui-datagrid-cell {
+  height: 28px;
+  min-height: 28px;
+}
+.xui-datagrid-sm .xui-datagrid-cell-content {
+  height: calc(28px - 3px);
+  line-height: calc(28px - 3px);
+}
+.xui-datagrid-sm .xui-datagrid-bg {
+  background: -webkit-linear-gradient(top, transparent 27px, #c3c3c3 30px);
+  background-size: 28px 28px;
+}
+.xui-datagrid-lg .xui-datagrid-body-row, .xui-datagrid-lg .xui-datagrid-cell {
+  height: 52px;
+  min-height: 52px;
+}
+.xui-datagrid-lg .xui-datagrid-cell-content {
+  height: calc(52px - 3px);
+  line-height: calc(52px - 3px);
+}
+.xui-datagrid-lg .xui-datagrid-bg {
+  background: -webkit-linear-gradient(top, transparent 47px, #c3c3c3 50px);
+  background-size: 48px 48px;
+}
+.xui-datagrid-xl .xui-datagrid-body-row, .xui-datagrid-xl .xui-datagrid-cell {
+  height: 60px;
+  min-height: 60px;
+}
+.xui-datagrid-xl .xui-datagrid-cell-content {
+  height: calc(60px - 3px);
+  line-height: calc(60px - 3px);
+}
+.xui-datagrid-xl .xui-datagrid-bg {
+  background: -webkit-linear-gradient(top, transparent 59px, #c3c3c3 63px);
+  background-size: 60px 60px;
+}
+.xui-datagrid-wrap.xui-datagrid-sm .xui-datagrid-cell-content, .xui-datagrid-wrap.xui-datagrid-sm .xui-datagrid-body-row, .xui-datagrid-wrap.xui-datagrid-sm .xui-datagrid-cell {
+  height: auto;
+  line-height: 24px;
+  min-height: 28px;
+}
+.xui-datagrid-wrap.xui-datagrid-md .xui-datagrid-cell-content, .xui-datagrid-wrap.xui-datagrid-md .xui-datagrid-body-row, .xui-datagrid-wrap.xui-datagrid-md .xui-datagrid-cell {
+  height: auto;
+  line-height: 24px;
+  min-height: 40px;
+}
+.xui-datagrid-wrap.xui-datagrid-lg .xui-datagrid-cell-content, .xui-datagrid-wrap.xui-datagrid-lg .xui-datagrid-body-row, .xui-datagrid-wrap.xui-datagrid-lg .xui-datagrid-cell {
+  height: auto;
+  line-height: 24px;
+  min-height: 52px;
+}
+.xui-datagrid-wrap.xui-datagrid-xl .xui-datagrid-cell-content, .xui-datagrid-wrap.xui-datagrid-xl .xui-datagrid-body-row, .xui-datagrid-wrap.xui-datagrid-xl .xui-datagrid-cell {
+  height: auto;
+  line-height: 24px;
+  min-height: 60px;
+}
+.xui-tooltip {
+  position: absolute;
+  display: none;
+  padding: 0.25em 0.5em;
+  max-width: 12.5em;
+  line-height: 32PX;
+  border-radius: 5px;
+}
+.xui-tooltip-right, .xui-tooltip-left {
+  padding: 0 0.25em;
+}
+.xui-tooltip-top, .xui-tooltip-bottom, .xui-tooltip-top-left, .xui-tooltip-bottom-left {
+  padding: 0.25em 0;
+}
+.xui-tooltip-default {
+  background-color: #4c4c4c;
+  color: #ffffff;
+  border: 1px solid #4c4c4c;
+}
+.xui-tooltip-text {
+  padding: 0.125em 0.5em;
+  white-space: pre-line;
+  border-radius: 5px;
+  box-shadow: 1px 1px 2px #9d9d9d;
+}
+.xui-tooltip-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+.xui-tooltip-right .xui-tooltip-arrow {
+  top: 50%;
+  left: 0;
+  margin-top: -0.25em;
+  border-width: 0.25em 0.25em 0.25em 0;
+  border-right-color: #4c4c4c;
+}
+.xui-tooltip-left .xui-tooltip-arrow {
+  top: 50%;
+  right: 0;
+  margin-top: -0.25em;
+  border-width: 0.25em 0 0.25em 0.25em;
+  border-left-color: #4c4c4c;
+}
+.xui-tooltip-top .f-tooltip-arrow, .xui-tooltip-bottom .f-tooltip-arrow {
+  left: 50%;
+  margin-left: -0.25em;
+  border-width: 0.25em 0.25em 0;
+  border-top-color: #4c4c4c;
+}
+.xui-tooltip-top .xui-tooltip-arrow {
+  bottom: 0;
+}
+.xui-tooltip-bottom .xui-tooltip-arrow {
+  top: 0;
+}
+.xui-tooltip-top-left .f-tooltip-arrow, .xui-tooltip-bottom-left .f-tooltip-arrow {
+  left: 10px;
+  margin-left: -0.25em;
+  border-width: 0.25em 0.25em 0;
+}
+.xui-tooltip-top-left .xui-tooltip-arrow {
+  bottom: 0;
+}
+.xui-tooltip-bottom-left .xui-tooltip-arrow {
+  top: 0;
+}
+.xui-tooltip-danger.f-tooltip-top-left .f-tooltip-arrow, .xui-tooltip-danger.f-tooltip-top .f-tooltip-arrow {
+  border-top-color: #f5c6cb;
+}
+.xui-tooltip-arrow {
+  border-top-color: #f5c6cb;
+}
+.xui-tooltip-danger .xui-tooltip-text {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+/*
+* Container style
+*/
+.ps {
+  overflow: hidden !important;
+  overflow-anchor: none;
+  -ms-overflow-style: none;
+  touch-action: auto;
+  -ms-touch-action: auto;
+}
+
+/*
+ * Scrollbar rail styles
+ */
+.ps__rail-x {
+  display: none;
+  opacity: 0;
+  transition: background-color 0.2s linear, opacity 0.2s linear;
+  -webkit-transition: background-color 0.2s linear, opacity 0.2s linear;
+  height: 15px;
+  /* there must be 'bottom' or 'top' for ps__rail-x */
+  bottom: 0px;
+  /* please don't change 'position' */
+  position: absolute;
+}
+
+.ps__rail-y {
+  display: none;
+  opacity: 0;
+  transition: background-color 0.2s linear, opacity 0.2s linear;
+  -webkit-transition: background-color 0.2s linear, opacity 0.2s linear;
+  width: 15px;
+  /* there must be 'right' or 'left' for ps__rail-y */
+  right: 0;
+  /* please don't change 'position' */
+  position: absolute;
+}
+
+.ps--active-x > .ps__rail-x,
+.ps--active-y > .ps__rail-y {
+  display: block;
+  background-color: transparent;
+}
+
+.ps:hover > .ps__rail-x,
+.ps:hover > .ps__rail-y,
+.ps--focus > .ps__rail-x,
+.ps--focus > .ps__rail-y,
+.ps--scrolling-x > .ps__rail-x,
+.ps--scrolling-y > .ps__rail-y {
+  opacity: 0.6;
+}
+
+.ps .ps__rail-x:hover,
+.ps .ps__rail-y:hover,
+.ps .ps__rail-x:focus,
+.ps .ps__rail-y:focus,
+.ps .ps__rail-x.ps--clicking,
+.ps .ps__rail-y.ps--clicking {
+  background-color: #eee;
+  opacity: 0.9;
+}
+
+/*
+ * Scrollbar thumb styles
+ */
+.ps__thumb-x {
+  background-color: #aaa;
+  border-radius: 6px;
+  transition: background-color 0.2s linear, height 0.2s ease-in-out;
+  -webkit-transition: background-color 0.2s linear, height 0.2s ease-in-out;
+  height: 6px;
+  /* there must be 'bottom' for ps__thumb-x */
+  bottom: 2px;
+  /* please don't change 'position' */
+  position: absolute;
+}
+
+.ps__thumb-y {
+  background-color: #aaa;
+  border-radius: 6px;
+  transition: background-color 0.2s linear, width 0.2s ease-in-out;
+  -webkit-transition: background-color 0.2s linear, width 0.2s ease-in-out;
+  width: 6px;
+  /* there must be 'right' for ps__thumb-y */
+  right: 2px;
+  /* please don't change 'position' */
+  position: absolute;
+}
+
+.ps__rail-x:hover > .ps__thumb-x,
+.ps__rail-x:focus > .ps__thumb-x,
+.ps__rail-x.ps--clicking .ps__thumb-x {
+  background-color: #999;
+  height: 11px;
+}
+
+.ps__rail-y:hover > .ps__thumb-y,
+.ps__rail-y:focus > .ps__thumb-y,
+.ps__rail-y.ps--clicking .ps__thumb-y {
+  background-color: #999;
+  width: 11px;
+}
+
+/* MS supports */
+@supports (-ms-overflow-style: none) {
+  .ps {
+    overflow: auto !important;
+  }
+}
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .ps {
+    overflow: auto !important;
+  }
+}
+
+/*# sourceMappingURL=datagrid.css.map */
