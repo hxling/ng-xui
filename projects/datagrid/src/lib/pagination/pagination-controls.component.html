@@ -12,10 +12,10 @@
         <li class="page-item" [class.disabled]="p.isFirstPage()" *ngIf="directionLinks">
             <a tabindex="0" *ngIf="1 < p.getCurrent()" (keyup.enter)="p.first($event)" (click)="p.first($event)"
                                                     [attr.aria-label]="previousLabel + ' ' + screenReaderPageLabel"  class="page-link">
-                <span class="f-icon f-page-first">首页</span>
+                <span class="page-icon page-first"></span>
             </a>
             <span *ngIf="p.isFirstPage()" class="page-link">
-                <span class="f-icon f-page-first">首页</span>
+                <span class="page-icon page-first"></span>
             </span>
         </li>
 
@@ -23,10 +23,10 @@
         <li class="page-item" [class.disabled]="p.isFirstPage()" *ngIf="directionLinks">
             <a class="page-link" tabindex="0" *ngIf="1 < p.getCurrent()" (keyup.enter)="p.previous()" (click)="p.previous()"
                 [attr.aria-label]="previousLabel + ' ' + screenReaderPageLabel">
-                <span class="f-icon f-page-pre">上一页</span>                
+                <span class="page-icon page-prev"></span>                
             </a>
             <span *ngIf="p.isFirstPage()" class="page-link">
-                <span class="f-icon f-page-pre">上一页</span>
+                <span class="page-icon page-prev"></span>
             </span>
         </li>
         <!--页码-->
@@ -42,20 +42,20 @@
         <li class="page-item" [class.disabled]="p.isLastPage()" *ngIf="directionLinks">
             <a class="page-link" tabindex="0" *ngIf="!p.isLastPage()" (keyup.enter)="p.next()" (click)="p.next()"
                 [attr.aria-label]="nextLabel + ' ' + screenReaderPageLabel">
-                <span class="f-icon f-page-next">下一页</span>
+                <span class="page-icon page-next"></span>
             </a>
             <span *ngIf="p.isLastPage()" class="page-link">
-                <span class="f-icon f-page-next">下一页</span>
+                <span class="page-icon page-next"></span>
             </span>
         </li>
         <!--末页-->
         <li class="page-item" [class.disabled]="p.isLastPage()" *ngIf="directionLinks">
             <a class="page-link" tabindex="0" *ngIf="!p.isLastPage()" (keyup.enter)="p.last($event)"
                 (click)="p.last($event)" [attr.aria-label]="nextLabel + ' ' + screenReaderPageLabel">
-                <span class="f-icon f-page-last">末页</span>
+                <span class="page-icon page-last"></span>
             </a>
             <span *ngIf="p.isLastPage()" class="page-link">
-                <span class="f-icon f-page-last">末页</span>
+                <span class="page-icon page-last"></span>
             </span>
         </li>
         <!--每页记录数-->

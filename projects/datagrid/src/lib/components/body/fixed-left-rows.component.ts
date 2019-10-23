@@ -21,13 +21,14 @@ export class FixedLeftRowsComponent implements OnInit {
     groupRow = GROUP_ROW_FIELD;
     isGroupFooter = IS_GROUP_FOOTER_ROW_FIELD;
     public dg: DatagridComponent;
+    public dgb: DatagridBodyComponent;
 
     constructor(
         private cd: ChangeDetectorRef,
-        public dgb: DatagridBodyComponent,
         public dfs: DatagridFacadeService,
         public el: ElementRef, private injector: Injector, private ngZone: NgZone) {
             this.dg = this.injector.get(DatagridComponent);
+            this.dgb = this.injector.get(DatagridBodyComponent);
         }
 
     ngOnInit() { }

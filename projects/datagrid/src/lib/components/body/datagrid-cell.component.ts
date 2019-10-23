@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-22 13:50:45
+ * @LastEditTime: 2019-10-23 08:02:30
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -72,14 +72,15 @@ export class DatagridCellComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private dfs: DatagridFacadeService;
     private cellSubscription: Subscription;
+    public dg: DatagridComponent;
     canEdit = () => this.dg.editable && this.dg.editMode === 'cell' && this.column.editor;
     constructor(
-        @Inject(forwardRef(() => DatagridComponent)) public dg: DatagridComponent,
         @Inject(forwardRef(() => DatagridRowDirective)) public dr: DatagridRowDirective,
         private el: ElementRef, public cd: ChangeDetectorRef, private injector: Injector,
         public colFormatSer: DataFormatService
     ) {
         this.dfs = this.injector.get(DatagridFacadeService);
+        this.dg = this.injector.get(DatagridComponent);
     }
 
     ngOnInit(): void {

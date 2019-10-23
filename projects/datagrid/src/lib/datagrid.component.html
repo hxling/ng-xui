@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-10 11:02:50
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-22 18:07:30
+ * @LastEditTime: 2019-10-23 15:46:04
  * @QQ: 1055818239
  * @Version: v0.0.1
  -->
@@ -10,6 +10,9 @@
 <div #datagridContainer class="xui-datagrid" 
     [class.xui-datagrid-rowhover]="rowHover"
     [class.xui-datagrid-bordered]="showBorder"
+    [class.xui-datagrid-bordered-none]="!showBorder"
+    [class.xui-datagrid-bordered-bottom]="borderType === 'bottom'"
+    [class.xui-datagrid-bordered-right]="borderType === 'right'"
     [class.xui-datagrid-wrap]="!nowrap"
     [class.xui-datagrid-strip]="striped" 
     [class.xui-datagrid-sm]="sizeType === 'sm'" [class.xui-datagrid-lg]="sizeType === 'lg'" [class.xui-datagrid-xl]="sizeType === 'xl'"
@@ -35,6 +38,9 @@
 <div #datagridContainer class="xui-datagrid" 
 [class.xui-datagrid-rowhover]="rowHover"
 [class.xui-datagrid-bordered]="showBorder"
+[class.xui-datagrid-bordered-none]="!showBorder"
+[class.xui-datagrid-bordered-bottom]="borderType === 'bottom'"
+[class.xui-datagrid-bordered-right]="borderType === 'right'"
 [class.xui-datagrid-wrap]="!nowrap"
 [class.xui-datagrid-strip]="striped" 
 [class.xui-datagrid-sm]="sizeType === 'sm'" [class.xui-datagrid-lg]="sizeType === 'lg'" [class.xui-datagrid-xl]="sizeType === 'xl'"

@@ -4,7 +4,7 @@ import { QueryList, Renderer2, Self, NgZone, SimpleChanges, OnChanges } from '@a
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-12 07:47:12
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-03 10:32:28
+ * @LastEditTime: 2019-10-23 07:56:31
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -41,13 +41,13 @@ export class DatagridRowDirective implements OnInit, AfterViewInit, DatagridRow,
     private dfs: DatagridFacadeService;
     private documentRowDblclickEvent: any = null;
     private ngZone: NgZone;
-
+    public dg: DatagridComponent;
     constructor(
-        @Inject(forwardRef(() => DatagridComponent)) public dg: DatagridComponent,
         private injector: Injector, private fb: FormBuilder, public el: ElementRef,
         private render: Renderer2, @Self() public drHover: DatagridRowHoverDirective) {
         this.dfs = this.injector.get(DatagridFacadeService);
         this.ngZone = this.injector.get(NgZone);
+        this.dg = this.injector.get(DatagridComponent);
     }
 
     ngOnInit() {

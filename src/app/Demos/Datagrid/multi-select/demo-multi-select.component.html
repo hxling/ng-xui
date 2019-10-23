@@ -1,0 +1,72 @@
+<main-container [subtitle]="'行选中'">
+        <div class="col-xl-12">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div id="panel-1" class="panel">
+                        <div class="panel-container show">
+                            <div class="panel-content">
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" [(ngModel)]="showCheckbox" class="custom-control-input"
+                                        id="showCheckbox">
+                                    <label class="custom-control-label" for="showCheckbox">显示复选框</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" [(ngModel)]="showAllCheckbox" class="custom-control-input"
+                                        id="showAllCheckbox">
+                                    <label class="custom-control-label" for="showAllCheckbox">全选</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" [(ngModel)]="keepSelect" class="custom-control-input"
+                                        id="keepSelect">
+                                    <label class="custom-control-label" for="keepSelect">保持选中</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" [(ngModel)]="onlySelectSelf" class="custom-control-input"
+                                        id="onlySelectSelf">
+                                    <label class="custom-control-label" for="onlySelectSelf">仅有一条被选中</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" [(ngModel)]="selectOnCheck" class="custom-control-input"
+                                        id="selectOnCheck">
+                                    <label class="custom-control-label" for="selectOnCheck">钩选并选中</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" [(ngModel)]="checkOnSelect" class="custom-control-input"
+                                        id="checkOnSelect">
+                                    <label class="custom-control-label" for="checkOnSelect">选中并钩选</label>
+                                </div>
+                                <div class="row p-3">
+                                    <div class="cls-xl-12">
+                                        <button type="button" class="btn btn-primary mr-1" (click)="dg.clearSelections()">取消选中行</button>
+                                        <button type="button" class="btn btn-primary mr-1" (click)="dg.selectRow(6)">选中（id: 6）行</button>
+                                        <button type="button" class="btn btn-primary mr-1" (click)="dg.checkAllRows()">全选</button>
+                                        <button type="button" class="btn btn-primary mr-1" (click)="dg.clearCheckeds()">清空钩选</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <demo-panel>
+                <!-- datatable start -->
+                <xui-datagrid [columns]="columns" [data]="items" #dg [pageSize]="50" [showBorder]="true"
+                    [pagination]="false" [showAllCheckbox]="showAllCheckbox" [selectOnCheck]="selectOnCheck" [checkOnSelect]="checkOnSelect"
+                    [onlySelectSelf]="onlySelectSelf"
+                    [showCheckbox]="showCheckbox" [multiSelect]="true" [keepSelect]="keepSelect">
+                </xui-datagrid>
+                <!-- datatable end -->
+    
+                <div class="row p-3 p-sm-0 p-md-1 p-lg-2 p-xl-3">
+                    <div class="col-xl-12">
+                        当前选中ID：{{ selectRow?.id }}
+                    </div>
+                </div>
+    
+            </demo-panel>
+    
+    
+    
+    
+        </div>
+    </main-container>

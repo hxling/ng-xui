@@ -3,30 +3,9 @@
         <i class='subheader-icon fal fa-table'></i> Datagrid <span class='fw-300' *ngIf="subtitle">: {{ subtitle }} </span>
     </h1>
 </div>
+<ng-content select=".before-main"></ng-content>
 
 <div class="row">
-    <div class="col-xl-12">
-        <div id="panel-1" class="panel">
-            <div class="panel-hdr">
-                <h2> Example </h2>
-                <div class="panel-toolbar">
-                    <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
-                    <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
-                    <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
-                </div>
-            </div>
-            <div class="panel-container show">
-                <div class="panel-content">
-                    <div class="panel-tag" *ngIf="note">
-                        <p>
-                            {{ note }}
-                        </p>
-                    </div>
-                    <!-- datatable start -->
-                    <ng-content></ng-content>
-                    <!-- datatable end -->
-                </div>
-            </div>
-        </div>
-    </div>
+        <ng-content></ng-content>
 </div>
+<ng-content select=".after-main"></ng-content>

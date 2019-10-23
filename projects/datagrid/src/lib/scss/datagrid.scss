@@ -364,6 +364,24 @@
             height: $pager-height;
             align-items: center;
         }
+
+        .page-icon {
+            width: 16px;
+            height: 16px;
+            display: block;
+        }
+        .page-first {
+            background: url(pagination_icons.png) no-repeat 0 center;
+        }
+        .page-prev {
+            background: url(pagination_icons.png) no-repeat -16px center;
+        }
+        .page-next {
+            background: url(pagination_icons.png) no-repeat -32px center;
+        }
+        .page-last {
+            background: url(pagination_icons.png) no-repeat -48px center;
+        }
     }
 
 
@@ -446,9 +464,47 @@
             }
         }
 
-        &-both {}
-        &-bottom {}
-        &-right {}
+        &-none {
+            .xui-datagrid-cell {
+                border-color: transparent;
+            }
+
+            .xui-datagrid-ah {
+                .xui-datagrid-header-cell {
+                    border-color: transparent;
+                }
+            }
+        }
+        &-bottom {
+            .xui-datagrid-cell {
+                border-width: 0 0px 1px 0;
+            }
+
+            .xui-datagrid-header-cell {
+                border-color: transparent;
+            }
+
+            .xui-datagrid-ah {
+                .xui-datagrid-header-cell {
+                    border-color: transparent;
+                }
+            }
+        }
+        &-right {
+            .xui-datagrid-cell {
+                border-width: 0 1px 0px 0;
+            }
+
+            .xui-datagrid-header-cell {
+                border-width: 0 1px 0px 0;
+            }
+
+            .xui-datagrid-ah {
+                .xui-datagrid-header-cell {
+                    border-width: 0 1px 0px 0;
+                }
+            }
+        }
     }
 
     /**

@@ -3,7 +3,7 @@ import { FormGroup, ValidatorFn } from '@angular/forms';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-22 18:12:34
+ * @LastEditTime: 2019-10-23 19:09:05
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -55,7 +55,7 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     /** 自动高度 - 启用此属性后，就是一个普普通通的 table , 不能编辑，不能排序，不能分页，不能... 就是一凡胎 */
     @Input() autoHeight = false;
     /** 显示边框 */
-    @Input() showBorder = false;
+    @Input() showBorder = true;
     @Input() borderType: 'both' | 'bottom' | 'right' = 'both';
     /** 启用斑马线  */
     @Input() striped = false;
@@ -161,7 +161,7 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     /** 显示全选checkbox */
     @Input() showAllCheckbox = false;
     /** 当启用多选时，点击行选中，只允许且只有一行被选中。 */
-    @Input() onlySelectSelf = true;
+    @Input() onlySelectSelf = false;
     /** 启用多选且显示checkbox, 选中行同时钩选 */
     @Input() checkOnSelect = true;
     /** 启用多选且显示checkbox, 钩选后选中行 */
@@ -607,7 +607,7 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
             this.validators = _validators;
         }
 
-        console.log('validators', this.validators);
+        // console.log('validators', this.validators);
     }
 
     private setPagerHeight() {

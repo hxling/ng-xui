@@ -1,21 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DemoDataService } from '../../data-factory/demo-data-service';
-import { DATAGRID_REST_SERVICEE, CalculationType } from 'ng-xui/datagrid';
+import { DATAGRID_REST_SERVICEE, CalculationType, DatagridComponent } from 'ng-xui/datagrid';
 import { DataSeed } from '../../data-factory/data-seed';
 
 @Component({
-    selector: 'demo-fixed-header',
-    templateUrl: './demo-fixed-header.component.html',
+    selector: 'demo-multi-select',
+    templateUrl: './demo-multi-select.component.html',
     providers: [
         DemoDataService,
         {provide: DATAGRID_REST_SERVICEE, useClass: DemoDataService}
     ]
 })
-export class DemoFixedHeaderComponent implements OnInit {
+export class DemoMultiSelectComponent implements OnInit {
     columns = [];
     items;
     total = 0;
     pageSize = 100;
+
+    @ViewChild('dg', { static: true}) dg: DatagridComponent;
+
+    showAllCheckbox = true;
+    showCheckbox = true;
+    onlySelectSelf = true;
+    keepSelect = false;
+    selectOnCheck = true;
+    checkOnSelect = true;
+
+    get selectRow() {
+        return this.dg.selectedRow;
+    }
 
     constructor(private dds: DemoDataService) { }
 

@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-22 15:22:41
+ * @LastEditTime: 2019-10-23 08:02:04
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -60,14 +60,16 @@ export class DatagridCellEditableDirective implements OnInit, OnDestroy, AfterVi
     private dr: DatagridRowDirective;
     private dfs: DatagridFacadeService;
     private dgs: DatagridService;
+    public dg: DatagridComponent;
 
     constructor(
         private injector: Injector, public el: ElementRef, private render: Renderer2,
-        @Inject(forwardRef(() => DatagridComponent)) public dg: DatagridComponent, public ngZone: NgZone) {
+        public ngZone: NgZone) {
         this.dgb = this.injector.get(DatagridBodyComponent);
         this.dr = this.injector.get(DatagridRowDirective);
         this.dfs = this.injector.get(DatagridFacadeService);
         this.dgs = this.injector.get(DatagridService);
+        this.dg = this.injector.get(DatagridComponent);
     }
 
     ngOnInit() {
