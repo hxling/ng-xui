@@ -304,10 +304,27 @@ xui-datagrid {
   background: #fff;
 }
 .xui-datagrid-pager .pagination {
-  margin: 0;
+  margin: 0 10px;
   padding: 0;
   height: 3.5rem;
   align-items: center;
+}
+.xui-datagrid-pager .page-icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+.xui-datagrid-pager .page-first {
+  background: url(pagination_icons.png) no-repeat 0 center;
+}
+.xui-datagrid-pager .page-prev {
+  background: url(pagination_icons.png) no-repeat -16px center;
+}
+.xui-datagrid-pager .page-next {
+  background: url(pagination_icons.png) no-repeat -32px center;
+}
+.xui-datagrid-pager .page-last {
+  background: url(pagination_icons.png) no-repeat -48px center;
 }
 .xui-datagrid .ps--active-x > .ps__rail-x,
 .xui-datagrid .ps--active-y > .ps__rail-y {
@@ -364,6 +381,30 @@ xui-datagrid {
 }
 .xui-datagrid-bordered .xui-datagrid-ah .xui-datagrid-header-cell {
   border-width: 0 1px 1px 0;
+}
+.xui-datagrid-bordered-none .xui-datagrid-cell {
+  border-color: transparent;
+}
+.xui-datagrid-bordered-none .xui-datagrid-ah .xui-datagrid-header-cell {
+  border-color: transparent;
+}
+.xui-datagrid-bordered-bottom .xui-datagrid-cell {
+  border-width: 0 0px 1px 0;
+}
+.xui-datagrid-bordered-bottom .xui-datagrid-header-cell {
+  border-color: transparent;
+}
+.xui-datagrid-bordered-bottom .xui-datagrid-ah .xui-datagrid-header-cell {
+  border-color: transparent;
+}
+.xui-datagrid-bordered-right .xui-datagrid-cell {
+  border-width: 0 1px 0px 0;
+}
+.xui-datagrid-bordered-right .xui-datagrid-header-cell {
+  border-width: 0 1px 0px 0;
+}
+.xui-datagrid-bordered-right .xui-datagrid-ah .xui-datagrid-header-cell {
+  border-width: 0 1px 0px 0;
 }
 .xui-datagrid-resize-proxy {
   width: 1px;

@@ -17,7 +17,7 @@ export class DemoDatagridBorderedComponent implements OnInit {
     total = 0;
     pageSize = 100;
 
-
+    showRowNumber = true;
     showBorder = true;
     borderType = 'both';
     striped = false;

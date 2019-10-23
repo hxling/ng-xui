@@ -17,6 +17,7 @@ export class DemoDatagridSelectComponent implements OnInit {
     total = 0;
     pageSize = 100;
 
+    showCheckbox = false;
     @ViewChild('dg', { static: true}) dg: DatagridComponent;
 
     get selectRow() {
