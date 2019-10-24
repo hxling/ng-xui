@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-18 17:14:50
+ * @LastEditTime: 2019-10-24 19:38:07
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -973,6 +973,11 @@ export class DatagridFacadeService {
         return [];
     }
 
+    getGroupChilds(groupRow: any) {
+        return this._state.virtual.virtualRows.filter( r => {
+            return  r[GROUP_ROW_FIELD] && r[groupRow.field] === groupRow.value;
+        });
+    }
 
     /**
      * 将普通数组转换为带有分组信息的数据
@@ -990,7 +995,7 @@ export class DatagridFacadeService {
             keys.forEach((k, i) => {
                 const groupItem = {
                     [IS_GROUP_ROW_FIELD]: true, value: k, colspan: columns.length,
-                    expanded: true, total: groupData[k].length
+                    expanded: true, total: groupData[k].length, field: groupField
                 };
 
                 if (i > 0) {

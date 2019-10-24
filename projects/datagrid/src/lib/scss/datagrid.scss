@@ -41,22 +41,25 @@
 
     &-group {
         &-row {
-            span.xui-icon {
-                background-size: 16px;
-                background-position: 3px 4px;
+            span.icon {
                 background-repeat: no-repeat;
                 cursor: pointer;
+                width: 14px;
+                height:14px;
+                display: inline-block;
+                margin-left: 3px;
+                margin-right: 5px;
             }
 
-            .xui-datagrid-group-expanded {
+            .group-expanded {
                 background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.072 8l-4.357 4.357.618.619L11 8.309v-.618L6.333 3.024l-.618.619L10.072 8z' fill='%23252526'/%3E%3C/svg%3E")
             }
 
-            .xui-datagrid-group-collapsed {
+            .group-collapsed {
                 background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M7.976 10.072l4.357-4.357.62.618L8.284 11h-.618L3 6.333l.619-.618 4.357 4.357z' fill='%23252526'/%3E%3C/svg%3E")
             }
 
-            .xui-datagrid-group-action {
+            .group-action {
                 text-align: center;
             }
         }
@@ -69,6 +72,11 @@
             }
             .xui-datagrid-cell {
                 background-color: transparent;
+
+                span {
+                    display: inline-block;
+                    padding: 0 5px;
+                }
             }
         }
     }
@@ -403,7 +411,7 @@
                 color: $grid-text-color;
                 background-color: $selected-row-bgcolor!important;
                 color: $selected-row-color;
-                .xui-datagrid-cell {
+                .xui-datagrid-cell:not(.xui-datagrid-cell-rownumber) {
                     background-color: $selected-row-bgcolor!important;
                     color: $selected-row-color;
                 }

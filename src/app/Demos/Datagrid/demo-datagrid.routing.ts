@@ -5,6 +5,7 @@ import { DemoDatagridSelectComponent } from './select/demo-select.component';
 import { DemoDatagridBorderedComponent } from './bordered/demo-bordered.component';
 import { DemoMultiSelectComponent } from './multi-select/demo-multi-select.component';
 import { DemoPaginationComponent } from './pagination/demo-pagination.component';
+import { DemoGroupRowsComponent } from './group-rows/demo-group-rows.component';
 
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
     { path: 'select', component: DemoDatagridSelectComponent },
     { path: 'multi-select', component: DemoMultiSelectComponent },
     { path: 'pager', component: DemoPaginationComponent },
+    { path: 'group-rows', component: DemoGroupRowsComponent},
     { path: '', redirectTo: 'basic'}
 ];
 

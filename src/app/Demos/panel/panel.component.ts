@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class DemoPanelComponent implements OnInit {
     @Input() title = 'Example';
     @Input() note = '';
+    @Input() height = 600;
     constructor() { }
 
     ngOnInit(): void { }

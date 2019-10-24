@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-14 16:07:15
+ * @LastEditTime: 2019-10-24 19:55:57
  * @QQ: 1055818239
  * @Version: v0.0.1
  -->
@@ -20,10 +20,8 @@
         <ng-container *ngIf="dg.groupRows">
             <tr *ngIf="row[isGroupRow]" class="xui-datagrid-body-row xui-datagrid-group-row" >
                 <td class="xui-datagrid-cell" [attr.colspan]="row['colspan']">
-                    <ng-container *ngIf="!dg.showLineNumber && !dg.showCheckbox">
-                        <span class="f-icon f-icon-plus xui-datagrid-group-expanded" *ngIf="!row.expanded" (click)="row.expanded = true"></span>
-                        <span class="f-icon f-icon-minus xui-datagrid-group-collapsed" *ngIf="row.expanded" (click)="row.expanded = false"></span>
-                    </ng-container>
+                    <span class="group-expanded icon" *ngIf="!row.expanded" (click)="row.expanded = true"></span>
+                    <span class="group-collapsed icon" *ngIf="row.expanded" (click)="row.expanded = false"></span>
                     <span [innerHTML]="row | formatGroupRow: dg.groupFormatter | safe: 'html'"></span>
                     
                 </td>
@@ -36,8 +34,8 @@
                         [style.display]="row[groupRow].expanded ? '': 'none'"
                     >
                         <td [attr.field]="col.field" class="xui-datagrid-cell" [attr.align]="col.align" 
-                            *ngFor="let col of columns; trackBy: trackByField; let ci = index;"
-                            [innerHTML]="col | formatCellData: row : true: false | safe: 'html'">
+                            *ngFor="let col of columns; trackBy: trackByField; let ci = index;">
+                            <span [innerHTML]="col | formatCellData: row : true: false | safe: 'html'"></span>
                         </td>
                     </tr>
                 </ng-container>

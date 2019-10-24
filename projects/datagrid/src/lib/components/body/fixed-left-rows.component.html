@@ -14,15 +14,15 @@
                 <ng-container *ngIf="dg.showLineNumber && dg.showCheckbox; else groupActionCell">
                     <td class="xui-datagrid-cell xui-datagrid-cell-rownumber"></td>
                     <td class="xui-datagrid-cell xui-datagrid-cell-checkbox">
-                        <span class="f-icon f-icon-plus xui-datagrid-group-expanded" *ngIf="!row.expanded" (click)="toggleGroupRow(row, true)"></span>
-                        <span class="f-icon f-icon-minus xui-datagrid-group-collapsed" *ngIf="row.expanded" (click)="toggleGroupRow(row, false)"></span>
+                        <!-- <span class="icon group-expanded" *ngIf="!row.expanded" (click)="toggleGroupRow(row, true)"></span>
+                        <span class="icon group-collapsed" *ngIf="row.expanded" (click)="toggleGroupRow(row, false)"></span> -->
                     </td>
                 </ng-container>
                 
                 <ng-template #groupActionCell>
-                    <td *ngIf="dg.showLineNumber || dg.showCheckbox" class="xui-datagrid-cell xui-datagrid-group-action" >
-                        <span class="f-icon f-icon-plus xui-datagrid-group-expanded" *ngIf="!row.expanded" (click)="toggleGroupRow(row, true)"></span>
-                        <span class="f-icon f-icon-minus xui-datagrid-group-collapsed" *ngIf="row.expanded" (click)="toggleGroupRow(row, false)"></span>
+                    <td *ngIf="dg.showLineNumber || dg.showCheckbox" class="xui-datagrid-cell group-action" >
+                        <!-- <span class="icon group-expanded" *ngIf="!row.expanded" (click)="toggleGroupRow(row, true)"></span>
+                        <span class="icon group-collapsed" *ngIf="row.expanded" (click)="toggleGroupRow(row, false)"></span> -->
                     </td>
                 </ng-template>
                 
