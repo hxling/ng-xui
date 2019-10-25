@@ -19,8 +19,8 @@ export class DemoGroupRowsComponent implements OnInit {
     columns = [];
 
 
-    showLineNumber = true;
-    showCheckbox = true;
+    showLineNumber = false;
+    showCheckbox = false;
 
     constructor(private dds: DemoDataService) {}
 
@@ -43,7 +43,13 @@ export class DemoGroupRowsComponent implements OnInit {
         return `<b>${v}</b>`;
     }
 
-    groupRowFormatter = (row, childs?: any) => {
-        return `<b style="color:red">${row['value']} [${row.total}]</b>`;
+    groupRowFormatter = (row: any, childs?: any) => {
+        if (row.field === 'name') {
+            const h = `<b style="color:red">姓名： ${row.value} [${row.total}]</b>`;
+            return h;
+        } else if (row.field === 'sex') {
+            return `<b style="color:blue">性别：${row.value} [${row.total}]</b>`;
+        }
+        return '';
     }
 }

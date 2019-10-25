@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-24 19:55:57
+ * @LastEditTime: 2019-10-25 18:59:11
  * @QQ: 1055818239
  * @Version: v0.0.1
  -->
@@ -19,10 +19,10 @@
 
         <ng-container *ngIf="dg.groupRows">
             <tr *ngIf="row[isGroupRow]" class="xui-datagrid-body-row xui-datagrid-group-row" >
-                <td class="xui-datagrid-cell" [attr.colspan]="row['colspan']">
+                <td class="xui-datagrid-cell" [attr.colspan]="row['colspan']" [style.paddingLeft.px]="row.level * 15">
                     <span class="group-expanded icon" *ngIf="!row.expanded" (click)="row.expanded = true"></span>
                     <span class="group-collapsed icon" *ngIf="row.expanded" (click)="row.expanded = false"></span>
-                    <span [innerHTML]="row | formatGroupRow: dg.groupFormatter | safe: 'html'"></span>
+                    <span [innerHTML]="row | formatGroupRow: dg.groupFormatter | safe: 'html' "></span>
                     
                 </td>
             </tr>
@@ -30,7 +30,7 @@
 
             <ng-container *ngIf="!row[isGroupRow]">
                 <ng-container *ngIf="row[isGroupFooter]">
-                    <tr *ngIf="!row[isGroupRow]" class="xui-datagrid-body-row xui-datagrid-group-footer" [attr.index]="startRowIndex + i"
+                    <tr class="xui-datagrid-body-row xui-datagrid-group-footer" [attr.index]="startRowIndex + i"
                         [style.display]="row[groupRow].expanded ? '': 'none'"
                     >
                         <td [attr.field]="col.field" class="xui-datagrid-cell" [attr.align]="col.align" 
@@ -46,7 +46,7 @@
                         [class.xui-datagrid-row-selected]="dgb.currentRowId === row[dg.idField] || dgb.isSelected(row)"
                         [style.display]="row[groupRow].expanded ? '': 'none'"
                     >
-                        <td [cell-editable]="row" [column]="col" [attr.field]="col.field"
+                        <td [cell-editable]="row" [column]="col" [attr.field]="col.field"  [style.paddingLeft.px]="ci === 0? row[groupRow].level * 10 + 15 : 0"
                             class="xui-datagrid-cell" [attr.align]="col.align" *ngFor="let col of columns; trackBy: trackByField; let ci = index;">
                             <grid-body-cell [width]="col.width" [height]="dg.rowHeight" [column]="col" [rowData]="row" [rowIndex]="startRowIndex + i"></grid-body-cell>
                         </td>
@@ -54,7 +54,6 @@
                 </ng-container>
 
             </ng-container>
-            
 
             
         </ng-container>

@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-24 19:38:07
+ * @LastEditTime: 2019-10-25 19:05:04
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -16,7 +16,7 @@ import { FarrisDatagridState, initDataGridState, DataResult, CellInfo, Virtualiz
         RowDataChanges, ROW_INDEX_FIELD, IS_GROUP_ROW_FIELD, GROUP_ROW_FIELD, IS_GROUP_FOOTER_ROW_FIELD } from './state';
 import { VirtualizedLoaderService } from './virtualized-loader.service';
 import { DatagridRow } from '../types/datagrid-row';
-import { cloneDeep, groupBy, sumBy, maxBy, minBy, meanBy } from 'lodash-es';
+import { cloneDeep, groupBy, sumBy, maxBy, minBy, meanBy, isPlainObject } from 'lodash-es';
 import { Utils } from '../utils/utils';
 
 @Injectable()
@@ -127,7 +127,7 @@ export class DatagridFacadeService {
                 }
             } else {
                 // 行分组数据处理
-                const groupRows = this.groupRows(data);
+                const groupRows = this.groupRows2(data);
                 virtual.virtualRows = groupRows;
             }
         }
@@ -979,6 +979,142 @@ export class DatagridFacadeService {
         });
     }
 
+    //#region group Rows
+
+    private arrToGroup(items, fields) {
+        const fieldArr = fields.split(',');
+        if (fieldArr.length) {
+            const first = fieldArr.shift();
+            const g1 = groupBy(items, first);
+            this.toGroup(g1, fieldArr);
+            return g1;
+        }
+    }
+
+    private toGroup(g1, fieldArr) {
+        if (fieldArr.length) {
+            Object.keys(g1).forEach((k) => {
+                const items = g1[k];
+                const _nextFields = fieldArr.map((n) => n);
+                const _f = _nextFields.shift();
+                g1[k] = groupBy(items, _f);
+                if (_nextFields.length) {
+                    this.toGroup(g1[k], _nextFields);
+                }
+            });
+        }
+    }
+
+
+    private groupRows2Flat(groupRows, initLevel, parent) {
+        let results = [];
+        if (initLevel === undefined) {
+            initLevel = 0;
+        }
+        const columns = this._state.flatColumns;
+        const data = this._state.data;
+        const groupFieldArr = this._state.groupField.split(',');
+        Object.keys(groupRows).forEach((k, m) => {
+            const groupItem = { [IS_GROUP_ROW_FIELD]: true, value: k, level: initLevel,
+                                expanded: true, field: groupFieldArr[initLevel],
+                                colspan: columns.length, total: 0, rows: [], [GROUP_ROW_FIELD]: parent };
+            if (m === 0) {
+                groupItem.rows = data.filter(n => n[groupFieldArr[0]].toString() === k);
+            } else {
+                if (parent) {
+                    groupItem.rows = parent.rows.filter(n => n[groupFieldArr[initLevel]].toString() === k);
+                } else {
+                    groupItem.rows = data.filter(n => n[groupFieldArr[initLevel]].toString() === k);
+                }
+            }
+
+            groupItem.total = groupItem.rows.length;
+
+            results.push(groupItem);
+            const items = groupRows[k];
+            if (isPlainObject(items)) {
+                const level = initLevel + 1;
+                results = results.concat(this.groupRows2Flat(items, level, groupItem));
+            } else {
+                groupItem.total = items.length;
+                items.map(n => {
+                    n[GROUP_ROW_FIELD] = groupItem;
+                    return n;
+                });
+                results = results.concat(items);
+            }
+
+            if (this._state.groupFooter) {
+                results.push({
+                    [IS_GROUP_FOOTER_ROW_FIELD]: true,
+                    [GROUP_ROW_FIELD]: groupItem
+                });
+            }
+        });
+        return results;
+    }
+
+
+    /** 多字段分组
+     * groupField 以逗号分隔，从左到右依次进行分组
+     */
+    private groupRows2(data: any[]) {
+        if (data && data.length) {
+            const groupField = this._state.groupField;
+            const columns = this._state.flatColumns;
+            const groupFieldArr = this._state.groupField.split(',');
+            if (groupField.indexOf(',') === -1) {
+                return this.groupRows(data);
+            } else {
+                const groupData = this.arrToGroup(data, groupField);
+                const result = this.groupRows2Flat(groupData, 0, null);
+
+                let k = 0;
+                result.map((n, i) => {
+                    if (!n[IS_GROUP_ROW_FIELD] && !n[IS_GROUP_FOOTER_ROW_FIELD]) {
+                        n[ROW_INDEX_FIELD] = k;
+                        k++;
+                    }
+
+                    // if (n[IS_GROUP_ROW_FIELD]) {
+                    //     if (n['level'] > 0) {
+                    //         result.filter(n => n[IS_GROUP_ROW_FIELD])
+                    //         n['rows'] = result[i - 1].rows.filter(t => t[groupFieldArr[n['level']]].toString() === n['value']);
+                    //     }
+                    // }
+
+                    // 更新合计行数据
+                    // if (n[IS_GROUP_FOOTER_ROW_FIELD]) {
+                    //     columns.forEach(col => {
+                    //         if (col.groupFooter && col.groupFooter.options) {
+                    //             const options = col.groupFooter.options;
+                    //             const text = options.text;
+                    //             const typ = options.calculationType as CalculationType;
+
+                    //             if (typ !== undefined) {
+                    //                 const val = this.calculation(groupData[k], typ, col.field);
+                    //                 n[col.field] = val;
+                    //             } else {
+                    //                 n[col.field] = text || '';
+                    //             }
+                    //         } else {
+                    //             n[col.field] = '';
+                    //         }
+                    //     });
+                    // }
+
+
+                    return n;
+                });
+
+                return result;
+            }
+        }
+
+        return [];
+    }
+
+
     /**
      * 将普通数组转换为带有分组信息的数据
      * @param data 原始数据
@@ -1069,5 +1205,7 @@ export class DatagridFacadeService {
         }
         return val;
     }
+
+    //#endregion
 
 }
