@@ -12,7 +12,7 @@ import { DataColumn } from '../../types';
 import { DatagridComponent } from '../../datagrid.component';
 import { DatagridBodyComponent } from './datagrid-body.component';
 import ResizeObserver from 'resize-observer-polyfill';
-import { IS_GROUP_ROW_FIELD, GROUP_ROW_FIELD, IS_GROUP_FOOTER_ROW_FIELD } from '../../services/state';
+import { IS_GROUP_ROW_FIELD, GROUP_ROW_FIELD, IS_GROUP_FOOTER_ROW_FIELD, GROUP_VISIBLE_FIELD } from '../../services/state';
 
 @Component({
     selector: 'datagrid-rows',
@@ -29,6 +29,7 @@ export class DatagridRowsComponent implements OnInit, AfterViewInit {
     isGroupRow = IS_GROUP_ROW_FIELD;
     groupRow = GROUP_ROW_FIELD;
     isGroupFooter = IS_GROUP_FOOTER_ROW_FIELD;
+    visible = GROUP_VISIBLE_FIELD;
 
     private ro: ResizeObserver = null;
     public dg: DatagridComponent;
@@ -69,9 +70,31 @@ export class DatagridRowsComponent implements OnInit, AfterViewInit {
         const trDoms = this.el.nativeElement.querySelectorAll('.xui-datagrid-body-row');
         const arr = [];
         trDoms.forEach(tr => {
-            this.data['__position__'] = tr.offsetHeight;
+            // this.data['__position__'] = tr.offsetHeight;
             arr.push(tr.offsetHeight );
         });
         return arr;
+    }
+
+    toggleGroupRow(row, index, open) {
+        row.expanded = open;
+
+        this.data.filter((n) => {
+            return n[this.groupRow] === row;
+        }).forEach((n, j) => {
+            n.expanded = open;
+            // let flag = true;
+            // let k = j;
+            // while (flag) {
+            //     const nextRow = this.data[k + 1];
+            //     if (nextRow[this.isGroupRow]) {
+            //         nextRow.expanded = open;
+            //         k = k + 1;
+            //     } else {
+            //         flag = false;
+            //     }
+            // }
+        });
+
     }
 }

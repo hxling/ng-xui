@@ -13,7 +13,7 @@ import { BehaviorSubject, Observable, of, merge, Subject } from 'rxjs';
 import { map, distinctUntilChanged, filter, switchMap, auditTime, debounceTime } from 'rxjs/operators';
 import { DataColumn, ColumnGroup, CalculationType } from '../types';
 import { FarrisDatagridState, initDataGridState, DataResult, CellInfo, VirtualizedState, SelectedRow,
-        RowDataChanges, ROW_INDEX_FIELD, IS_GROUP_ROW_FIELD, GROUP_ROW_FIELD, IS_GROUP_FOOTER_ROW_FIELD } from './state';
+        RowDataChanges, ROW_INDEX_FIELD, IS_GROUP_ROW_FIELD, GROUP_ROW_FIELD, IS_GROUP_FOOTER_ROW_FIELD, GROUP_VISIBLE_FIELD } from './state';
 import { VirtualizedLoaderService } from './virtualized-loader.service';
 import { DatagridRow } from '../types/datagrid-row';
 import { cloneDeep, groupBy, sumBy, maxBy, minBy, meanBy, isPlainObject } from 'lodash-es';
@@ -1016,7 +1016,7 @@ export class DatagridFacadeService {
         const groupFieldArr = this._state.groupField.split(',');
         Object.keys(groupRows).forEach((k, m) => {
             const groupItem = { [IS_GROUP_ROW_FIELD]: true, value: k, level: initLevel,
-                                expanded: true, field: groupFieldArr[initLevel],
+                                [GROUP_VISIBLE_FIELD]: true, expanded: true, field: groupFieldArr[initLevel],
                                 colspan: columns.length, total: 0, rows: [], [GROUP_ROW_FIELD]: parent };
             if (m === 0) {
                 groupItem.rows = data.filter(n => n[groupFieldArr[0]].toString() === k);
@@ -1039,6 +1039,7 @@ export class DatagridFacadeService {
                 groupItem.total = items.length;
                 items.map(n => {
                     n[GROUP_ROW_FIELD] = groupItem;
+                    n[GROUP_VISIBLE_FIELD] = true;
                     return n;
                 });
                 results = results.concat(items);
@@ -1047,7 +1048,8 @@ export class DatagridFacadeService {
             if (this._state.groupFooter) {
                 results.push({
                     [IS_GROUP_FOOTER_ROW_FIELD]: true,
-                    [GROUP_ROW_FIELD]: groupItem
+                    [GROUP_ROW_FIELD]: groupItem,
+                    [GROUP_VISIBLE_FIELD]: true
                 });
             }
         });

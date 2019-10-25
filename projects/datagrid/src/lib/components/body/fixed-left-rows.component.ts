@@ -33,9 +33,4 @@ export class FixedLeftRowsComponent implements OnInit {
 
     ngOnInit() { }
 
-    toggleGroupRow(row, open) {
-        row.expanded = open;
-        this.toggle.emit();
-    }
-
 }
