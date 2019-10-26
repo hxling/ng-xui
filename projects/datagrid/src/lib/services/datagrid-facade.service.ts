@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-25 19:05:04
+ * @LastEditTime: 2019-10-26 15:55:02
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -13,7 +13,8 @@ import { BehaviorSubject, Observable, of, merge, Subject } from 'rxjs';
 import { map, distinctUntilChanged, filter, switchMap, auditTime, debounceTime } from 'rxjs/operators';
 import { DataColumn, ColumnGroup, CalculationType } from '../types';
 import { FarrisDatagridState, initDataGridState, DataResult, CellInfo, VirtualizedState, SelectedRow,
-        RowDataChanges, ROW_INDEX_FIELD, IS_GROUP_ROW_FIELD, GROUP_ROW_FIELD, IS_GROUP_FOOTER_ROW_FIELD, GROUP_VISIBLE_FIELD } from './state';
+        RowDataChanges, ROW_INDEX_FIELD, IS_GROUP_ROW_FIELD, GROUP_ROW_FIELD,
+        IS_GROUP_FOOTER_ROW_FIELD, GROUP_VISIBLE_FIELD } from './state';
 import { VirtualizedLoaderService } from './virtualized-loader.service';
 import { DatagridRow } from '../types/datagrid-row';
 import { cloneDeep, groupBy, sumBy, maxBy, minBy, meanBy, isPlainObject } from 'lodash-es';
@@ -1015,20 +1016,21 @@ export class DatagridFacadeService {
         const data = this._state.data;
         const groupFieldArr = this._state.groupField.split(',');
         Object.keys(groupRows).forEach((k, m) => {
-            const groupItem = { [IS_GROUP_ROW_FIELD]: true, value: k, level: initLevel,
+            const groupItem = { [IS_GROUP_ROW_FIELD]: true, level: initLevel, data: { }, value: k,
                                 [GROUP_VISIBLE_FIELD]: true, expanded: true, field: groupFieldArr[initLevel],
                                 colspan: columns.length, total: 0, rows: [], [GROUP_ROW_FIELD]: parent };
-            if (m === 0) {
-                groupItem.rows = data.filter(n => n[groupFieldArr[0]].toString() === k);
+            if (parent) {
+                groupItem.rows = parent.rows.filter(n => !n[IS_GROUP_ROW_FIELD] &&
+                    !n[IS_GROUP_FOOTER_ROW_FIELD] && n[groupFieldArr[initLevel]].toString() === k);
             } else {
-                if (parent) {
-                    groupItem.rows = parent.rows.filter(n => n[groupFieldArr[initLevel]].toString() === k);
-                } else {
-                    groupItem.rows = data.filter(n => n[groupFieldArr[initLevel]].toString() === k);
-                }
+                groupItem.rows = data.filter(n => n[groupFieldArr[initLevel]].toString() === k);
             }
 
-            groupItem.total = groupItem.rows.length;
+            if (parent) {
+                parent.rows.push(groupItem);
+            }
+
+            groupItem.total = groupItem.rows.filter(n => !n[IS_GROUP_ROW_FIELD] && !n[IS_GROUP_FOOTER_ROW_FIELD]).length;
 
             results.push(groupItem);
             const items = groupRows[k];
@@ -1042,15 +1044,20 @@ export class DatagridFacadeService {
                     n[GROUP_VISIBLE_FIELD] = true;
                     return n;
                 });
+                groupItem.rows = items;
                 results = results.concat(items);
             }
 
             if (this._state.groupFooter) {
-                results.push({
+                const footerItem = {
                     [IS_GROUP_FOOTER_ROW_FIELD]: true,
                     [GROUP_ROW_FIELD]: groupItem,
-                    [GROUP_VISIBLE_FIELD]: true
-                });
+                    [GROUP_VISIBLE_FIELD]: true,
+                    level: initLevel,
+                    data: {}
+                };
+                groupItem.rows.push(footerItem);
+                results.push(footerItem);
             }
         });
         return results;
@@ -1062,9 +1069,9 @@ export class DatagridFacadeService {
      */
     private groupRows2(data: any[]) {
         if (data && data.length) {
-            const groupField = this._state.groupField;
             const columns = this._state.flatColumns;
-            const groupFieldArr = this._state.groupField.split(',');
+            const groupField = this._state.groupField;
+            const groupFieldArr = groupField.split(',');
             if (groupField.indexOf(',') === -1) {
                 return this.groupRows(data);
             } else {
@@ -1078,37 +1085,29 @@ export class DatagridFacadeService {
                         k++;
                     }
 
-                    // if (n[IS_GROUP_ROW_FIELD]) {
-                    //     if (n['level'] > 0) {
-                    //         result.filter(n => n[IS_GROUP_ROW_FIELD])
-                    //         n['rows'] = result[i - 1].rows.filter(t => t[groupFieldArr[n['level']]].toString() === n['value']);
-                    //     }
-                    // }
-
                     // 更新合计行数据
-                    // if (n[IS_GROUP_FOOTER_ROW_FIELD]) {
-                    //     columns.forEach(col => {
-                    //         if (col.groupFooter && col.groupFooter.options) {
-                    //             const options = col.groupFooter.options;
-                    //             const text = options.text;
-                    //             const typ = options.calculationType as CalculationType;
+                    if (n[IS_GROUP_FOOTER_ROW_FIELD]) {
+                        const rows = n[GROUP_ROW_FIELD].rows.filter((r: any) => !r[IS_GROUP_ROW_FIELD] && !r[IS_GROUP_FOOTER_ROW_FIELD]);
+                        columns.forEach(col => {
+                            if (col.groupFooter && col.groupFooter.options) {
+                                const options = col.groupFooter.options;
+                                const text = options.text;
+                                const typ = options.calculationType as CalculationType;
 
-                    //             if (typ !== undefined) {
-                    //                 const val = this.calculation(groupData[k], typ, col.field);
-                    //                 n[col.field] = val;
-                    //             } else {
-                    //                 n[col.field] = text || '';
-                    //             }
-                    //         } else {
-                    //             n[col.field] = '';
-                    //         }
-                    //     });
-                    // }
-
+                                if (typ !== undefined) {
+                                    const val = this.calculation(rows, typ, col.field);
+                                    n.data[col.field] = val;
+                                } else {
+                                    n.data[col.field] = text || '';
+                                }
+                            } else {
+                                n.data[col.field] = '';
+                            }
+                        });
+                    }
 
                     return n;
                 });
-
                 return result;
             }
         }
@@ -1119,7 +1118,6 @@ export class DatagridFacadeService {
 
     /**
      * 将普通数组转换为带有分组信息的数据
-     * @param data 原始数据
      */
     private groupRows(data: any[]) {
         if (data && data.length) {

@@ -49,7 +49,8 @@ export class DemoGroupRowsComponent implements OnInit {
             return h;
         } else if (row.field === 'sex') {
             return `<b style="color:blue">性别：${row.value} [${row.total}]</b>`;
+        } else {
+            return `<b style="color:#886ab5">婚否：${row.value} [${row.total}]</b>`;
         }
-        return '';
     }
 }

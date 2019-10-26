@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-25 18:59:11
+ * @LastEditTime: 2019-10-26 11:04:17
  * @QQ: 1055818239
  * @Version: v0.0.1
  -->
@@ -35,8 +35,9 @@
                         [style.display]="row[visible] ? '': 'none'"
                     >
                         <td [attr.field]="col.field" class="xui-datagrid-cell" [attr.align]="col.align" 
+                            [style.paddingLeft.px]="ci === 0? row[groupRow].level * 10 + 20 : 0"
                             *ngFor="let col of columns; trackBy: trackByField; let ci = index;">
-                            <span [innerHTML]="col | formatCellData: row : true: false | safe: 'html'"></span>
+                            <span [innerHTML]="col | formatCellData: row.data : true: false | safe: 'html'"></span>
                         </td>
                     </tr>
                 </ng-container>
@@ -47,7 +48,7 @@
                         [class.xui-datagrid-row-selected]="dgb.currentRowId === row[dg.idField] || dgb.isSelected(row)"
                         [style.display]="row[visible] ? '': 'none'"
                     >
-                        <td [cell-editable]="row" [column]="col" [attr.field]="col.field"  [style.paddingLeft.px]="ci === 0? row[groupRow].level * 10 + 15 : 0"
+                        <td [cell-editable]="row" [column]="col" [attr.field]="col.field"  [style.paddingLeft.px]="ci === 0? row[groupRow].level * 10 + 20 : 0"
                             class="xui-datagrid-cell" [attr.align]="col.align" *ngFor="let col of columns; trackBy: trackByField; let ci = index;">
                             <grid-body-cell [width]="col.width" [height]="dg.rowHeight" [column]="col" [rowData]="row" [rowIndex]="startRowIndex + i"></grid-body-cell>
                         </td>

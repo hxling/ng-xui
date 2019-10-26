@@ -3,7 +3,7 @@ import { DataSeed } from './data-seed';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-07-29 08:14:22
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-22 10:07:39
+ * @LastEditTime: 2019-10-26 11:06:19
  * @Company: Inspur
  * @Version: v0.0.1
  */
@@ -82,7 +82,7 @@ export class DemoDataService implements RestService {
                 name: DataSeed.userNames[DataSeed.randomNum(0, 19)],
                 sex: DataSeed.getXingBie(),
                 birthday: DataSeed.getFullDate(),
-                maray: ['', true, false][DataSeed.randomNum(0, 2)],
+                maray: [true, false][DataSeed.randomNum(0, 1)],
                 city: '',
                 addr: this.buildLongText(i, `天齐大道${7000 + i}号`),
                 company: DataSeed.getCompany(),

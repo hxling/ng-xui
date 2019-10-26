@@ -2,7 +2,7 @@
 * @Author: 疯狂秀才(Lucas Huang)
 * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-23 08:04:20
+ * @LastEditTime: 2019-10-26 17:21:10
 * @QQ: 1055818239
 * @Version: v0.0.1
 */
@@ -78,23 +78,23 @@ export class DatagridRowsComponent implements OnInit, AfterViewInit {
 
     toggleGroupRow(row, index, open) {
         row.expanded = open;
+        this.setGroupRowsVisible(row, open);
+    }
 
-        this.data.filter((n) => {
-            return n[this.groupRow] === row;
-        }).forEach((n, j) => {
-            n.expanded = open;
-            // let flag = true;
-            // let k = j;
-            // while (flag) {
-            //     const nextRow = this.data[k + 1];
-            //     if (nextRow[this.isGroupRow]) {
-            //         nextRow.expanded = open;
-            //         k = k + 1;
-            //     } else {
-            //         flag = false;
-            //     }
-            // }
-        });
+    private setGroupRowsVisible(row, open) {
+        if (row.rows) {
+            const groupRows = row.rows.filter(n => n[IS_GROUP_ROW_FIELD]);
+            groupRows.forEach(t => {
+                t[this.visible] = open && t[this.groupRow].expanded;
+                this.setGroupRowsVisible(t, open);
+            });
 
+            if (!groupRows.length) {
+                row.rows.forEach(t => {
+                    t[this.visible] = open && t[this.groupRow].expanded && t[this.groupRow][this.visible];
+                    this.setGroupRowsVisible(t, open);
+                });
+            }
+        }
     }
 }
