@@ -9,7 +9,9 @@
 
         <ng-container *ngIf="dg.groupRows">
             
-            <tr *ngIf="row[isGroupRow]" class="xui-datagrid-body-row fixed-left-row xui-datagrid-group-row" [attr.index]="dgb.startRowIndex + i">
+            <tr *ngIf="row[isGroupRow]"   [style.display]="row[visible] ? '': 'none'"
+            class="xui-datagrid-body-row fixed-left-row xui-datagrid-group-row"
+            [attr.index]="dgb.startRowIndex + i">
                 
                 <ng-container *ngIf="dg.showLineNumber && dg.showCheckbox; else groupActionCell">
                     <td class="xui-datagrid-cell xui-datagrid-cell-rownumber"></td>
@@ -32,7 +34,7 @@
 
                 <ng-container *ngIf="row[isGroupFooter]">
                     <tr class="xui-datagrid-body-row fixed-left-row xui-datagrid-group-footer" [attr.index]="dgb.startRowIndex + i"
-                        [style.display]="row[groupRow].expanded ? '': 'none'"
+                        [style.display]="row[visible] ? '': 'none'"
                     >
                         <td *ngIf="dg.showLineNumber" class="xui-datagrid-cell xui-datagrid-cell-rownumber"></td>
                         <td *ngIf="dg.showCheckbox" class="xui-datagrid-cell xui-datagrid-cell-checkbox"></td>
@@ -42,7 +44,7 @@
                     <tr class="xui-datagrid-body-row fixed-left-row" [attr.index]="dgb.startRowIndex + i"
                         [class.xui-datagrid-row-selected]="dgb.currentRowId === row[dg.idField]"
                         [grid-row]="row" [row-hover]="row" [rowIndex]="dgb.startRowIndex + i"
-                        [style.display]="row[groupRow].expanded ? '': 'none'"
+                        [style.display]="row[visible] ? '': 'none'"
                     >
                         <td *ngIf="dg.showLineNumber" class="xui-datagrid-cell xui-datagrid-cell-rownumber" >
                             {{ dg.pageSize * (dg.pageIndex-1) + dgb.startRowIndex + row[groupRowIndex] + 1 }}
