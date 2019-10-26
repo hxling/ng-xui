@@ -477,6 +477,10 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
             this.dfs.setCheckOnSelect(changes.checkOnSelect.currentValue);
         }
 
+        if (changes.groupFooter !== undefined && !changes.groupFooter.isFirstChange()) {
+            this.dfs.showGroupFooter(changes.groupFooter.currentValue);
+        }
+
         if (changes.selectOnCheck !== undefined && !changes.selectOnCheck.isFirstChange()) {
             this.dfs.setSelectOnCheck(changes.selectOnCheck.currentValue);
         }

@@ -17,7 +17,7 @@
     [class.xui-datagrid-strip]="striped" 
     [class.xui-datagrid-sm]="sizeType === 'sm'" [class.xui-datagrid-lg]="sizeType === 'lg'" [class.xui-datagrid-xl]="sizeType === 'xl'"
     [ngStyle]="{'width': width + 'px', 'height': height + 'px' }"
-    *ngIf="!autoHeight">
+    *ngIf="!autoHeight" >
 
     <datagrid-header class="d-flex flex-fill" *ngIf="showHeader" #header [columns]="columns" [columnsGroup]="colGroup" [height]="realHeaderHeight"></datagrid-header>
     
@@ -44,7 +44,7 @@
 [class.xui-datagrid-wrap]="!nowrap"
 [class.xui-datagrid-strip]="striped" 
 [class.xui-datagrid-sm]="sizeType === 'sm'" [class.xui-datagrid-lg]="sizeType === 'lg'" [class.xui-datagrid-xl]="sizeType === 'xl'"
-*ngIf="autoHeight" style="border-right: 0px; border-bottom: 0px;">
+*ngIf="autoHeight" style="border-right: 0px; border-bottom: 0px; height:auto">
 
     <auto-height [columnsGroup]="colGroup" [columns]="columns" [data]="ds.rows"></auto-height>
     <datagrid-loading *ngIf="loading"></datagrid-loading>

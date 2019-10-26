@@ -7,15 +7,22 @@
                                 <div class="panel-container show">
                                     <div class="panel-content">
                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" [(ngModel)]="showCheckbox" class="custom-control-input"
-                                                id="showCheckbox">
-                                            <label class="custom-control-label" for="showCheckbox">复选框</label>
-                                        </div>
-                                        <div class="custom-control custom-checkbox custom-control-inline">
                                             <input type="checkbox" [(ngModel)]="showLineNumber" class="custom-control-input"
                                                 id="showLineNumber">
                                             <label class="custom-control-label" for="showLineNumber">行号</label>
                                         </div>
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" [(ngModel)]="showCheckbox" class="custom-control-input"
+                                                id="showCheckbox">
+                                            <label class="custom-control-label" for="showCheckbox">复选框</label>
+                                        </div>
+                                        
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" [(ngModel)]="showGroupFooter" class="custom-control-input"
+                                                id="showGroupFooter">
+                                            <label class="custom-control-label" for="showGroupFooter">分组行合计</label>
+                                        </div>
+
                                         <button type="button" class="btn btn-primary mr-1" (click)="dg.clearSelections()">取消选中行</button>
                                         <button type="button" class="btn btn-primary" (click)="dg.selectRow(6)">选中（id: 6）行</button>
                                     </div>
@@ -32,7 +39,7 @@
                             [pageSize]= "pageSize" [pageIndex]="1"  [total]="total"
                             [pageList]="[10, 100, 200, 300, 500, 1000, 2000, 5000]" [showPageList]="true"
 
-                            [groupRows]="true" [groupField]="'name,sex,maray'" [groupFooter]="true" [groupFormatter]="groupRowFormatter"
+                            [groupRows]="true" [groupField]="'name,sex,maray'" [groupFooter]="showGroupFooter" [groupFormatter]="groupRowFormatter"
                         ></xui-datagrid>
 
 

@@ -1115,6 +1115,10 @@ export class DatagridFacadeService {
         return [];
     }
 
+    showGroupFooter(groupFooter) {
+        this.updateState({groupFooter}, false);
+        this.updateVirthualRows(0);
+    }
 
     /**
      * 将普通数组转换为带有分组信息的数据

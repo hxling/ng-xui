@@ -21,6 +21,7 @@ export class DemoGroupRowsComponent implements OnInit {
 
     showLineNumber = false;
     showCheckbox = false;
+    showGroupFooter = false;
 
     constructor(private dds: DemoDataService) {}
 
