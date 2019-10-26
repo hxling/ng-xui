@@ -84,15 +84,22 @@ export class DatagridRowsComponent implements OnInit, AfterViewInit {
     private setGroupRowsVisible(row, open) {
         if (row.rows) {
             const groupRows = row.rows.filter(n => n[IS_GROUP_ROW_FIELD]);
+            const footerRows = row.rows.filter(n => n[IS_GROUP_FOOTER_ROW_FIELD]);
+
+            if (footerRows && footerRows.length) {
+                footerRows.forEach(n => {
+                    n[this.visible] = open &&  n[this.groupRow].expanded;
+                });
+            }
+
             groupRows.forEach(t => {
-                t[this.visible] = open && t[this.groupRow].expanded;
+                t[this.visible] = open && t[this.groupRow].expanded && t[this.groupRow][this.visible];
                 this.setGroupRowsVisible(t, open);
             });
 
             if (!groupRows.length) {
                 row.rows.forEach(t => {
                     t[this.visible] = open && t[this.groupRow].expanded && t[this.groupRow][this.visible];
-                    this.setGroupRowsVisible(t, open);
                 });
             }
         }
