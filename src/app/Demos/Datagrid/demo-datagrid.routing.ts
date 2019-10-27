@@ -7,6 +7,8 @@ import { DemoMultiSelectComponent } from './multi-select/demo-multi-select.compo
 import { DemoPaginationComponent } from './pagination/demo-pagination.component';
 import { DemoGroupRowsComponent } from './group-rows/demo-group-rows.component';
 import { DemoFitComponent } from './fit/demo-fit.component';
+import { DemoRowFormatterComponent } from './formatter/demo-row-formatter.component';
+import { DemoCellFormatterComponent } from './formatter/demo-cell-formatter.component';
 
 
 const routes: Routes = [
@@ -17,6 +19,8 @@ const routes: Routes = [
     { path: 'pager', component: DemoPaginationComponent },
     { path: 'group-rows', component: DemoGroupRowsComponent},
     { path: 'fit', component: DemoFitComponent},
+    { path: 'row-formatter', component: DemoRowFormatterComponent},
+    { path: 'cell-formatter', component: DemoCellFormatterComponent},
     { path: '', redirectTo: 'basic'}
 ];
 

@@ -14,6 +14,8 @@ import { DemoMultiSelectComponent } from './multi-select/demo-multi-select.compo
 import { DemoPaginationComponent } from './pagination/demo-pagination.component';
 import { DemoGroupRowsComponent } from './group-rows/demo-group-rows.component';
 import { DemoFitComponent } from './fit/demo-fit.component';
+import { DemoRowFormatterComponent } from './formatter/demo-row-formatter.component';
+import { DemoCellFormatterComponent } from './formatter/demo-cell-formatter.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +27,9 @@ import { DemoFitComponent } from './fit/demo-fit.component';
         DemoMultiSelectComponent,
         DemoPaginationComponent,
         DemoGroupRowsComponent,
-        DemoFitComponent
+        DemoFitComponent,
+        DemoRowFormatterComponent,
+        DemoCellFormatterComponent
     ],
     imports: [
         CommonModule,
