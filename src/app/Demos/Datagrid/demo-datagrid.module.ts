@@ -13,6 +13,7 @@ import { DemoPanelComponent } from '../panel/panel.component';
 import { DemoMultiSelectComponent } from './multi-select/demo-multi-select.component';
 import { DemoPaginationComponent } from './pagination/demo-pagination.component';
 import { DemoGroupRowsComponent } from './group-rows/demo-group-rows.component';
+import { DemoFitComponent } from './fit/demo-fit.component';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import { DemoGroupRowsComponent } from './group-rows/demo-group-rows.component';
         DemoDatagridBorderedComponent,
         DemoMultiSelectComponent,
         DemoPaginationComponent,
-        DemoGroupRowsComponent
+        DemoGroupRowsComponent,
+        DemoFitComponent
     ],
     imports: [
         CommonModule,

@@ -131,7 +131,7 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
         }
     }
     /** 分页信息 */
-    @Input() pagination = true;
+    @Input() pagination = false;
     /** 每页记录数 */
     @Input() pageList = [10, 20, 30, 50, 100];
     /** 当前页码 */
@@ -170,7 +170,7 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     /**
      * 单击行选中后，在次点击不会被取消选中状态;
      */
-    @Input() keepSelect = true;
+    @Input() keepSelect = false;
 
     /** 空数据时，显示的提示文本 */
     @Input() emptyMessage = '暂无数据';
@@ -427,6 +427,11 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
 
                 this.loadData(res.items);
             });
+        } else {
+            this.total = this.data.length;
+            if (!this.pagination) {
+                this.pagerOpts.itemsPerPage = this.total;
+            }
         }
 
         this.initBeforeEvents();

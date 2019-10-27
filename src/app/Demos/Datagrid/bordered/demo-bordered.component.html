@@ -1,44 +1,34 @@
 <main-container [subtitle]="'Border'">
     <div class="col-xl-12">
-        <div class="row">
-            <div class="col-xl-12">
-                <div id="panel-1" class="panel">
-                    <div class="panel-container show">
-                        <div class="panel-content">
-                            <div class="frame-wrap">
-                                <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" [(ngModel)]="showRowNumber" class="custom-control-input"
-                                        id="showRowNumber">
-                                    <label class="custom-control-label" for="showRowNumber">显示行号</label>
-                                </div>
-                                <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" [(ngModel)]="showBorder" class="custom-control-input"
-                                        id="defaultInline1">
-                                    <label class="custom-control-label" for="defaultInline1">显示边框线</label>
-                                </div>
-                                <div class="custom-control custom-checkbox custom-control-inline">
-                                    <select class="form-control" [(ngModel)]="borderType">
-                                        <option [value]="'both'">全部显示</option>
-                                        <option [value]="'bottom'">仅横向线条</option>
-                                        <option [value]="'right'">仅纵向线条</option>
-                                    </select>
-                                </div>
-                                <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" [(ngModel)]="striped" class="custom-control-input"
-                                        id="chkstriped">
-                                    <label class="custom-control-label" for="chkstriped">斑马线</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <demo-panel [height]="65" title="">
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" [(ngModel)]="showRowNumber" class="custom-control-input"
+                    id="showRowNumber">
+                <label class="custom-control-label" for="showRowNumber">显示行号</label>
             </div>
-        </div>
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" [(ngModel)]="showBorder" class="custom-control-input"
+                    id="defaultInline1">
+                <label class="custom-control-label" for="defaultInline1">显示边框线</label>
+            </div>
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <select class="form-control" [(ngModel)]="borderType">
+                    <option [value]="'both'">全部显示</option>
+                    <option [value]="'bottom'">仅横向线条</option>
+                    <option [value]="'right'">仅纵向线条</option>
+                </select>
+            </div>
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" [(ngModel)]="striped" class="custom-control-input"
+                    id="chkstriped">
+                <label class="custom-control-label" for="chkstriped">斑马线</label>
+            </div>
+        </demo-panel>
 
         <demo-panel>
             <!-- datatable start -->
             <xui-datagrid [columns]="columns" [data]="items" [pageSize]="20" [showBorder]="showBorder"
-                [showLineNumber]="showRowNumber"
+                [showLineNumber]="showRowNumber" [fit]="true"
                 [striped]="striped" [borderType]="borderType" [pagination]="false"></xui-datagrid>
             <!-- datatable end -->
         </demo-panel>

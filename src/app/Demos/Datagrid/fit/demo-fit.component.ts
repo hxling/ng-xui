@@ -1,21 +1,21 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DemoDataService } from '../../data-factory/demo-data-service';
 import { DataSeed } from '../../data-factory/data-seed';
 import { DATAGRID_REST_SERVICEE, CalculationType } from 'ng-xui/datagrid';
 
 @Component({
-    selector: 'demo-datagrid-basic',
-    templateUrl: './demo-basic.component.html',
+    selector: 'demo-fit',
+    templateUrl: './demo-fit.component.html',
     providers: [
         DemoDataService,
         {provide: DATAGRID_REST_SERVICEE, useClass: DemoDataService}
     ]
 })
-export class DemoDatagridBasicComponent implements OnInit {
+export class DemoFitComponent implements OnInit {
     columns = [];
     items;
-    total = 0;
-    pageSize = 100;
+
+    fitColumns = true;
 
     constructor(private dds: DemoDataService) { }
 

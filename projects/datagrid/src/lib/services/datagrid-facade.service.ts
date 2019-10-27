@@ -481,6 +481,11 @@ export class DatagridFacadeService {
             if (this._state.currentRow) {
                 this.updateState({ currentRow: null });
                 this.unSelectRowSubject.next(srow);
+
+                if (this._state.showCheckbox && this._state.checkOnSelect) {
+                    this._state.checkedRows = [];
+                    this.unCheckRowSubject.next(srow);
+                }
             }
         } else {
             this._state.selections = selections.filter(sr => sr.id !== id);
