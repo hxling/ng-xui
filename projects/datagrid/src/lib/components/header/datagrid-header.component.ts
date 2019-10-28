@@ -179,8 +179,6 @@ export class DatagridHeaderComponent implements OnInit, AfterViewInit {
             } else {
                 this.dfs.clientSort();
             }
-
-            this.dg.columnSorted.emit(col);
         });
 
     }

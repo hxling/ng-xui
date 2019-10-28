@@ -1125,12 +1125,16 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     }
 
 
-    reload() {
+    reload(isSort = false) {
         this.fetchData(1, this.pageSize).subscribe(res => {
             if (res) {
                 this.pageIndex = 1;
                 this.total = res.total;
                 this.loadData(res.items);
+
+                if (isSort) {
+                    this.columnSorted.emit();
+                }
             }
         });
     }
