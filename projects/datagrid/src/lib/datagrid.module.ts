@@ -4,7 +4,7 @@ import { ValidatorMessagerService } from './services/validator-messager.service'
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-22 08:34:17
+ * @LastEditTime: 2019-10-28 09:49:17
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -41,9 +41,7 @@ import { FormatCellDataPipe } from './utils/format-cell-data.pipe';
 import { RowDataIdPipe } from './utils/rowid.pipe';
 import { FormatGroupRowPipe } from './utils/format-group-row.pipe';
 import { FixedLeftRowsComponent } from './components/body/fixed-left-rows.component';
-
-/** 兼容下老版本 */
-import { TextboxEditorComponent } from './components/editors/text-editor.component';
+import { DatagridGroupRowDirective } from './components/body/datagrid-group-row.directive';
 
 
 
@@ -86,8 +84,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: ScrollbarConfigInterface = {
         DatagridCheckboxComponent,
         DatagridHeaderCheckboxComponent,
         GridCellEditorDirective,
-        TextboxEditorComponent,
-        AutoHeightComponent
+        AutoHeightComponent,
+        DatagridGroupRowDirective
     ],
     providers: [
         {
@@ -105,7 +103,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: ScrollbarConfigInterface = {
         DatagridCellEditableDirective,
         DatagridRowHoverDirective,
         DatagridResizeColumnDirective,
-        TextboxEditorComponent,
         FormatCellDataPipe,
         RowDataIdPipe
     ],

@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-26 17:48:38
+ * @LastEditTime: 2019-10-28 09:48:45
  * @QQ: 1055818239
  * @Version: v0.0.1
  -->
@@ -20,7 +20,7 @@
         <ng-container *ngIf="dg.groupRows">
             <tr *ngIf="row[isGroupRow]" class="xui-datagrid-body-row xui-datagrid-group-row" 
             [style.display]="row[visible] ? '': 'none'">
-                <td class="xui-datagrid-cell" [attr.colspan]="row['colspan']" [style.paddingLeft.px]="row.level * 15">
+                <td class="xui-datagrid-cell" [attr.colspan]="row['colspan']" [style.paddingLeft.px]="row.level * 15" [group-row]="row">
                     <span class="group-expanded icon" *ngIf="!row.expanded" (click)="toggleGroupRow(row, i, true)"></span>
                     <span class="group-collapsed icon" *ngIf="row.expanded" (click)="toggleGroupRow(row, i, false)"></span>
                     <span [innerHTML]="row | formatGroupRow: dg.groupFormatter | safe: 'html' "></span>

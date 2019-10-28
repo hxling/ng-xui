@@ -54,4 +54,22 @@ export class DemoGroupRowsComponent implements OnInit {
             return `<b style="color:#886ab5">婚否：${row.value} [${row.total}]</b>`;
         }
     }
+
+    groupRowStyler = (row) => {
+        if (row.field === 'name') {
+            return {
+                style: {
+                    background: '#EFF5E5',
+                    color: '#5A8129'
+                }
+            };
+        } else if (row.field === 'sex') {
+            return {
+                style:  {
+                    background: '#FFEAC1',
+                    color: '#E99100'
+                }
+            };
+        }
+    }
 }

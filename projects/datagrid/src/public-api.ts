@@ -2,7 +2,7 @@
 /*
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-22 08:46:29
+ * @LastEditTime: 2019-10-28 09:49:33
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -27,7 +27,7 @@ export { DatagridRowHoverDirective } from './lib/components/body/datagrid-row-ho
 export { DatagridBodyComponent } from './lib/components/body/datagrid-body.component';
 
 export { DatagridColumnDirective, DatagridCellEditorDirective } from './lib/components/columns/index';
-export { GridCellEditorDirective, TextboxEditorComponent } from './lib/components/editors/index';
+export { GridCellEditorDirective } from './lib/components/editors/index';
 export { DatagridHeaderComponent } from './lib/components/header/datagrid-header.component';
 export { DatagridResizeColumnDirective } from './lib/components/header/datagrid-resize-column.directive';
 export { DatagridFooterComponent } from './lib/components/footer/datagrid-footer.component';

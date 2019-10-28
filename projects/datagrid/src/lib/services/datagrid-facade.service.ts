@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-26 15:55:02
+ * @LastEditTime: 2019-10-28 08:42:01
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -987,12 +987,11 @@ export class DatagridFacadeService {
 
     //#region group Rows
 
-    private arrToGroup(items, fields) {
-        const fieldArr = fields.split(',');
-        if (fieldArr.length) {
-            const first = fieldArr.shift();
+    private arrToGroup(items, fields: string[]) {
+        if (fields.length) {
+            const first = fields.shift();
             const g1 = groupBy(items, first);
-            this.toGroup(g1, fieldArr);
+            this.toGroup(g1, fields);
             return g1;
         }
     }
@@ -1077,44 +1076,41 @@ export class DatagridFacadeService {
             const columns = this._state.flatColumns;
             const groupField = this._state.groupField;
             const groupFieldArr = groupField.split(',');
-            if (groupField.indexOf(',') === -1) {
-                return this.groupRows(data);
-            } else {
-                const groupData = this.arrToGroup(data, groupField);
-                const result = this.groupRows2Flat(groupData, 0, null);
 
-                let k = 0;
-                result.map((n, i) => {
-                    if (!n[IS_GROUP_ROW_FIELD] && !n[IS_GROUP_FOOTER_ROW_FIELD]) {
-                        n[ROW_INDEX_FIELD] = k;
-                        k++;
-                    }
+            const groupData = this.arrToGroup(data, groupFieldArr);
+            const result = this.groupRows2Flat(groupData, 0, null);
 
-                    // 更新合计行数据
-                    if (n[IS_GROUP_FOOTER_ROW_FIELD]) {
-                        const rows = n[GROUP_ROW_FIELD].rows.filter((r: any) => !r[IS_GROUP_ROW_FIELD] && !r[IS_GROUP_FOOTER_ROW_FIELD]);
-                        columns.forEach(col => {
-                            if (col.groupFooter && col.groupFooter.options) {
-                                const options = col.groupFooter.options;
-                                const text = options.text;
-                                const typ = options.calculationType as CalculationType;
+            let k = 0;
+            result.map((n, i) => {
+                if (!n[IS_GROUP_ROW_FIELD] && !n[IS_GROUP_FOOTER_ROW_FIELD]) {
+                    n[ROW_INDEX_FIELD] = k;
+                    k++;
+                }
 
-                                if (typ !== undefined) {
-                                    const val = this.calculation(rows, typ, col.field);
-                                    n.data[col.field] = val;
-                                } else {
-                                    n.data[col.field] = text || '';
-                                }
+                // 更新合计行数据
+                if (n[IS_GROUP_FOOTER_ROW_FIELD]) {
+                    const rows = n[GROUP_ROW_FIELD].rows.filter((r: any) => !r[IS_GROUP_ROW_FIELD] && !r[IS_GROUP_FOOTER_ROW_FIELD]);
+                    columns.forEach(col => {
+                        if (col.groupFooter && col.groupFooter.options) {
+                            const options = col.groupFooter.options;
+                            const text = options.text;
+                            const typ = options.calculationType as CalculationType;
+
+                            if (typ !== undefined) {
+                                const val = this.calculation(rows, typ, col.field);
+                                n.data[col.field] = val;
                             } else {
-                                n.data[col.field] = '';
+                                n.data[col.field] = text || '';
                             }
-                        });
-                    }
+                        } else {
+                            n.data[col.field] = '';
+                        }
+                    });
+                }
 
-                    return n;
-                });
-                return result;
-            }
+                return n;
+            });
+            return result;
         }
 
         return [];
@@ -1123,72 +1119,6 @@ export class DatagridFacadeService {
     showGroupFooter(groupFooter) {
         this.updateState({groupFooter}, false);
         this.updateVirthualRows(0);
-    }
-
-    /**
-     * 将普通数组转换为带有分组信息的数据
-     */
-    private groupRows(data: any[]) {
-        if (data && data.length) {
-            const groupField = this._state.groupField;
-
-            const groupData = groupBy(data, groupField);
-            const keys = Object.keys(groupData);
-            let result = [];
-            let rowIndex = 0;
-            const columns = this._state.flatColumns;
-            keys.forEach((k, i) => {
-                const groupItem = {
-                    [IS_GROUP_ROW_FIELD]: true, value: k, colspan: columns.length,
-                    expanded: true, total: groupData[k].length, field: groupField
-                };
-
-                if (i > 0) {
-                    if (!this._state.groupFooter) {
-                        rowIndex = result[result.length - 1][ROW_INDEX_FIELD] + 1;
-                    } else {
-                        rowIndex = result[result.length - 2][ROW_INDEX_FIELD] + 1;
-                    }
-                }
-                result.push(groupItem);
-
-                result = result.concat(groupData[k].map((n, j) => {
-                    n[ROW_INDEX_FIELD] = rowIndex + j;
-                    n[GROUP_ROW_FIELD] = groupItem;
-                    return n;
-                }));
-
-                if (this._state.groupFooter) {
-                    const groupFooterRow = {
-                        [IS_GROUP_FOOTER_ROW_FIELD]: true,
-                        [GROUP_ROW_FIELD]: groupItem
-                    };
-
-                    columns.forEach(col => {
-                        if (col.groupFooter && col.groupFooter.options) {
-                            const options = col.groupFooter.options;
-                            const text = options.text;
-                            const typ = options.calculationType as CalculationType;
-
-                            if (typ !== undefined) {
-                                const val = this.calculation(groupData[k], typ, col.field);
-                                groupFooterRow[col.field] = val;
-                            } else {
-                                groupFooterRow[col.field] = text || '';
-                            }
-                        } else {
-                            groupFooterRow[col.field] = '';
-                        }
-                    });
-
-                    result.push(groupFooterRow);
-                }
-            });
-
-            return result;
-        }
-
-        return [];
     }
 
     private calculation(data: any, typ: CalculationType, field: string) {
