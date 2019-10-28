@@ -3,7 +3,7 @@ import { FormGroup, ValidatorFn } from '@angular/forms';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-28 09:53:41
+ * @LastEditTime: 2019-10-28 18:12:15
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -542,11 +542,12 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
         if (changes.sizeType !== undefined && !changes.sizeType.isFirstChange()) {
             this._sizeType = changes.sizeType.currentValue;
             this.rowHeight = SIZE_TYPE[this._sizeType];
-            this.footerRowHeight = this.rowHeight;
+            this.footerRowHeight = SIZE_TYPE[this._sizeType];
             this.dfs.updateProperty('rowHeight', this.rowHeight);
             this.refresh();
             this.dgs.onRowHeightChange(this.rowHeight);
         }
+
     }
 
     ngOnDestroy() {

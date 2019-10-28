@@ -16,6 +16,13 @@ import { DemoGroupRowsComponent } from './group-rows/demo-group-rows.component';
 import { DemoFitComponent } from './fit/demo-fit.component';
 import { DemoRowFormatterComponent } from './formatter/demo-row-formatter.component';
 import { DemoCellFormatterComponent } from './formatter/demo-cell-formatter.component';
+import { DemoDataFormatterComponent } from './formatter/demo-data-formatter.component';
+import { DemoTemplateComponent } from './cell-template/demo-template.component';
+import { DemoRowHeightComponent } from './row-height/demo-row-height.component';
+import { DemoFooterRowComponent } from './footer-row/demo-footer-row.component';
+import { DemoSortComponent} from './sort/demo-sort.component';
+import { DemoHeaderGroupComponent } from './header-group/demo-header-group.component';
+
 
 @NgModule({
     declarations: [
@@ -29,7 +36,13 @@ import { DemoCellFormatterComponent } from './formatter/demo-cell-formatter.comp
         DemoGroupRowsComponent,
         DemoFitComponent,
         DemoRowFormatterComponent,
-        DemoCellFormatterComponent
+        DemoCellFormatterComponent,
+        DemoDataFormatterComponent,
+        DemoTemplateComponent,
+        DemoRowHeightComponent,
+        DemoFooterRowComponent,
+        DemoSortComponent,
+        DemoHeaderGroupComponent
     ],
     imports: [
         CommonModule,

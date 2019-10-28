@@ -241,7 +241,6 @@ xui-datagrid {
   border-color: #e9e9e9;
   overflow: hidden;
   white-space: normal;
-  background-color: white;
 }
 .xui-datagrid-cell-formgroup {
   height: 100%;
@@ -278,8 +277,6 @@ xui-datagrid {
   width: 100%;
   margin: 0;
   padding: 0 1px;
-  height: calc(40px - 3px);
-  line-height: calc(40px - 3px);
 }
 .xui-datagrid-cell-content > span {
   padding: 0 5px;
@@ -437,6 +434,7 @@ xui-datagrid {
   text-align: center;
   cursor: pointer;
   opacity: 0.65;
+  margin-right: 10px;
 }
 .xui-datagrid-sort:hover {
   color: blue;

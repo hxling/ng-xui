@@ -1,0 +1,15 @@
+<main-container [subtitle]="'Group Header'">
+    <div class="col-xl-12">
+        <demo-panel height="50" title="">
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" [(ngModel)]="fitColumns" class="custom-control-input"
+                    id="fitColumns">
+                <label class="custom-control-label" for="fitColumns">自动列宽</label>
+            </div>
+        </demo-panel>
+
+        <demo-panel [height]="600" >
+            <xui-datagrid [fit]="true" [fitColumns]="fitColumns" [columns]="columns" [data]="items"></xui-datagrid>
+        </demo-panel>
+    </div>
+</main-container>

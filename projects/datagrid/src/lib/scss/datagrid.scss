@@ -284,7 +284,6 @@
         border-color: $border-color;
         overflow: hidden;
         white-space: normal;
-        background-color: white;
 
         &-formgroup {
             height: 100%;
@@ -328,8 +327,8 @@
             width: 100%;
             margin: 0;
             padding: 0 1px;
-            height: calc(#{$cell-height} - 3px);
-            line-height: calc(#{$cell-height} - 3px);
+            // height: calc(#{$cell-height} - 3px);
+            // line-height: calc(#{$cell-height} - 3px);
 
             &>span {
                 padding: 0 5px;
@@ -541,6 +540,7 @@
         text-align: center;
         cursor: pointer;
         opacity: .65;
+        margin-right: 10px;
 
         &:hover {
             color: blue;

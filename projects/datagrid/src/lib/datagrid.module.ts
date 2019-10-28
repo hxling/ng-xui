@@ -4,7 +4,7 @@ import { ValidatorMessagerService } from './services/validator-messager.service'
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-28 09:49:17
+ * @LastEditTime: 2019-10-28 18:54:36
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -36,6 +36,7 @@ import { DatagridCheckboxComponent } from './components/checkbox/datagrid-checkb
 import { DatagridHeaderCheckboxComponent } from './components/checkbox/datagrid-header-checkbox.component';
 import { DatagridResizeColumnDirective } from './components/header/datagrid-resize-column.directive';
 import { DatagridFooterComponent } from './components/footer/datagrid-footer.component';
+import { DatagridFooterStylerDirective } from './components/footer/datagrid-footer-styler.directive';
 import { SafePipe } from './utils/safe.pipe';
 import { FormatCellDataPipe } from './utils/format-cell-data.pipe';
 import { RowDataIdPipe } from './utils/rowid.pipe';
@@ -85,7 +86,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: ScrollbarConfigInterface = {
         DatagridHeaderCheckboxComponent,
         GridCellEditorDirective,
         AutoHeightComponent,
-        DatagridGroupRowDirective
+        DatagridGroupRowDirective,
+        DatagridFooterStylerDirective
     ],
     providers: [
         {

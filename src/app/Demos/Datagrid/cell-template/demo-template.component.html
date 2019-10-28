@@ -1,0 +1,12 @@
+<main-container [subtitle]="'Custom Row Formatter'">
+    <div class="col-xl-12">
+        <demo-panel [height]="600" >
+            <xui-datagrid [fit]="true" [rowStyler]="rowStyle" [rowHeight]="100"
+                [fitColumns]="fitColumns" [columns]="columns" [data]="items"></xui-datagrid>
+        </demo-panel>
+    </div>
+</main-container>
+
+<ng-template #face let-ctx>
+    <img [attr.src]="showImageUrl(ctx.rowData)" width=50>
+</ng-template>

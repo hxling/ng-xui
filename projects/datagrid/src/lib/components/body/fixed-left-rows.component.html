@@ -9,7 +9,7 @@
 
         <ng-container *ngIf="dg.groupRows">
             
-            <tr *ngIf="row[isGroupRow]"   [style.display]="row[visible] ? '': 'none'"
+            <tr *ngIf="row[isGroupRow]"   [style.display]="row[visible] ? '': 'none'"  [style.height.px]="dg.rowHeight"
             class="xui-datagrid-body-row fixed-left-row xui-datagrid-group-row"
             [attr.index]="dgb.startRowIndex + i">
                 
@@ -34,7 +34,7 @@
 
                 <ng-container *ngIf="row[isGroupFooter]">
                     <tr class="xui-datagrid-body-row fixed-left-row xui-datagrid-group-footer" [attr.index]="dgb.startRowIndex + i"
-                        [style.display]="row[visible] ? '': 'none'"
+                        [style.display]="row[visible] ? '': 'none'"  [style.height.px]="dg.rowHeight"
                     >
                         <td *ngIf="dg.showLineNumber" class="xui-datagrid-cell xui-datagrid-cell-rownumber"></td>
                         <td *ngIf="dg.showCheckbox" class="xui-datagrid-cell xui-datagrid-cell-checkbox"></td>
@@ -43,7 +43,7 @@
                 <ng-container *ngIf="!row[isGroupFooter]">
                     <tr class="xui-datagrid-body-row fixed-left-row" [attr.index]="dgb.startRowIndex + i"
                         [class.xui-datagrid-row-selected]="dgb.currentRowId === row[dg.idField]"
-                        [grid-row]="row" [row-hover]="row" [rowIndex]="dgb.startRowIndex + i"
+                        [grid-row]="row" [row-hover]="row" [rowIndex]="dgb.startRowIndex + i"  [style.height.px]="dg.rowHeight"
                         [style.display]="row[visible] ? '': 'none'"
                     >
                         <td *ngIf="dg.showLineNumber" class="xui-datagrid-cell xui-datagrid-cell-rownumber" >
@@ -64,7 +64,7 @@
         <ng-container *ngIf="!dg.groupRows">
             <tr class="xui-datagrid-body-row fixed-left-row" [attr.index]="dgb.startRowIndex + i"
                 [class.xui-datagrid-row-selected]="dgb.currentRowId === row[dg.idField]"
-                [grid-row]="row" [row-hover]="row" [rowIndex]="dgb.startRowIndex + i"
+                [grid-row]="row" [row-hover]="row" [rowIndex]="dgb.startRowIndex + i"  [style.height.px]="dg.rowHeight"
             >
                 <td *ngIf="dg.showLineNumber" class="xui-datagrid-cell xui-datagrid-cell-rownumber" >
                     {{ dg.pageSize * (dg.pageIndex-1) + dgb.startRowIndex + i + 1 }}

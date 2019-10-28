@@ -40,10 +40,46 @@ export class DemoCellFormatterComponent implements OnInit {
             { field: 'nianxin', width: 70, title: '年薪', footer: {
                 options: { calculationType: CalculationType.sum},
                 formatter: { type: 'number', options: { prefix: '￥', suffix: '元', precision: 2 }}
-            }},
+            }, styler: this.nianXinCellStyler},
             { field: 'zhiwei', width: 100, title: '职位', formatter: {type: 'enum', options: enumOpts} }
         ];
 
         this.items = this.dds.createData(50);
+    }
+
+    nianXinCellStyler = (val, data, index) => {
+        if (val) {
+            if ( val > 20000 && val < 50000) {
+                return {
+                    style:  {
+                        background: '#F7D2C9',
+                        color: '#676F73'
+                    }
+                };
+            } else if (val > 50000 && val < 80000) {
+                return {
+                    style: {
+                        color: '#676F73',
+                        background: '#F0A693'
+                    }
+                };
+            } else if (val > 80000) {
+                return {
+                    style: {
+                        color: '#676F73',
+                        background: '#EB8870'
+                    }
+                };
+            } else {
+                return {
+                    style: {
+                        color: '#676F73',
+                        background: '#D3F5BE'
+                    }
+                };
+            }
+        }
+
+        return undefined;
     }
 }

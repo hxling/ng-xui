@@ -59,15 +59,22 @@ export class DemoGroupRowsComponent implements OnInit {
         if (row.field === 'name') {
             return {
                 style: {
-                    background: '#EFF5E5',
+                    background: '#CCE7A4',
                     color: '#5A8129'
                 }
             };
         } else if (row.field === 'sex') {
             return {
                 style:  {
-                    background: '#FFEAC1',
-                    color: '#E99100'
+                    background: '#C0E290',
+                    color: '#5A8129'
+                }
+            };
+        } else {
+            return {
+                style:  {
+                    background: '#B5DC7D',
+                    color: '#5A8129'
                 }
             };
         }

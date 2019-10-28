@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DemoDataService } from '../../data-factory/demo-data-service';
 import { DataSeed } from '../../data-factory/data-seed';
 import { DATAGRID_REST_SERVICEE, CalculationType } from 'ng-xui/datagrid';
 
 @Component({
-    selector: 'demo-row-formatter',
-    templateUrl: './demo-row-formatter.component.html',
+    selector: 'demo-sort',
+    templateUrl: './demo-sort.component.html',
     providers: [
         DemoDataService,
         {provide: DATAGRID_REST_SERVICEE, useClass: DemoDataService}
     ]
 })
-export class DemoRowFormatterComponent implements OnInit {
+export class DemoSortComponent implements OnInit {
     columns = [];
     items;
-
-    fitColumns = true;
+    total = 0;
+    pageSize = 100;
 
     constructor(private dds: DemoDataService) { }
 
@@ -30,35 +30,19 @@ export class DemoRowFormatterComponent implements OnInit {
                 formatter: (v, d, i) => {
                     return `<b>${v}</b>`;
                 }
-            }},
-            { field: 'name', width: 130, title: '姓名'},
-            { field: 'sex', width: 70, title: '性别' },
-            { field: 'birthday', width: 120, title: '出生日期'},
+            }, sortable: true },
+            { field: 'name', width: 130, title: '姓名', sortable: true },
+            { field: 'sex', width: 70, title: '性别' , sortable: true },
+            { field: 'birthday', width: 120, title: '出生日期', sortable: true },
             { field: 'maray', width: 70, title: '婚否', formatter: { type: 'boolean', options: { trueText: '已婚', falseText: '未婚' }}},
             { field: 'addr', width: 170, title: '地址' },
-            { field: 'company', width: 100, title: '公司'},
-            { field: 'nianxin', width: 70, title: '年薪', footer: {
+            { field: 'company', width: 100, title: '公司', sortable: true },
+            { field: 'nianxin', width: 70, title: '年薪', sortable: true , footer: {
                 options: { calculationType: CalculationType.sum},
                 formatter: { type: 'number', options: { prefix: '￥', suffix: '元', precision: 2 }}
             }},
-            { field: 'zhiwei', width: 100, title: '职位', formatter: {type: 'enum', options: enumOpts} }
+            { field: 'zhiwei', sortable: true , width: 100, title: '职位', formatter: {type: 'enum', options: enumOpts} }
         ];
 
-        this.items = this.dds.createData(50);
-    }
-
-    rowStyle = (rowData) => {
-        if (rowData.nianxin > 70000 && rowData.nianxin < 100000) {
-            return {
-                style: {
-                    color: '#5A8129',
-                    background: '#CCE7A4'
-                }
-            };
-        } else {
-            return {
-                cls: 'custom-row-style'
-            };
-        }
     }
 }

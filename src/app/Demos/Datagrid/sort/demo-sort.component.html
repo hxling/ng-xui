@@ -1,0 +1,16 @@
+<main-container [subtitle]="'Sorter'">
+    <div class="col-xl-12">
+        
+        <demo-panel>
+            <!-- datatable start -->
+            <xui-datagrid [columns]="columns" [data]="items" [pageSize]="20" [showBorder]="true"
+                [showLineNumber]="true" [fit]="true" [fitColumns]="true"
+                [multiSort]="false"
+                [remoteSort] ="false"
+                [sortName]="'nianxin'"
+                [sortOrder]="'asc'"
+                [striped]="true" [borderType]="'bottom'" [pagination]="true"></xui-datagrid>
+            <!-- datatable end -->
+        </demo-panel>
+    </div>
+</main-container>
