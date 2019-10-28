@@ -355,7 +355,9 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
             if (this.showFooter && this.footerDataFrom === 'client') {
                 this.footerData = this.dfs.getFooterData(this.data);
             }
+            // this.app.tick();
             this.cd.detectChanges();
+
             this.loadSuccess.emit(this.ds.rows);
         });
         this.subscriptions.push(dataSubscription);
@@ -691,7 +693,7 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     }
 
     trackByRows = (index: number, row: any) => {
-        return row[this.idField] || index;
+        return row[this.idField]  || index;
     }
 
     //#endregion

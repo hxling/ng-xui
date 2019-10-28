@@ -127,6 +127,11 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
             this.setWheelHeight();
             this.cd.detectChanges();
         });
+
+        this.dfs.clientSort$.subscribe(() => {
+            this.cd.detectChanges();
+            this.dg.columnSorted.emit();
+        });
     }
 
     ngOnChanges(changes: SimpleChanges) {

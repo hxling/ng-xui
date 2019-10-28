@@ -7,7 +7,7 @@
  * @Version: v0.0.1
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, merge, Subject } from 'rxjs';
 import { map, distinctUntilChanged, filter, switchMap, auditTime, debounceTime } from 'rxjs/operators';
@@ -56,7 +56,7 @@ export class DatagridFacadeService {
     unCheckAll$ = this.unCheckAllSubject.asObservable();
     selectAll$ = this.selectAllSubject.asObservable();
     currentCell$ = this.selectCellSubject.asObservable();
-
+    clientSort$ = new EventEmitter();
 
     readonly state$ = this.store.asObservable().pipe(
         filter( (state: any) => state)
@@ -876,6 +876,7 @@ export class DatagridFacadeService {
     clientSort() {
         const sortedData = this._state.data.sort(this._sort.bind(this));
         this.loadData(sortedData);
+        this.clientSort$.emit({sortName: this._state.sortName, sortOrder: this._state.sortOrder});
     }
 
 
