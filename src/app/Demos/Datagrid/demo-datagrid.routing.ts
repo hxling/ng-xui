@@ -15,6 +15,8 @@ import { DemoRowHeightComponent } from './row-height/demo-row-height.component';
 import { DemoFooterRowComponent } from './footer-row/demo-footer-row.component';
 import { DemoSortComponent} from './sort/demo-sort.component';
 import { DemoHeaderGroupComponent } from './header-group/demo-header-group.component';
+import { DemoFixedColumnsComponent } from './fixed-columns/demo-fixed-columns.component';
+import { DemoDataWrapComponent } from './data-wrap/demo-data-wrap.component';
 
 const routes: Routes = [
     { path: 'basic', component: DemoDatagridBasicComponent },
@@ -32,6 +34,8 @@ const routes: Routes = [
     { path: 'footer-row', component: DemoFooterRowComponent },
     { path: 'sort', component: DemoSortComponent },
     { path: 'header-group', component: DemoHeaderGroupComponent },
+    { path: 'fixed-columns', component: DemoFixedColumnsComponent },
+    { path: 'wrap', component: DemoDataWrapComponent },
     { path: '', redirectTo: 'basic'}
 ];
 

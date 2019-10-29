@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-12 07:47:12
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-22 17:17:00
+ * @LastEditTime: 2019-10-29 17:33:27
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -59,8 +59,8 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
 
     @ViewChild('ps', {static: true}) ps?: ScrollbarDirective;
     @ViewChild('tableRows', {static: true}) tableRowsCmp: any;
-    @ViewChild('fixedLeft', {static: true}) fixedLeftEl: ElementRef;
-    @ViewChild('fixedRight', {static: true}) fixedRightEl: ElementRef;
+    @ViewChild('fixedLeft', {static: false}) fixedLeftEl: ElementRef;
+    @ViewChild('fixedRight', {static: false}) fixedRightEl: ElementRef;
     @ViewChild('main', {static: true}) mainArea: ElementRef;
 
     private scrollTimer: any = null;
@@ -233,6 +233,11 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
             this.scrollbarDirectiveRef.scrollToTop();
             this.bodyStyle = this.getBodyStyle();
             this.setWheelHeight();
+
+            if (!this.dg.nowrap) {
+                this.updateRowHeight();
+            }
+
             this.cd.detectChanges();
         });
         this.subscriptions.push(this.onDataSourceChangeSubscribe);
@@ -305,6 +310,13 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
         });
         this.subscriptions.push(this.clearCheckedsSubscribe);
 
+
+        this.dgs.columnResized.subscribe( () => {
+            if (!this.dg.nowrap) {
+                this.updateRowHeight();
+            }
+        });
+
     }
 
     private checkedRowsChanged() {
@@ -313,8 +325,21 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
         this.dg.checkedChange.emit(checkedRows);
     }
 
+
+
+    private getTrDomHeight() {
+        const trDoms = this.el.nativeElement.querySelectorAll('.xui-datagrid-table tr');
+        const arr = [];
+        trDoms.forEach(tr => {
+            // this.data['__position__'] = tr.offsetHeight;
+            arr.push(tr.offsetHeight );
+        });
+        return arr;
+    }
+
     /** 允许数据折行时，计算行号的行高 */
-    updateRowHeight(list: any) {
+    updateRowHeight() {
+        const list = this.getTrDomHeight();
         this.wheelHeight = list.reduce((r, c) => r + c , 0);
         if (this.fixedLeftEl) {
             const trdoms = this.fixedLeftEl.nativeElement.querySelectorAll('.fixed-left-row');

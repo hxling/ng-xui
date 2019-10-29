@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-11 15:22:04
+ * @LastEditTime: 2019-10-29 11:40:52
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -23,8 +23,8 @@ export const SCROLL_X_REACH_END_ACTION = 'psXReachEnd';
 export const SCROLL_X_REACH_START_ACTION = 'psXReachStart';
 
 /** 左侧固定列阴影样式名称 */
-export const FIXED_LEFT_SHADOW_CLS = 'xui-datagrid-fixed-left-shadow';
-export const FIXED_RIGHT_SHADOW_CLS = 'xui-datagrid-fixed-right-shadow';
+export const FIXED_LEFT_SHADOW_CLS = 'l-shadow';
+export const FIXED_RIGHT_SHADOW_CLS = 'r-shadow';
 
 export const ROW_HOVER_CLS = 'xui-datagrid-row-hover';
 

@@ -2,7 +2,7 @@
 * @Author: 疯狂秀才(Lucas Huang)
 * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-26 17:21:10
+ * @LastEditTime: 2019-10-29 17:32:46
 * @QQ: 1055818239
 * @Version: v0.0.1
 */
@@ -39,42 +39,19 @@ export class DatagridRowsComponent implements OnInit, AfterViewInit {
         public el: ElementRef, private injector: Injector, private ngZone: NgZone) {
             this.dgb = this.injector.get(DatagridBodyComponent);
             this.dg = this.dgb.dg;
-            this.dgb.dgs.columnResized.subscribe( () => {
-                if (!this.dg.nowrap) {
-                    const trheights = this.getTrDomHeight();
-                    this.dgb.updateRowHeight(trheights);
-                }
-            });
-
     }
 
     ngOnInit(): void {
     }
 
     ngAfterViewInit() {
-        this.ngZone.runOutsideAngular( () => {
-            setTimeout(() => {
-                const trheights = this.getTrDomHeight();
-                if (!this.dg.nowrap) {
-                    this.dgb.updateRowHeight(trheights);
-                }
-            });
-        });
+
     }
 
     trackByField(index, item) {
         return item.field;
     }
 
-    private getTrDomHeight() {
-        const trDoms = this.el.nativeElement.querySelectorAll('.xui-datagrid-body-row');
-        const arr = [];
-        trDoms.forEach(tr => {
-            // this.data['__position__'] = tr.offsetHeight;
-            arr.push(tr.offsetHeight );
-        });
-        return arr;
-    }
 
     toggleGroupRow(row, index, open) {
         row.expanded = open;

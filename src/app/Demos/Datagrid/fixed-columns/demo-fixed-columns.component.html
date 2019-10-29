@@ -1,0 +1,27 @@
+<main-container [subtitle]="'Fixed Left Columns'">
+    <div class="col-xl-12">
+        <demo-panel height="50" title="">
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" [(ngModel)]="fitColumns" class="custom-control-input"
+                    id="fitColumns">
+                <label class="custom-control-label" for="fitColumns">自动列宽</label>
+            </div>
+        </demo-panel>
+
+        <demo-panel [height]="600" [title]="'固定列'">
+            <xui-datagrid [fit]="true" [fitColumns]="false" [columns]="columns" [data]="items"></xui-datagrid>
+        </demo-panel>
+    </div>
+</main-container>
+
+<ng-template #cellButtons let-ctx>
+    <button type="button" class="btn btn-primary waves-effect waves-themed">
+        <span class="fal fa-print mr-1"></span>
+        Print
+    </button>
+    &nbsp;&nbsp;
+    <button type="button" class="btn btn-danger waves-effect waves-themed">
+        <span class="fal fa-times mr-1"></span>
+        Delete
+    </button>
+</ng-template>

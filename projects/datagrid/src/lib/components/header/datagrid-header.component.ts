@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-22 08:42:42
+ * @LastEditTime: 2019-10-29 07:36:03
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -175,7 +175,7 @@ export class DatagridHeaderComponent implements OnInit, AfterViewInit {
 
         this.dg.beforeSortColumn(this.dg.sortName, this.dg.sortOrder).subscribe(() => {
             if (this.dg.remoteSort) {
-                this.dg.reload();
+                this.dg.reload(true);
             } else {
                 this.dfs.clientSort();
             }
