@@ -1,4 +1,3 @@
-import { DemoDataServiceFactory } from './../../data-factory/demo-data-service';
 import { Component, OnInit } from '@angular/core';
 import { DemoDataService } from '../../data-factory/demo-data-service';
 
@@ -6,7 +5,7 @@ import { DemoDataService } from '../../data-factory/demo-data-service';
     selector: 'demo-row-height',
     templateUrl: './demo-row-height.component.html',
     providers: [
-        { provide: DemoDataService, useFactory: DemoDataServiceFactory},
+        DemoDataService
     ]
 })
 export class DemoRowHeightComponent implements OnInit {

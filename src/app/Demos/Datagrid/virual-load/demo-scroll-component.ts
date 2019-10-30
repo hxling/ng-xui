@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DemoDataService } from '../../data-factory/demo-data-service';
+import { DemoDataService, RECORD_COUNT } from '../../data-factory/demo-data-service';
 import { DataSeed } from '../../data-factory/data-seed';
 import { DATAGRID_REST_SERVICEE, CalculationType } from 'ng-xui/datagrid';
 
@@ -7,9 +7,8 @@ import { DATAGRID_REST_SERVICEE, CalculationType } from 'ng-xui/datagrid';
     selector: 'demo-scroll',
     templateUrl: './demo-scroll.component.html',
     providers: [
-        {provide: DATAGRID_REST_SERVICEE, useFactory: () => {
-            return new DemoDataService(200000);
-        }}
+        { provide: RECORD_COUNT, useValue: 200000 },
+        {provide: DATAGRID_REST_SERVICEE, useClass: DemoDataService}
     ]
 })
 export class DemoVirualScrollComponent implements OnInit {

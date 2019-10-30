@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { DemoDataService, DemoDataServiceFactory } from '../../data-factory/demo-data-service';
+import { DemoDataService } from '../../data-factory/demo-data-service';
 import { DataSeed } from '../../data-factory/data-seed';
 import { DATAGRID_REST_SERVICEE, CalculationType } from 'ng-xui/datagrid';
 
@@ -7,7 +7,7 @@ import { DATAGRID_REST_SERVICEE, CalculationType } from 'ng-xui/datagrid';
     selector: 'demo-datagrid-border',
     templateUrl: './demo-bordered.component.html',
     providers: [
-        { provide: DATAGRID_REST_SERVICEE, useFactory: DemoDataServiceFactory }
+        { provide: DATAGRID_REST_SERVICEE, useClass: DemoDataService }
     ]
 })
 export class DemoDatagridBorderedComponent implements OnInit {

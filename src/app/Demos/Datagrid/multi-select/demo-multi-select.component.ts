@@ -1,14 +1,14 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DemoDataService, DemoDataServiceFactory } from '../../data-factory/demo-data-service';
-import { DATAGRID_REST_SERVICEE, CalculationType, DatagridComponent } from 'ng-xui/datagrid';
 import { DataSeed } from '../../data-factory/data-seed';
+import { DemoDataService } from '../../data-factory/demo-data-service';
+import { DATAGRID_REST_SERVICEE, CalculationType, DatagridComponent } from 'ng-xui/datagrid';
 
 @Component({
     selector: 'demo-multi-select',
     templateUrl: './demo-multi-select.component.html',
     providers: [
-        {provide: DATAGRID_REST_SERVICEE, useFactory: DemoDataServiceFactory}
+        {provide: DATAGRID_REST_SERVICEE, useClass: DemoDataService}
     ]
 })
 export class DemoMultiSelectComponent implements OnInit {

@@ -1,4 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
+import { DateTimeHelperService } from './datetime/datetime-helper.service';
+import { NumberHelperService } from './number/numer-helper.service';
+import { DataFormatService } from './formatter/data-format.service';
 
 @NgModule({
   declarations: [],
@@ -6,4 +9,15 @@ import { NgModule } from '@angular/core';
   ],
   exports: []
 })
-export class NgXuiUtilsModule { }
+export class NgXuiUtilsModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: NgXuiUtilsModule,
+      providers: [
+        DateTimeHelperService,
+        NumberHelperService,
+        DataFormatService
+      ]
+    }
+  }
+}

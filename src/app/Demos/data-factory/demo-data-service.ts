@@ -3,13 +3,13 @@ import { DataSeed } from './data-seed';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-07-29 08:14:22
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-30 12:54:10
+ * @LastEditTime: 2019-10-30 15:34:06
  * @Company: Inspur
  * @Version: v0.0.1
  */
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { Optional, Injectable, Inject, InjectionToken } from '@angular/core';
 import { RestService } from 'projects/datagrid/src/lib/services/rest.service';
 import { DataResult } from 'projects/datagrid/src/lib/services/state';
 
@@ -18,6 +18,7 @@ interface IServerResponse {
     total: number;
 }
 
+export const RECORD_COUNT = new InjectionToken('demo data record total.');
 
 @Injectable({
     providedIn: 'root'
@@ -36,7 +37,7 @@ export class DemoDataService implements RestService {
     }
 
 
-    constructor(recordCount?: number) {
+    constructor(@Optional() @Inject(RECORD_COUNT) recordCount?: number) {
         recordCount = recordCount || this.datacount;
         this.data = this.createData(recordCount);
     }
@@ -132,7 +133,4 @@ export class DemoDataService implements RestService {
         }).pipe(delay(1000));
     }
 }
-
-
-export const DemoDataServiceFactory = () => new DemoDataService(100);
 

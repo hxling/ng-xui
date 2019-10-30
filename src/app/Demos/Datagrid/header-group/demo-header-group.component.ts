@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DemoDataService, DemoDataServiceFactory } from '../../data-factory/demo-data-service';
+import { DemoDataService } from '../../data-factory/demo-data-service';
 import { DataSeed } from '../../data-factory/data-seed';
 import { CalculationType } from 'ng-xui/datagrid';
 
@@ -7,7 +7,7 @@ import { CalculationType } from 'ng-xui/datagrid';
     selector: 'demo-header-group',
     templateUrl: './demo-header-group.component.html',
     providers: [
-        {provide: DemoDataService, useFactory: DemoDataServiceFactory}
+        DemoDataService
     ]
 })
 export class DemoHeaderGroupComponent implements OnInit {

@@ -1,5 +1,3 @@
-import { DemoDataServiceFactory } from './../../data-factory/demo-data-service';
-
 import { Component, OnInit } from '@angular/core';
 import { DemoDataService } from '../../data-factory/demo-data-service';
 import { DataSeed } from '../../data-factory/data-seed';
@@ -9,7 +7,7 @@ import { CalculationType } from 'ng-xui/datagrid';
     selector: 'demo-large-data',
     templateUrl: './demo-large-data.component.html',
     providers: [
-        { provide: DemoDataService, useFactory: DemoDataServiceFactory }
+        DemoDataService
     ]
 })
 export class DemoLargeDataComponent implements OnInit {

@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { DemoDataService, DemoDataServiceFactory } from '../../data-factory/demo-data-service';
+import { DemoDataService } from '../../data-factory/demo-data-service';
 import { DataSeed } from '../../data-factory/data-seed';
-import { DATAGRID_REST_SERVICEE, CalculationType } from 'ng-xui/datagrid';
+import { CalculationType } from 'ng-xui/datagrid';
 
 @Component({
     selector: 'demo-template',
     templateUrl: './demo-template.component.html',
     providers: [
-        { provide: DemoDataService, useFactory: DemoDataServiceFactory }
+        DemoDataService
     ]
 })
 export class DemoTemplateComponent implements OnInit {

@@ -4,7 +4,7 @@ import { ValidatorMessagerService } from './services/validator-messager.service'
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-28 18:54:36
+ * @LastEditTime: 2019-10-30 14:07:01
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -13,7 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { NgXuiUtilsModule, DataFormatService } from 'ng-xui/utils';
+import { NgXuiUtilsModule } from 'ng-xui/utils';
 
 import { DatagridComponent } from './datagrid.component';
 import { NgxPaginationModule } from './pagination/ngx-pagination.module';
@@ -60,7 +60,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: ScrollbarConfigInterface = {
         HttpClientModule,
         NgxPaginationModule,
         ScrollbarModule,
-        NgXuiUtilsModule
+        NgXuiUtilsModule.forRoot()
     ],
     declarations: [
         SafePipe,
@@ -94,7 +94,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: ScrollbarConfigInterface = {
             provide: SCROLLBAR_CONFIG,
             useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
         },
-        DataFormatService,
         ValidatorMessagerService
     ],
     exports: [

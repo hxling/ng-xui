@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { DemoDataService, DemoDataServiceFactory } from '../../data-factory/demo-data-service';
-import { DATAGRID_REST_SERVICEE, CalculationType, DatagridComponent } from 'ng-xui/datagrid';
+import { DemoDataService } from '../../data-factory/demo-data-service';
+import { DATAGRID_REST_SERVICEE, CalculationType } from 'ng-xui/datagrid';
 
 @Component({
     selector: 'demo-group-rows',
     templateUrl: './demo-group-rows.component.html',
     providers: [
-        {provide: DATAGRID_REST_SERVICEE, useFactory: DemoDataServiceFactory}
+        {provide: DATAGRID_REST_SERVICEE, useClass: DemoDataService}
     ]
 })
 export class DemoGroupRowsComponent implements OnInit {
