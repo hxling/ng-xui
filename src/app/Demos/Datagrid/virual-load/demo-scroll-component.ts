@@ -1,22 +1,25 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { DemoDataService, DemoDataServiceFactory } from '../../data-factory/demo-data-service';
+import { Component, OnInit } from '@angular/core';
+import { DemoDataService } from '../../data-factory/demo-data-service';
 import { DataSeed } from '../../data-factory/data-seed';
 import { DATAGRID_REST_SERVICEE, CalculationType } from 'ng-xui/datagrid';
 
 @Component({
-    selector: 'demo-sort',
-    templateUrl: './demo-sort.component.html',
+    selector: 'demo-scroll',
+    templateUrl: './demo-scroll.component.html',
     providers: [
-        {provide: DATAGRID_REST_SERVICEE, useFactory: DemoDataServiceFactory}
+        {provide: DATAGRID_REST_SERVICEE, useFactory: () => {
+            return new DemoDataService(200000);
+        }}
     ]
 })
-export class DemoSortComponent implements OnInit {
+export class DemoVirualScrollComponent implements OnInit {
     columns = [];
     items;
-    total = 0;
-    pageSize = 100;
 
-    constructor() { }
+    fitColumns = true;
+
+    constructor() {
+    }
 
     ngOnInit(): void {
 
@@ -29,19 +32,18 @@ export class DemoSortComponent implements OnInit {
                 formatter: (v, d, i) => {
                     return `<b>${v}</b>`;
                 }
-            }, sortable: true },
-            { field: 'name', width: 130, title: '姓名', sortable: true },
-            { field: 'sex', width: 70, title: '性别' , sortable: true },
-            { field: 'birthday', width: 120, title: '出生日期', sortable: true },
+            }},
+            { field: 'name', width: 130, title: '姓名'},
+            { field: 'sex', width: 70, title: '性别' },
+            { field: 'birthday', width: 120, title: '出生日期'},
             { field: 'maray', width: 70, title: '婚否', formatter: { type: 'boolean', options: { trueText: '已婚', falseText: '未婚' }}},
             { field: 'addr', width: 170, title: '地址' },
-            { field: 'company', width: 100, title: '公司', sortable: true },
-            { field: 'nianxin', width: 70, title: '年薪', sortable: true , footer: {
+            { field: 'company', width: 100, title: '公司'},
+            { field: 'nianxin', width: 70, title: '年薪', footer: {
                 options: { calculationType: CalculationType.sum},
                 formatter: { type: 'number', options: { prefix: '￥', suffix: '元', precision: 2 }}
             }},
-            { field: 'zhiwei', sortable: true , width: 100, title: '职位', formatter: {type: 'enum', options: enumOpts} }
+            { field: 'zhiwei', width: 100, title: '职位', formatter: {type: 'enum', options: enumOpts} }
         ];
-
     }
 }

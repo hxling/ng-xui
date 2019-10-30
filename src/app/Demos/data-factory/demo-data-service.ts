@@ -3,7 +3,7 @@ import { DataSeed } from './data-seed';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-07-29 08:14:22
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-26 11:06:19
+ * @LastEditTime: 2019-10-30 12:54:10
  * @Company: Inspur
  * @Version: v0.0.1
  */
@@ -17,6 +17,8 @@ interface IServerResponse {
     items: string[];
     total: number;
 }
+
+
 @Injectable({
     providedIn: 'root'
 })
@@ -34,8 +36,9 @@ export class DemoDataService implements RestService {
     }
 
 
-    constructor() {
-        this.data = this.createData(this.dataLength);
+    constructor(recordCount?: number) {
+        recordCount = recordCount || this.datacount;
+        this.data = this.createData(recordCount);
     }
 
     private compare(a, b) {
@@ -129,3 +132,7 @@ export class DemoDataService implements RestService {
         }).pipe(delay(1000));
     }
 }
+
+
+export const DemoDataServiceFactory = () => new DemoDataService(100);
+

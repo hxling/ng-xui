@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DemoDataService } from '../../data-factory/demo-data-service';
+import { DemoDataService, DemoDataServiceFactory } from '../../data-factory/demo-data-service';
 import { DATAGRID_REST_SERVICEE, CalculationType, DatagridComponent } from 'ng-xui/datagrid';
 import { DataSeed } from '../../data-factory/data-seed';
 
@@ -7,8 +7,7 @@ import { DataSeed } from '../../data-factory/data-seed';
     selector: 'demo-select',
     templateUrl: './demo-select.component.html',
     providers: [
-        DemoDataService,
-        {provide: DATAGRID_REST_SERVICEE, useClass: DemoDataService}
+        {provide: DATAGRID_REST_SERVICEE, useFactory: DemoDataServiceFactory}
     ]
 })
 export class DemoDatagridSelectComponent implements OnInit {
@@ -25,7 +24,7 @@ export class DemoDatagridSelectComponent implements OnInit {
         return this.dg.selectedRow;
     }
 
-    constructor(private dds: DemoDataService) { }
+    constructor() { }
 
     ngOnInit(): void {
 

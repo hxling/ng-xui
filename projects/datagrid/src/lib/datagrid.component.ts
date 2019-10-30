@@ -3,7 +3,7 @@ import { FormGroup, ValidatorFn } from '@angular/forms';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-28 18:12:15
+ * @LastEditTime: 2019-10-30 11:35:29
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -1377,7 +1377,7 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
         this.resizeColumnInfo.startWidth = td.offsetWidth;
         this.resizeColumnInfo.startX = e.pageX;
         this.resizeColumnInfo.left = tdLeft - dgRect.left - 1 + deltaEdge;
-        return e.pageX - dgRect.left - 1 + deltaEdge;
+        return e.pageX - dgRect.left - 2 + deltaEdge;
     }
 
     private toggleResizeProxy(show = true) {
@@ -1394,7 +1394,7 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
             this.render2.setStyle(document.body, 'cursor', 'e-resize');
             const proxy = this.resizeProxy.nativeElement;
             const proxyPosLeft = this.getResizeProxyPosLeft(e);
-            this.render2.setStyle(proxy, 'left', proxyPosLeft + 'px');
+            this.render2.setStyle(proxy, 'left', proxyPosLeft  + 'px');
             this.render2.setStyle(proxy, 'height', (this.height - this.pagerHeight) + 'px');
             this.toggleResizeProxy();
         }

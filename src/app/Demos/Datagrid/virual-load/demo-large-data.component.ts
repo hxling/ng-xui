@@ -1,20 +1,23 @@
+import { DemoDataServiceFactory } from './../../data-factory/demo-data-service';
+
 import { Component, OnInit } from '@angular/core';
-import { DemoDataService, DemoDataServiceFactory } from '../../data-factory/demo-data-service';
+import { DemoDataService } from '../../data-factory/demo-data-service';
 import { DataSeed } from '../../data-factory/data-seed';
-import { DATAGRID_REST_SERVICEE, CalculationType } from 'ng-xui/datagrid';
+import { CalculationType } from 'ng-xui/datagrid';
 
 @Component({
-    selector: 'demo-row-formatter',
-    templateUrl: './demo-row-formatter.component.html',
+    selector: 'demo-large-data',
+    templateUrl: './demo-large-data.component.html',
     providers: [
         { provide: DemoDataService, useFactory: DemoDataServiceFactory }
     ]
 })
-export class DemoRowFormatterComponent implements OnInit {
+export class DemoLargeDataComponent implements OnInit {
     columns = [];
     items;
 
     fitColumns = true;
+    recordCount = 100;
 
     constructor(private dds: DemoDataService) { }
 
@@ -43,21 +46,11 @@ export class DemoRowFormatterComponent implements OnInit {
             { field: 'zhiwei', width: 100, title: '职位', formatter: {type: 'enum', options: enumOpts} }
         ];
 
-        this.items = this.dds.createData(50);
+        this.loadData();
     }
 
-    rowStyle = (rowData) => {
-        if (rowData.nianxin > 70000 && rowData.nianxin < 100000) {
-            return {
-                style: {
-                    color: '#5A8129',
-                    background: '#CCE7A4'
-                }
-            };
-        } else {
-            return {
-                cls: 'custom-row-style'
-            };
-        }
+    loadData(count?: number) {
+        count = count || this.recordCount;
+        this.items = this.dds.createData(count);
     }
 }

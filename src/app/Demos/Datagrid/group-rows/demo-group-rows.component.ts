@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { DemoDataService } from '../../data-factory/demo-data-service';
+import { DemoDataService, DemoDataServiceFactory } from '../../data-factory/demo-data-service';
 import { DATAGRID_REST_SERVICEE, CalculationType, DatagridComponent } from 'ng-xui/datagrid';
 
 @Component({
     selector: 'demo-group-rows',
     templateUrl: './demo-group-rows.component.html',
     providers: [
-        DemoDataService,
-        {provide: DATAGRID_REST_SERVICEE, useClass: DemoDataService}
+        {provide: DATAGRID_REST_SERVICEE, useFactory: DemoDataServiceFactory}
     ]
 })
 export class DemoGroupRowsComponent implements OnInit {
@@ -23,7 +22,7 @@ export class DemoGroupRowsComponent implements OnInit {
     showCheckbox = false;
     showGroupFooter = false;
 
-    constructor(private dds: DemoDataService) {}
+    constructor() {}
 
     ngOnInit() {
         this.columns = [

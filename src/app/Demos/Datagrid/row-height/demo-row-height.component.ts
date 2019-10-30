@@ -1,13 +1,12 @@
+import { DemoDataServiceFactory } from './../../data-factory/demo-data-service';
 import { Component, OnInit } from '@angular/core';
 import { DemoDataService } from '../../data-factory/demo-data-service';
-import { DATAGRID_REST_SERVICEE,  } from 'ng-xui/datagrid';
 
 @Component({
     selector: 'demo-row-height',
     templateUrl: './demo-row-height.component.html',
     providers: [
-        DemoDataService,
-        {provide: DATAGRID_REST_SERVICEE, useClass: DemoDataService}
+        { provide: DemoDataService, useFactory: DemoDataServiceFactory},
     ]
 })
 export class DemoRowHeightComponent implements OnInit {

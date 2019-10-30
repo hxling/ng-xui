@@ -1,0 +1,23 @@
+<main-container [subtitle]="'Large Data'">
+    <div class="col-xl-12">
+        <demo-panel height="70" title="" >
+            <div  class="form-inline">
+                <input class="form-control mr-3" type="number" placeholder="Record count" [(ngModel)]="recordCount">
+                <button class="btn btn-primary mr-5" (click)="loadData()">Load</button>
+                <button class="btn btn-primary mr-2" (click)="loadData(1000)">1000</button>
+                <button class="btn btn-primary mr-2" (click)="loadData(2000)">2000</button>
+                <button class="btn btn-primary mr-2" (click)="loadData(5000)">5000</button>
+                <button class="btn btn-primary mr-2" (click)="loadData(10000)">10000</button>
+                <button class="btn btn-primary mr-2" (click)="loadData(50000)">50000</button>
+                <button class="btn btn-primary mr-2" (click)="loadData(100000)">100000</button>
+                <button class="btn btn-primary mr-2" (click)="loadData(200000)">200000</button>
+                <button class="btn btn-primary mr-2" (click)="loadData(500000)">500000</button>
+                <button class="btn btn-primary mr-2" (click)="loadData(1000000)">1000000</button>
+            </div>
+        </demo-panel>
+
+        <demo-panel [height]="600" >
+            <xui-datagrid [fit]="true" [virtualized]="true" [fitColumns]="true" [columns]="columns" [data]="items"></xui-datagrid>
+        </demo-panel>
+    </div>
+</main-container>

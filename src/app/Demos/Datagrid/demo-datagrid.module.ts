@@ -24,6 +24,8 @@ import { DemoSortComponent} from './sort/demo-sort.component';
 import { DemoHeaderGroupComponent } from './header-group/demo-header-group.component';
 import { DemoFixedColumnsComponent } from './fixed-columns/demo-fixed-columns.component';
 import { DemoDataWrapComponent } from './data-wrap/demo-data-wrap.component';
+import { DemoLargeDataComponent } from './virual-load/demo-large-data.component';
+import { DemoVirualScrollComponent } from './virual-load/demo-scroll-component';
 
 @NgModule({
     declarations: [
@@ -45,7 +47,9 @@ import { DemoDataWrapComponent } from './data-wrap/demo-data-wrap.component';
         DemoSortComponent,
         DemoHeaderGroupComponent,
         DemoFixedColumnsComponent,
-        DemoDataWrapComponent
+        DemoDataWrapComponent,
+        DemoLargeDataComponent,
+        DemoVirualScrollComponent
     ],
     imports: [
         CommonModule,

@@ -1,0 +1,9 @@
+<main-container [subtitle]="'Virtual Scroll'">
+    <div class="col-xl-12">
+        <demo-panel [height]="600" >
+            <xui-datagrid [fit]="true"
+            [virtualized]="true" [virtualizedAsyncLoad]="true"  [pagination]="false" [pageSize]= "100"
+            [fitColumns]="true" [columns]="columns"></xui-datagrid>
+        </demo-panel>
+    </div>
+</main-container>

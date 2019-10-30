@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { DemoDataService } from '../../data-factory/demo-data-service';
+import { DemoDataService, DemoDataServiceFactory } from '../../data-factory/demo-data-service';
 import { DataSeed } from '../../data-factory/data-seed';
-import { DATAGRID_REST_SERVICEE, CalculationType } from 'ng-xui/datagrid';
+import { CalculationType } from 'ng-xui/datagrid';
 
 @Component({
     selector: 'demo-header-group',
     templateUrl: './demo-header-group.component.html',
     providers: [
-        DemoDataService,
-        {provide: DATAGRID_REST_SERVICEE, useClass: DemoDataService}
+        {provide: DemoDataService, useFactory: DemoDataServiceFactory}
     ]
 })
 export class DemoHeaderGroupComponent implements OnInit {

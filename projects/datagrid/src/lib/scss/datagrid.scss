@@ -121,6 +121,16 @@
             &-content {
                 padding-left: 5px;
                 white-space: nowrap;
+                &:after {
+                    border-right: 1px solid rgba(189, 195, 199, 0.5);
+                    content: " ";
+                    height: 24px;
+                    margin-top: 10px;
+                    position: absolute;
+                    right: 0;
+                    text-indent: -2000px;
+                    top: 0px;
+                }
             }
 
             &:hover {
@@ -460,11 +470,15 @@
             &-cell {
                 border: 1px solid $grid-border-color;
                 border-width: 0 1px 0 0;
+
+                &-content:after {
+                    border-right-width: 0;
+                }
             }
 
-            tr td:last-child {
-                border-right: 1px solid $border-color;
-            }
+            // tr td:last-child {
+            //     border-right: 1px solid $border-color;
+            // }
 
             &-fixed-right {
                 border-left: 1px solid $border-color;
@@ -498,9 +512,17 @@
                 border-width: 0 0px 1px 0;
             }
 
-            .xui-datagrid-header-cell {
-                border-color: transparent;
+            .xui-datagrid-header {
+                &-cell {
+                    border-color: transparent;
+    
+                    &-content:after {
+                        border-right-width: 1px;
+                    }
+                }
             }
+
+           
 
             .xui-datagrid-ah {
                 .xui-datagrid-header-cell {

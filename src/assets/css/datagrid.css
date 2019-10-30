@@ -114,6 +114,16 @@ xui-datagrid {
   padding-left: 5px;
   white-space: nowrap;
 }
+.xui-datagrid-header-cell-content:after {
+  border-right: 1px solid rgba(189, 195, 199, 0.5);
+  content: " ";
+  height: 24px;
+  margin-top: 10px;
+  position: absolute;
+  right: 0;
+  text-indent: -2000px;
+  top: 0px;
+}
 .xui-datagrid-header-cell:hover {
   background: #e6e6e6;
 }
@@ -381,8 +391,8 @@ xui-datagrid {
   border: 1px solid #e9e9e9;
   border-width: 0 1px 0 0;
 }
-.xui-datagrid-bordered .xui-datagrid-header tr td:last-child {
-  border-right: 1px solid #e9e9e9;
+.xui-datagrid-bordered .xui-datagrid-header-cell-content:after {
+  border-right-width: 0;
 }
 .xui-datagrid-bordered .xui-datagrid-header-fixed-right {
   border-left: 1px solid #e9e9e9;
@@ -404,6 +414,9 @@ xui-datagrid {
 }
 .xui-datagrid-bordered-bottom .xui-datagrid-header-cell {
   border-color: transparent;
+}
+.xui-datagrid-bordered-bottom .xui-datagrid-header-cell-content:after {
+  border-right-width: 1px;
 }
 .xui-datagrid-bordered-bottom .xui-datagrid-ah .xui-datagrid-header-cell {
   border-color: transparent;
