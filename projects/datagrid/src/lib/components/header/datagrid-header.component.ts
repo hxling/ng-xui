@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-29 07:36:03
+ * @LastEditTime: 2019-10-30 16:17:24
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -98,10 +98,15 @@ export class DatagridHeaderComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         this.dgs.checkedRowsTotalChanged$.subscribe(() => {
             if (this._chkall) {
-                if (this.dfs.isCheckAll() || !this.dfs.getCheckeds().length) {
+                const checkedsCount = this.dfs.getCheckeds().length;
+                if (this.dfs.isCheckAll() || !checkedsCount) {
                     this._chkall.chk.nativeElement.indeterminate = false;
                 } else {
                     this._chkall.chk.nativeElement.indeterminate = true;
+                }
+
+                if (!checkedsCount) {
+                    this._chkall.checked = false;
                 }
             }
         });
