@@ -3,12 +3,12 @@ import { FormGroup, ValidatorFn } from '@angular/forms';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-30 11:35:29
+ * @LastEditTime: 2019-10-31 16:26:25
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
 
-import { Component, OnInit, Input, ViewEncapsulation,
+import { Component, OnInit, Input, ViewEncapsulation, TemplateRef,
     ContentChildren, QueryList, Output, EventEmitter, Renderer2, OnDestroy, OnChanges,
     SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, Injector, HostBinding,
     AfterContentInit, NgZone, ElementRef, ViewChild, AfterViewInit, ApplicationRef
@@ -69,8 +69,9 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     @Input() headerHeight = 45;
     /** 显示页脚 */
     @Input() showFooter = false;
-    @Input() footerRowHeight = 40;
+    @Input() footerHeight = 0;
     @Input() footerDataFrom: 'server'|'client' = 'client';
+    @Input() footerTemplate: TemplateRef<any>;
     /** 行高 */
     @Input() rowHeight = 40;
 
@@ -188,7 +189,9 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     }
     set footerData(rows) {
         this._footerData = rows;
-        this.footerHeight = this.showFooter ? this.footerRowHeight * rows.length : 0;
+        if (this.showFooter && !this.footerTemplate) {
+            this.footerHeight = rows.length * this.rowHeight;
+        }
     }
 
     /** 验证不通过时可以结束编辑 */
@@ -310,7 +313,6 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     currentCell: CellInfo;
     flatColumns: DataColumn[];
     footerWidth  = 0;
-    footerHeight = 0;
 
     clickDelay = 150;
     private resizeColumnInfo = {
@@ -452,6 +454,12 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
             }
             this.calculateGridSize(true);
         }
+
+        if (this.showFooter ) {
+            if (this.footerTemplate) {
+                this.footerHeight = this.el.nativeElement.querySelector('.f-datagrid-footer').offsetHeight;
+            }
+        }
     }
 
     ngAfterContentInit() {
@@ -544,7 +552,7 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
         if (changes.sizeType !== undefined && !changes.sizeType.isFirstChange()) {
             this._sizeType = changes.sizeType.currentValue;
             this.rowHeight = SIZE_TYPE[this._sizeType];
-            this.footerRowHeight = SIZE_TYPE[this._sizeType];
+            this.footerHeight = SIZE_TYPE[this._sizeType];
             this.dfs.updateProperty('rowHeight', this.rowHeight);
             this.refresh();
             this.dgs.onRowHeightChange(this.rowHeight);
@@ -1360,9 +1368,12 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     clearCheckeds() {
         this.dfs.clearCheckeds();
         this.dgs.uncheckAll.emit();
-        this.unCheckAll.emit();
     }
 
+    clearAll() {
+        this.clearCheckeds();
+        this.clearSelections();
+    }
     //#endregion
 
     //#region Resize Column

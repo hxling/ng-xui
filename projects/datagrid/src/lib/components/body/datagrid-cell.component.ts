@@ -3,12 +3,12 @@ import { Subscription } from 'rxjs';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-23 08:02:30
+ * @LastEditTime: 2019-10-31 16:25:20
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
-import { Component, OnInit, Input, Output, EventEmitter,
-    ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef,
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges,
+    ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, SimpleChanges,
     OnDestroy, Injector, Inject, forwardRef, AfterViewInit} from '@angular/core';
 import { Utils } from '../../utils/utils';
 import { filter } from 'rxjs/operators';
@@ -25,7 +25,7 @@ import { DataFormatService } from 'ng-xui/utils';
     templateUrl: './datagrid-cell.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })
-export class DatagridCellComponent implements OnInit, OnDestroy, AfterViewInit {
+export class DatagridCellComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
     @Input() width: number;
     @Input() height: number;
     @Input() cls = '';
@@ -107,6 +107,17 @@ export class DatagridCellComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         });
 
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.rowData && !changes.rowData.isFirstChange()) {
+            this.cellContext = {
+                field: this.column.field,
+                rowIndex: this.rowIndex,
+                rowData: this.rowData
+            };
+            // console.log(changes.rowData);
+        }
     }
 
     ngAfterViewInit(): void {

@@ -3,7 +3,7 @@ import { DatagridComponent } from './../../datagrid.component';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-12 15:01:21
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-22 08:42:30
+ * @LastEditTime: 2019-10-31 15:22:28
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -23,16 +23,14 @@ export class DatagridFooterComponent implements OnInit, OnDestroy {
     }
     set data(val: any[]) {
         this._footerData = val;
-        this.height = val.length * this.dg.footerRowHeight;
     }
-
+    @Input() height: number;
     @Input() width: number;
     @Input() columns: any[];
     @Input() columnsGroup: any;
     @ViewChild('footerContainer', {static: false}) footerContainer: ElementRef;
 
 
-    height: number;
     scrollXSubscription: Subscription;
 
     private dgs: DatagridService;

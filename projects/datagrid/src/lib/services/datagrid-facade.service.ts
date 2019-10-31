@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-28 08:42:01
+ * @LastEditTime: 2019-10-31 07:59:54
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -17,7 +17,7 @@ import { FarrisDatagridState, initDataGridState, DataResult, CellInfo, Virtualiz
         IS_GROUP_FOOTER_ROW_FIELD, GROUP_VISIBLE_FIELD } from './state';
 import { VirtualizedLoaderService } from './virtualized-loader.service';
 import { DatagridRow } from '../types/datagrid-row';
-import { cloneDeep, groupBy, sumBy, maxBy, minBy, meanBy, isPlainObject } from 'lodash-es';
+import { cloneDeep, groupBy, sumBy, maxBy, minBy, meanBy, isPlainObject, get } from 'lodash-es';
 import { Utils } from '../utils/utils';
 
 @Injectable()
@@ -991,7 +991,7 @@ export class DatagridFacadeService {
     private arrToGroup(items, fields: string[]) {
         if (fields.length) {
             const first = fields.shift();
-            const g1 = groupBy(items, first);
+            const g1 = groupBy(items, (n) => get(n, first));
             this.toGroup(g1, fields);
             return g1;
         }
@@ -1003,7 +1003,7 @@ export class DatagridFacadeService {
                 const items = g1[k];
                 const _nextFields = fieldArr.map((n) => n);
                 const _f = _nextFields.shift();
-                g1[k] = groupBy(items, _f);
+                g1[k] = groupBy(items, (n) => get(n, _f));
                 if (_nextFields.length) {
                     this.toGroup(g1[k], _nextFields);
                 }

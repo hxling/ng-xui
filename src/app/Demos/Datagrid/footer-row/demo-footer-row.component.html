@@ -9,4 +9,23 @@
             <!-- datatable end -->
         </demo-panel>
     </div>
+
+    <div class="col-xl-12">
+        
+            <demo-panel [title]="'自定义合计行模板'">
+                <!-- datatable start -->
+                <xui-datagrid [columns]="columns" [pageSize]="20" [showBorder]="true"
+                    [showLineNumber]="true" [fit]="true" [showFooter]="true" [fitColumns]="true"
+                    [footerHeight]="60" [footerTemplate]="ft"
+                    [striped]="true" [borderType]="'bottom'" [pagination]="true"></xui-datagrid>
+                <!-- datatable end -->
+            </demo-panel>
+        </div>
 </main-container>
+
+<ng-template #ft>
+    <div style="width: 100%;height: 100%; background: #f5d7d7; padding: 0 20px;">
+        <h1 style="float: left; width: 140px; line-height: 60px; margin: 0; color:mediumvioletred">本页合计</h1>
+        <h1 style="float: right; line-height: 60px; margin: 0 "> 本年总收入：<b style="color: maroon">￥ 7.3589 亿元</b>，本月总支出：￥ 4,908,789.00 元 </h1>
+    </div>
+</ng-template>

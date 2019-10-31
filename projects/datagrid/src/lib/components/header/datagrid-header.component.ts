@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-30 16:17:24
+ * @LastEditTime: 2019-10-31 17:35:14
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -112,11 +112,15 @@ export class DatagridHeaderComponent implements OnInit, AfterViewInit {
         });
 
         this.dgs.uncheckAll.subscribe(() => {
-            this._chkall.chk.nativeElement.checked = false;
+            if (this._chkall) {
+                this._chkall.chk.nativeElement.checked = false;
+            }
         });
 
         this.dgs.checkAll.subscribe(() => {
-            this._chkall.chk.nativeElement.checked = true;
+            if (this._chkall) {
+                this._chkall.chk.nativeElement.checked = true;
+            }
         });
 
         // this.dgs.onDataSourceChange.subscribe(() => {
