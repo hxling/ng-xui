@@ -3,7 +3,7 @@ import { FormGroup, ValidatorFn } from '@angular/forms';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-31 16:26:25
+ * @LastEditTime: 2019-11-01 17:18:33
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -67,6 +67,8 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     @Input() showHeader = true;
     /** 表头高度 */
     @Input() headerHeight = 45;
+    /** 启用过滤行 */
+    @Input() showFilter = false;
     /** 显示页脚 */
     @Input() showFooter = false;
     @Input() footerHeight = 0;

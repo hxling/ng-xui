@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-31 17:35:14
+ * @LastEditTime: 2019-11-01 16:42:19
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -27,6 +27,7 @@ export class DatagridHeaderComponent implements OnInit, AfterViewInit {
     @Input() height = 36;
     @Input() columns = [];
     @Input() columnsGroup: ColumnGroup;
+    @Input() enableFilter = false;
 
     @ViewChild('header', {static: false}) header: ElementRef;
     @ViewChild('headerContainer', {static: false}) headerColumnsTable: ElementRef;

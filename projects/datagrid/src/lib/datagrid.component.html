@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-10 11:02:50
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-31 15:21:49
+ * @LastEditTime: 2019-11-01 16:42:47
  * @QQ: 1055818239
  * @Version: v0.0.1
  -->
@@ -19,7 +19,8 @@
     [ngStyle]="{'width': width + 'px', 'height': height + 'px' }"
     *ngIf="!autoHeight" >
 
-    <datagrid-header class="d-flex flex-fill" *ngIf="showHeader" #header [columns]="columns" [columnsGroup]="colGroup" [height]="realHeaderHeight"></datagrid-header>
+    <datagrid-header class="d-flex flex-fill" *ngIf="showHeader" #header 
+        [columns]="columns" [columnsGroup]="colGroup" [height]="realHeaderHeight" [enableFilter]="showFilter"></datagrid-header>
     
     <datagrid-body [columnsGroup]="colGroup" [data]="ds.rows | paginate: pagerOpts" [startRowIndex]="ds.index"
         [topHideHeight]="ds.top" [bottomHideHeight]="ds.bottom" [footerHeight]="footerHeight"></datagrid-body>
