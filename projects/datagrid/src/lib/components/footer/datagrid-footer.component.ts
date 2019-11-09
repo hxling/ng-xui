@@ -3,7 +3,7 @@ import { DatagridComponent } from './../../datagrid.component';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-12 15:01:21
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-31 15:22:28
+ * @LastEditTime: 2019-11-09 15:20:44
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -43,7 +43,9 @@ export class DatagridFooterComponent implements OnInit, OnDestroy {
 
         this.scrollXSubscription = this.dgs.scorll$.subscribe((d: any) => {
             if (d.type === SCROLL_X_ACTION) {
-                this.render.setStyle(this.footerContainer.nativeElement,  'transform', `translate3d(-${d.x}px, 0px, 0px)` );
+                if (!this.dg.footerTemplate) {
+                    this.render.setStyle(this.footerContainer.nativeElement,  'transform', `translate3d(-${d.x}px, 0px, 0px)` );
+                }
             }
         });
     }

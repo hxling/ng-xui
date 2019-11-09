@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-11-01 16:42:19
+ * @LastEditTime: 2019-11-09 15:10:14
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -45,7 +45,7 @@ export class DatagridHeaderComponent implements OnInit, AfterViewInit {
             this.ngZone.runOutsideAngular(() => {
                 this.ro = new ResizeObserver(() => {
                     if (this.fixedRight && this.columnsGroup) {
-                        const left = this.dg.width - this.columnsGroup.rightFixedWidth;
+                        const left = this.dg.dgContainer.nativeElement.offsetWidth - this.columnsGroup.rightFixedWidth;
                         this.render2.setStyle(this.fixedRight.nativeElement,  'transform', `translate3d(${ left }px, 0px, 0px)` );
                         if (left !== this.columnsGroup.normalWidth + this.columnsGroup.leftFixedWidth) {
                             this.render2.addClass(this.fixedRight.nativeElement, FIXED_RIGHT_SHADOW_CLS);

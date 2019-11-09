@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-12 07:47:12
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-30 11:44:29
+ * @LastEditTime: 2019-11-09 15:25:16
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -374,7 +374,9 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
             if (this.dg.virtualizedAsyncLoad) {
                 this.wheelHeight = this.dg.total * rh;
             }
-            this.wheelHeight = this.wheelHeight - this.footerHeight;
+            if (!this.dg.footerTemplate) {
+                this.wheelHeight = this.wheelHeight - this.footerHeight;
+            }
         }
     }
 
