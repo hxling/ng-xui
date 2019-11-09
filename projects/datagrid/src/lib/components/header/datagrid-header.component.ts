@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-11-09 15:10:14
+ * @LastEditTime: 2019-11-09 21:15:50
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -45,15 +45,12 @@ export class DatagridHeaderComponent implements OnInit, AfterViewInit {
             this.ngZone.runOutsideAngular(() => {
                 this.ro = new ResizeObserver(() => {
                     if (this.fixedRight && this.columnsGroup) {
-                        const left = this.dg.dgContainer.nativeElement.offsetWidth - this.columnsGroup.rightFixedWidth;
-                        this.render2.setStyle(this.fixedRight.nativeElement,  'transform', `translate3d(${ left }px, 0px, 0px)` );
-                        if (left !== this.columnsGroup.normalWidth + this.columnsGroup.leftFixedWidth) {
-                            this.render2.addClass(this.fixedRight.nativeElement, FIXED_RIGHT_SHADOW_CLS);
-                        }
+                        this.setFixedColumnPosition();
                     }
                 });
 
-                this.ro.observe(this.fixedRight.nativeElement);
+                // this.ro.observe(this.fixedRight.nativeElement);
+                this.ro.observe(this.headerColumnsTable.nativeElement);
                 this.ro.observe(this.header.nativeElement);
             });
         }
@@ -84,6 +81,7 @@ export class DatagridHeaderComponent implements OnInit, AfterViewInit {
                         } else {
                             this.render2.addClass(this.fixedRight.nativeElement, FIXED_RIGHT_SHADOW_CLS);
                         }
+                        // this.setFixedColumnPosition();
                     }
                 }
             }
@@ -94,6 +92,14 @@ export class DatagridHeaderComponent implements OnInit, AfterViewInit {
                 }
             }
         });
+
+        // this.dgs.showFixedShadow.subscribe(isShow => {
+        //     let method = 'addClass';
+        //     if (!isShow) {
+        //         method = 'removeClass';
+        //     }
+        //     this.render2[method](this.fixedRight.nativeElement, FIXED_RIGHT_SHADOW_CLS);
+        // });
     }
 
     ngOnInit(): void {
@@ -138,6 +144,19 @@ export class DatagridHeaderComponent implements OnInit, AfterViewInit {
     // }
 
     ngAfterViewInit() {
+    }
+
+    setFixedColumnPosition() {
+        let left = this.dg.dgContainer.nativeElement.offsetWidth - this.columnsGroup.rightFixedWidth;
+        // let left  = this.dg.scrollInstance.elementRef.nativeElement.scrollLeft + this.dg.width - this.columnsGroup.rightFixedWidth;
+        const allColsWidth =  this.columnsGroup.normalWidth + this.columnsGroup.leftFixedWidth;
+        if (left < allColsWidth ) {
+            this.render2.addClass(this.fixedRight.nativeElement, FIXED_RIGHT_SHADOW_CLS);
+        } else {
+            left = allColsWidth;
+            this.render2.removeClass(this.fixedRight.nativeElement, FIXED_RIGHT_SHADOW_CLS);
+        }
+        this.render2.setStyle(this.fixedRight.nativeElement,  'transform', `translate3d(${ left }px, 0px, 0px)` );
     }
 
     onSortColumnClick(e: MouseEvent, col: DataColumn) {

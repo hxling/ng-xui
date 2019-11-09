@@ -3,7 +3,7 @@ import { EventEmitter } from '@angular/core';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-11 17:47:38
+ * @LastEditTime: 2019-11-09 20:41:34
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -72,6 +72,8 @@ export class DatagridService {
 
     public rowHeightChanged = new EventEmitter();
 
+    public showFixedShadow =  new EventEmitter();
+
     // public endRowEdit$ = this.endRowEdit.asObservable();
 
     constructor() { }
@@ -110,5 +112,9 @@ export class DatagridService {
 
     onRowHeightChange(rowHeight: number) {
         this.rowHeightChanged.emit(rowHeight);
+    }
+
+    onShowFixedShadow(isshow) {
+        this.showFixedShadow.emit(isshow);
     }
 }

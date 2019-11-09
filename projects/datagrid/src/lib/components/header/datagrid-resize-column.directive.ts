@@ -6,7 +6,7 @@ import { DatagridHeaderComponent } from './datagrid-header.component';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-10 09:04:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-09-29 09:19:38
+ * @LastEditTime: 2019-11-09 20:47:53
  * @QQ: 1055818239
  * @Version: v0.0.12
  */
@@ -83,6 +83,7 @@ export class DatagridResizeColumnDirective implements AfterViewInit, OnDestroy {
     onMouseUp(event: MouseEvent) {
         this.dg.onColumnResizeEnd(event, this.col);
         this.render.removeClass(this.el.nativeElement, 'column-resizeing');
+
         this.unbindDocumentEvents();
     }
 

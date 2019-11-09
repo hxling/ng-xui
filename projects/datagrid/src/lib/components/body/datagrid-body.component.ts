@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-12 07:47:12
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-11-09 15:25:16
+ * @LastEditTime: 2019-11-09 20:53:56
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -16,9 +16,9 @@ import {
 
 import { DatagridFacadeService } from '../../services/datagrid-facade.service';
 import { ScrollbarDirective } from '../../scrollbar/scrollbar.directive';
-import { ScrollbarComponent } from './../../scrollbar/scrollbar.component';
 import { ColumnGroup } from '../../types';
-import { SelectedRow, DataResult, ROW_INDEX_FIELD, IS_GROUP_ROW_FIELD, GROUP_ROW_FIELD, IS_GROUP_FOOTER_ROW_FIELD } from '../../services/state';
+import { SelectedRow, DataResult, ROW_INDEX_FIELD, IS_GROUP_ROW_FIELD,
+        GROUP_ROW_FIELD, IS_GROUP_FOOTER_ROW_FIELD } from '../../services/state';
 import { SCROLL_X_ACTION, SCROLL_Y_ACTION, SCROLL_X_REACH_START_ACTION } from '../../types/constant';
 import { DatagridService } from '../../services/datagrid.service';
 import { DatagridComponent } from '../../datagrid.component';
@@ -160,23 +160,23 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
         this.scrollbarDirectiveRef.update();
     }
 
-    /** 启用分组行时，将高度重置为 100% */
-    private setGroupRowViewHeight() {
-        this.ngZone.runOutsideAngular(() => {
-            setTimeout(() => {
-                if (this.dg.groupRows) {
-                    this.mainArea.nativeElement.style.height = '100%';
-                    if (this.fixedLeftEl) {
-                        this.fixedLeftEl.nativeElement.style.height = '100%';
-                    }
-                    if (this.fixedRightEl) {
-                        this.fixedRightEl.nativeElement.style.height = '100%';
-                    }
-                    this.mainArea.nativeElement.parentElement.style.height = '100%';
-                }
-            }, 100);
-        });
-    }
+    // /** 启用分组行时，将高度重置为 100% */
+    // private setGroupRowViewHeight() {
+    //     this.ngZone.runOutsideAngular(() => {
+    //         setTimeout(() => {
+    //             if (this.dg.groupRows) {
+    //                 this.mainArea.nativeElement.style.height = '100%';
+    //                 if (this.fixedLeftEl) {
+    //                     this.fixedLeftEl.nativeElement.style.height = '100%';
+    //                 }
+    //                 if (this.fixedRightEl) {
+    //                     this.fixedRightEl.nativeElement.style.height = '100%';
+    //                 }
+    //                 this.mainArea.nativeElement.parentElement.style.height = '100%';
+    //             }
+    //         }, 100);
+    //     });
+    // }
 
     private destroySubscriptions() {
         if (this.subscriptions && this.subscriptions.length) {
@@ -196,6 +196,7 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
 
         this.gridSizeSubscribe = this.dfs.gridSize$.subscribe(state => {
             if (state) {
+                // this.ps.scrollToLeft();
                 this.top = this.dg.showHeader ? this.dg.realHeaderHeight : 0;
                 const pagerHeight = state.pagerHeight;
                 this.height = state.height - this.top - pagerHeight;
@@ -205,14 +206,24 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
                 this.updateColumnSize(state.columnsGroup);
 
                 this.setWheelHeight();
-                this.fixedRightScrollLeft = this.scrollLeft + this.width - this.rightFixedWidth;
-                this.bodyStyle = this.getBodyStyle();
+                const dgContainerWidth = this.dg.dgContainer.nativeElement.offsetWidth;
                 this.maxScrollLeft = this.colsWidth + this.leftFixedWidth;
-                if (this.colsWidth + this.leftFixedWidth === this.fixedRightScrollLeft) {
+                // this.fixedRightScrollLeft = this.scrollLeft + this.width - this.rightFixedWidth;
+                this.fixedRightScrollLeft = dgContainerWidth - this.rightFixedWidth;
+                this.bodyStyle = this.getBodyStyle();
+                if (dgContainerWidth > this.maxScrollLeft + this.rightFixedWidth) {
                     this.showRightShadow = false;
+                    this.fixedRightScrollLeft = this.maxScrollLeft;
                 } else {
                     this.showRightShadow = true;
+                    // if (this.colsWidth + this.leftFixedWidth === this.fixedRightScrollLeft) {
+                    //     this.showRightShadow = false;
+                    // } else {
+                    //     this.showRightShadow = true;
+                    // }
                 }
+
+                this.dgs.onShowFixedShadow(this.showRightShadow);
 
                 if (!this.cd['destroyed']) {
                     this.cd.detectChanges();
@@ -267,7 +278,6 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
 
         this.checkRowSubscribe = this.dfs.checkRow$.subscribe((row: SelectedRow) => {
             this.dg.checked.emit(row);
-            // this.dgs.onCheckedRowsCountChange();
             this.checkedRowsChanged();
             this.cd.detectChanges();
         });
@@ -276,7 +286,6 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
         this.clearSelectionsSubscribe =  this.dfs.clearSelections$.subscribe(() => {
             this.currentRowId = undefined;
             if (this.dg.checkOnSelect) {
-                // this.dgs.onCheckedRowsCountChange();
                 this.checkedRowsChanged();
             }
             this.dg.unSelectAll.emit();
@@ -286,7 +295,6 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
 
         this.uncheckRowSubscribe = this.dfs.unCheckRow$.subscribe((prevRow: SelectedRow) => {
             this.dg.unChecked.emit(prevRow);
-            // this.dgs.onCheckedRowsCountChange();
             this.checkedRowsChanged();
             this.cd.detectChanges();
         });
@@ -304,7 +312,6 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
                 this.currentRowId = undefined;
             }
             this.dg.unCheckAll.emit(rows);
-            // this.dgs.onCheckedRowsCountChange();
             this.checkedRowsChanged();
             this.cd.detectChanges();
         });
