@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-12 07:47:12
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-11-09 20:53:56
+ * @LastEditTime: 2019-11-11 11:20:57
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -19,7 +19,7 @@ import { ScrollbarDirective } from '../../scrollbar/scrollbar.directive';
 import { ColumnGroup } from '../../types';
 import { SelectedRow, DataResult, ROW_INDEX_FIELD, IS_GROUP_ROW_FIELD,
         GROUP_ROW_FIELD, IS_GROUP_FOOTER_ROW_FIELD } from '../../services/state';
-import { SCROLL_X_ACTION, SCROLL_Y_ACTION, SCROLL_X_REACH_START_ACTION } from '../../types/constant';
+import { SCROLL_X_ACTION, SCROLL_Y_ACTION, SCROLL_X_REACH_START_ACTION, SCROLL_X_REACH_END_ACTION } from '../../types/constant';
 import { DatagridService } from '../../services/datagrid.service';
 import { DatagridComponent } from '../../datagrid.component';
 
@@ -196,7 +196,6 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
 
         this.gridSizeSubscribe = this.dfs.gridSize$.subscribe(state => {
             if (state) {
-                // this.ps.scrollToLeft();
                 this.top = this.dg.showHeader ? this.dg.realHeaderHeight : 0;
                 const pagerHeight = state.pagerHeight;
                 this.height = state.height - this.top - pagerHeight;
@@ -206,21 +205,21 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
                 this.updateColumnSize(state.columnsGroup);
 
                 this.setWheelHeight();
-                const dgContainerWidth = this.dg.dgContainer.nativeElement.offsetWidth;
                 this.maxScrollLeft = this.colsWidth + this.leftFixedWidth;
-                // this.fixedRightScrollLeft = this.scrollLeft + this.width - this.rightFixedWidth;
-                this.fixedRightScrollLeft = dgContainerWidth - this.rightFixedWidth;
+                // grid 容器宽度
+                const dgContainerWidth = this.dg.dgContainer.nativeElement.offsetWidth;
+                // 所有列宽之和
+                const allColsWidth = this.columnsGroup.totalWidth;
+                // 右侧固定列的位置
+                this.fixedRightScrollLeft = dgContainerWidth - this.rightFixedWidth + this.scrollLeft;
+
                 this.bodyStyle = this.getBodyStyle();
-                if (dgContainerWidth > this.maxScrollLeft + this.rightFixedWidth) {
+
+                if (dgContainerWidth > allColsWidth || dgContainerWidth === allColsWidth) {
                     this.showRightShadow = false;
                     this.fixedRightScrollLeft = this.maxScrollLeft;
                 } else {
                     this.showRightShadow = true;
-                    // if (this.colsWidth + this.leftFixedWidth === this.fixedRightScrollLeft) {
-                    //     this.showRightShadow = false;
-                    // } else {
-                    //     this.showRightShadow = true;
-                    // }
                 }
 
                 this.dgs.onShowFixedShadow(this.showRightShadow);
@@ -228,7 +227,7 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
                 if (!this.cd['destroyed']) {
                     this.cd.detectChanges();
                 }
-                this.scrollBarUpdate();
+                this.ps.update();
             }
         });
 
@@ -431,6 +430,9 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
 
     onPsXReachEnd($event: any) {
         this.showRightShadow = false;
+        this.cd.detectChanges();
+        const x = $event.target.scrollLeft;
+        this.dgs.onScrollMove(x, SCROLL_X_REACH_END_ACTION);
     }
 
     isChecked(rowData: any) {
