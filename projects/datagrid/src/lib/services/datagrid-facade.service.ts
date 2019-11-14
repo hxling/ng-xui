@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-31 07:59:54
+ * @LastEditTime: 2019-11-12 15:54:53
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -19,6 +19,7 @@ import { VirtualizedLoaderService } from './virtualized-loader.service';
 import { DatagridRow } from '../types/datagrid-row';
 import { cloneDeep, groupBy, sumBy, maxBy, minBy, meanBy, isPlainObject, get } from 'lodash-es';
 import { Utils } from '../utils/utils';
+import { DatagridColumnsHelper } from './datagrid-columns.helper';
 
 @Injectable()
 export class DatagridFacadeService {
@@ -647,6 +648,11 @@ export class DatagridFacadeService {
 
     initColumns() {
         const columns = this._state.flatColumns;
+        let colgroup: any = {
+            leftFixed: [],
+            rightFixed: [],
+            normalColumns: []
+        };
         if (columns && columns.length) {
             const leftFixedCols = this.getFixedCols('left');
             const rightFixedCols = this.getFixedCols('right');
@@ -658,7 +664,7 @@ export class DatagridFacadeService {
                 }
             });
 
-            const colgroup = {
+            colgroup = {
                 leftFixed: leftFixedCols,
                 rightFixed: rightFixedCols,
                 normalColumns: normalCols
@@ -670,6 +676,12 @@ export class DatagridFacadeService {
                 this.setFitColumnsWidth(colgroup);
             }
 
+            this.updateState({ columnsGroup: colgroup }, false);
+        } else {
+            colgroup.leftFixedWidth = 0;
+            colgroup.rightFixedWidth = 0;
+            colgroup.normalWidth = 0;
+            colgroup.totalWidth = 0;
             this.updateState({ columnsGroup: colgroup }, false);
         }
     }
@@ -733,16 +745,17 @@ export class DatagridFacadeService {
             cols = this._state.flatColumns.filter(col => col.fixed === direction);
         }
 
+        // 多表头，重新计算列的顺序
+        if (this._state.columns.length > 1 && cols.length) {
+            const fields = DatagridColumnsHelper.getFields(this._state.columns);
+            const newcols = [];
+            fields.forEach(f => {
+                newcols.push(cols.find(col => col.field === f));
+            });
+            return newcols;
+        }
 
-        return cols.sort((a, b) => {
-            if (a.index > b.index) {
-                return 1;
-            } else if (a.index < b.index) {
-                return -1;
-            } else {
-                return 0;
-            }
-        });
+        return cols;
     }
 
     private initColumnsWidth(colgroup: ColumnGroup,  restitute = false) {
