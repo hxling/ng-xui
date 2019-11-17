@@ -48,6 +48,12 @@
       ],
       "utils/*": [
         "dist/utils/*"
+      ],
+      "context-menu": [
+        "dist/context-menu"
+      ],
+      "context-menu/*": [
+        "dist/context-menu/*"
       ]
     }
   },
