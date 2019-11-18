@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-10 11:02:50
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-11-01 16:42:47
+ * @LastEditTime: 2019-11-18 11:01:13
  * @QQ: 1055818239
  * @Version: v0.0.1
  -->
@@ -33,6 +33,7 @@
     <div class="xui-datagrid-resize-bg" #resizeProxyBg></div>
     <div #resizeProxy class="xui-datagrid-resize-proxy" *ngIf="resizeColumn"></div>
     <datagrid-loading *ngIf="loading"></datagrid-loading>
+    <div style="position: absolute; left: -1000px; top: -1000px;visibility: hidden;" #longTextArea></div>
 </div>
 
 
@@ -50,3 +51,5 @@
     <auto-height [columnsGroup]="colGroup" [columns]="columns" [data]="ds.rows"></auto-height>
     <datagrid-loading *ngIf="loading"></datagrid-loading>
 </div>
+
+

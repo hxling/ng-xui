@@ -3,7 +3,7 @@ import { FormGroup, ValidatorFn } from '@angular/forms';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-11-09 19:07:20
+ * @LastEditTime: 2019-11-18 11:03:01
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -276,7 +276,8 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     @ViewChild('resizeProxy', { static: false}) resizeProxy: ElementRef;
     @ViewChild('resizeProxyBg', { static: false}) resizeProxyBg: ElementRef;
     @ViewChild('datagridContainer', { static: false}) dgContainer: ElementRef;
-
+    /** 最长文本临时区域 */
+    @ViewChild('longTextArea', {static: false}) longTextArea: ElementRef;
     colGroup: ColumnGroup;
 
     private _loading = false;
@@ -1436,6 +1437,26 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
             newColWidth = 20;
         }
         col.width = newColWidth;
+        this.dfs.resizeColumns();
+        this.dgs.columnResized.emit();
+    }
+
+    /** 单元格内容自适应列宽 */
+    sizeToContent(col: DataColumn) {
+        let longestText = '';
+        const items = this.data;
+        for (let i = items.length - 1; i >= 0; i--) {
+            const text = '' + Utils.getValue(col.field, items[i]);
+            if (text.length > longestText.length) {
+                longestText = text;
+            }
+        }
+
+        this.longTextArea.nativeElement.innerHTML = longestText;
+
+        const maxWidth = this.longTextArea.nativeElement.offsetWidth + 15;
+
+        col.width = maxWidth;
         this.dfs.resizeColumns();
         this.dgs.columnResized.emit();
     }

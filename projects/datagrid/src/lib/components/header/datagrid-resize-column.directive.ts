@@ -1,4 +1,4 @@
-import { Directive, Input, NgZone, ElementRef, Renderer2, AfterViewInit, OnDestroy, Optional } from '@angular/core';
+import { Directive, Input, NgZone, ElementRef, Renderer2, AfterViewInit, OnDestroy, Optional, HostListener } from '@angular/core';
 import { DataColumn } from '../../types/data-column';
 import { DatagridComponent } from './../../datagrid.component';
 import { DatagridHeaderComponent } from './datagrid-header.component';
@@ -6,7 +6,7 @@ import { DatagridHeaderComponent } from './datagrid-header.component';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-10 09:04:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-11-09 20:47:53
+ * @LastEditTime: 2019-11-18 10:25:52
  * @QQ: 1055818239
  * @Version: v0.0.12
  */
@@ -39,6 +39,7 @@ export class DatagridResizeColumnDirective implements AfterViewInit, OnDestroy {
 
             this.ngzone.runOutsideAngular(() => {
                 this.resizerMouseDownListener = this.onMouseDown.bind(this);
+                // this.resizer.addEventListener('dblclick', this.onDblClickHandler.bind(this));
                 this.resizer.addEventListener('mousedown', this.resizerMouseDownListener);
             });
         }
@@ -46,6 +47,12 @@ export class DatagridResizeColumnDirective implements AfterViewInit, OnDestroy {
 
     private isEnable() {
         return this.dg.resizeColumn && this.col.resizable;
+    }
+
+    @HostListener('dblclick')
+    onDblClickHandler() {
+        this.dg.sizeToContent(this.col);
+        event.stopPropagation();
     }
 
     bindDocumentEvents() {

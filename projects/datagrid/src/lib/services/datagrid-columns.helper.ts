@@ -1,3 +1,5 @@
+import { DataColumn } from './../types/data-column';
+import { Utils } from '../utils/utils';
 export class DatagridColumnsHelper {
     /** 获取总列数 */
     private static getColumnTotal(firstCols) {
@@ -45,4 +47,5 @@ export class DatagridColumnsHelper {
         const fields =  DatagridColumnsHelper.getColumnFields(columns);
         return fields.length ? fields[fields.length - 1] : fields;
     }
+
 }
