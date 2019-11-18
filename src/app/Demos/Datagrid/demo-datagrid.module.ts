@@ -26,6 +26,7 @@ import { DemoFixedColumnsComponent } from './fixed-columns/demo-fixed-columns.co
 import { DemoDataWrapComponent } from './data-wrap/demo-data-wrap.component';
 import { DemoLargeDataComponent } from './virual-load/demo-large-data.component';
 import { DemoVirualScrollComponent } from './virual-load/demo-scroll-component';
+import { DemoEmptyDataComponent } from './empty-data/demo-empty-data.component';
 
 @NgModule({
     declarations: [
@@ -49,7 +50,8 @@ import { DemoVirualScrollComponent } from './virual-load/demo-scroll-component';
         DemoFixedColumnsComponent,
         DemoDataWrapComponent,
         DemoLargeDataComponent,
-        DemoVirualScrollComponent
+        DemoVirualScrollComponent,
+        DemoEmptyDataComponent
     ],
     imports: [
         CommonModule,

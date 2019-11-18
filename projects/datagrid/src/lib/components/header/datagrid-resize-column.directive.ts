@@ -6,7 +6,7 @@ import { DatagridHeaderComponent } from './datagrid-header.component';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-10 09:04:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-11-18 10:25:52
+ * @LastEditTime: 2019-11-18 14:49:38
  * @QQ: 1055818239
  * @Version: v0.0.12
  */
@@ -51,7 +51,7 @@ export class DatagridResizeColumnDirective implements AfterViewInit, OnDestroy {
 
     @HostListener('dblclick')
     onDblClickHandler() {
-        this.dg.sizeToContent(this.col);
+        this.dg.sizeToContent(this.col, this.el);
         event.stopPropagation();
     }
 

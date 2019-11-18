@@ -3,7 +3,7 @@ import { FormGroup, ValidatorFn } from '@angular/forms';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-11-18 11:03:01
+ * @LastEditTime: 2019-11-18 14:48:02
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -236,6 +236,8 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     @Input() groupFormatter: (groupRow: any) => any;
     /** 分组行样式 */
     @Input() groupStyler: (groupRow: any) => any;
+    /** 双击表头自适应内容宽度 */
+    @Input() AutoColumnWidthUseDblclick = true;
 
 
     @Input() beforeEdit: (rowIndex: number, rowData: any, column?: DataColumn) => Observable<boolean>;
@@ -1442,7 +1444,10 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     }
 
     /** 单元格内容自适应列宽 */
-    sizeToContent(col: DataColumn) {
+    sizeToContent(col: DataColumn, th: ElementRef) {
+        if (!this.AutoColumnWidthUseDblclick) {
+            return false;
+        }
         let longestText = '';
         const items = this.data;
         for (let i = items.length - 1; i >= 0; i--) {
@@ -1456,7 +1461,11 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
 
         const maxWidth = this.longTextArea.nativeElement.offsetWidth + 15;
 
-        col.width = maxWidth;
+        this.longTextArea.nativeElement.innerHTML = th.nativeElement.innerText;
+        const thMinWidth = this.longTextArea.nativeElement.offsetWidth + 15;
+
+
+        col.width = (maxWidth > thMinWidth ? maxWidth : thMinWidth);
         this.dfs.resizeColumns();
         this.dgs.columnResized.emit();
     }

@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-29 11:41:04
+ * @LastEditTime: 2019-11-18 17:04:40
  * @QQ: 1055818239
  * @Version: v0.0.1
  -->
@@ -15,29 +15,35 @@
        
         <div [style.display]="dg.flatColumns.length ? '': 'none'" [style.height.px]="wheelHeight" [style.width.px]="columnsGroup?.totalWidth" 
             [class.xui-datagrid-bg]="dg.virtualized">
+            <ng-container *ngIf="data && data.length">
+                <div #fixedLeft class="xui-datagrid-body-fixed-left"  [class.l-shadow]="!!scrollLeft && !dg.groupRows"
+                    *ngIf="dg.showLineNumber || dg.showCheckbox || columnsGroup?.leftFixed" [style.transform]="'translate3d('+ scrollLeft +'px, '+ topHideHeight +'px, 0px)'"
+                    [style.width.px]="leftFixedWidth" [style.height.px]="wheelHeight - topHideHeight">
 
-            <div #fixedLeft class="xui-datagrid-body-fixed-left"  [class.l-shadow]="!!scrollLeft && !dg.groupRows"
-                *ngIf="dg.showLineNumber || dg.showCheckbox || columnsGroup?.leftFixed" [style.transform]="'translate3d('+ scrollLeft +'px, '+ topHideHeight +'px, 0px)'"
-                [style.width.px]="leftFixedWidth" [style.height.px]="wheelHeight - topHideHeight">
+                    <fixed-left-rows [columns]="columnsGroup?.leftFixed" ></fixed-left-rows>
+            </div>
 
-                <fixed-left-rows [columns]="columnsGroup?.leftFixed" ></fixed-left-rows>
-           </div>
+                <div #fixedRight class="xui-datagrid-body-fixed-right" [style.width.px]="rightFixedWidth" 
+                    *ngIf="columnsGroup?.rightFixed && columnsGroup?.rightFixed.length"
+                    [style.transform]="'translate3d('+ fixedRightScrollLeft +'px, '+ topHideHeight +'px, 0px)'"
+                    [class.r-shadow]="showRightShadow" [style.height.px]="wheelHeight - topHideHeight">
+                    
+                    <datagrid-rows #mainTable [startRowIndex]="startRowIndex" [columns]="columnsGroup?.rightFixed" [data]="data"></datagrid-rows>
+                </div>
 
-            <div #fixedRight class="xui-datagrid-body-fixed-right" [style.width.px]="rightFixedWidth" 
-                *ngIf="columnsGroup?.rightFixed && columnsGroup?.rightFixed.length"
-                [style.transform]="'translate3d('+ fixedRightScrollLeft +'px, '+ topHideHeight +'px, 0px)'"
-                [class.r-shadow]="showRightShadow" [style.height.px]="wheelHeight - topHideHeight">
+                <div #main [style.width.px]="colsWidth" style="position: relative;" [style.left.px]="leftFixedWidth" class="xui-datagrid-table"
+                    [style.transform]="'translate3d(0px, '+ topHideHeight +'px, 0px)'" [style.height.px]="wheelHeight - topHideHeight">
+
+                    <datagrid-rows #tableRows [startRowIndex]="startRowIndex" [columns]="columnsGroup?.normalColumns" [data]="data"></datagrid-rows>
                 
-                <datagrid-rows #mainTable [startRowIndex]="startRowIndex" [columns]="columnsGroup?.rightFixed" [data]="data"></datagrid-rows>
-            </div>
+                </div>
+            </ng-container>
 
-            <div #main [style.width.px]="colsWidth" style="position: relative;" [style.left.px]="leftFixedWidth" class="xui-datagrid-table"
-                [style.transform]="'translate3d(0px, '+ topHideHeight +'px, 0px)'" [style.height.px]="wheelHeight - topHideHeight">
-
-                <datagrid-rows #tableRows [startRowIndex]="startRowIndex" [columns]="columnsGroup?.normalColumns" [data]="data"></datagrid-rows>
-               
-            </div>
-           
+            <ng-container *ngIf="!data || !data.length">
+                <div class="xui-datagrid-norecords" [style.height.px]="height">
+                    <div class="xui-datagrid-norecords-content" [style.width.px]="width" >{{ dg.emptyMessage }}</div>
+                </div>
+            </ng-container>
         </div>
     </div>
 </div>
