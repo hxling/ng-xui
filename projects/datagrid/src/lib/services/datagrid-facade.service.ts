@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-11-12 15:54:53
+ * @LastEditTime: 2019-11-19 20:36:24
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -14,7 +14,7 @@ import { map, distinctUntilChanged, filter, switchMap, auditTime, debounceTime }
 import { DataColumn, ColumnGroup, CalculationType } from '../types';
 import { FarrisDatagridState, initDataGridState, DataResult, CellInfo, VirtualizedState, SelectedRow,
         RowDataChanges, ROW_INDEX_FIELD, IS_GROUP_ROW_FIELD, GROUP_ROW_FIELD,
-        IS_GROUP_FOOTER_ROW_FIELD, GROUP_VISIBLE_FIELD } from './state';
+        IS_GROUP_FOOTER_ROW_FIELD, GROUP_VISIBLE_FIELD, GROUP_LEVEL_FIELD } from './state';
 import { VirtualizedLoaderService } from './virtualized-loader.service';
 import { DatagridRow } from '../types/datagrid-row';
 import { cloneDeep, groupBy, sumBy, maxBy, minBy, meanBy, isPlainObject, get } from 'lodash-es';
@@ -1025,18 +1025,23 @@ export class DatagridFacadeService {
     }
 
 
+
     private groupRows2Flat(groupRows, initLevel, parent) {
         let results = [];
         if (initLevel === undefined) {
             initLevel = 0;
         }
+        const idfield = this._state.idField;
         const columns = this._state.flatColumns;
         const data = this._state.data;
         const groupFieldArr = this._state.groupField.split(',');
+        const pid = parent ? parent[idfield] : null;
         Object.keys(groupRows).forEach((k, m) => {
-            const groupItem = { [IS_GROUP_ROW_FIELD]: true, level: initLevel, data: { }, value: k,
+
+            const groupItem = { [idfield]: Utils.uuid(),
+                                [IS_GROUP_ROW_FIELD]: true, [GROUP_LEVEL_FIELD]: initLevel, data: { }, value: k,
                                 [GROUP_VISIBLE_FIELD]: true, expanded: true, field: groupFieldArr[initLevel],
-                                colspan: columns.length, total: 0, rows: [], [GROUP_ROW_FIELD]: parent };
+                                colspan: columns.length, total: 0, rows: [], [GROUP_ROW_FIELD]: pid};
             if (parent) {
                 groupItem.rows = parent.rows.filter(n => !n[IS_GROUP_ROW_FIELD] &&
                     !n[IS_GROUP_FOOTER_ROW_FIELD] && n[groupFieldArr[initLevel]].toString() === k);
@@ -1058,8 +1063,9 @@ export class DatagridFacadeService {
             } else {
                 groupItem.total = items.length;
                 items.map(n => {
-                    n[GROUP_ROW_FIELD] = groupItem;
+                    n[GROUP_ROW_FIELD] = groupItem[idfield];
                     n[GROUP_VISIBLE_FIELD] = true;
+                    n[GROUP_LEVEL_FIELD] = groupItem[GROUP_LEVEL_FIELD] + 1;
                     return n;
                 });
                 groupItem.rows = items;
@@ -1069,9 +1075,9 @@ export class DatagridFacadeService {
             if (this._state.groupFooter) {
                 const footerItem = {
                     [IS_GROUP_FOOTER_ROW_FIELD]: true,
-                    [GROUP_ROW_FIELD]: groupItem,
+                    [GROUP_ROW_FIELD]: groupItem[idfield],
                     [GROUP_VISIBLE_FIELD]: true,
-                    level: initLevel,
+                    [GROUP_LEVEL_FIELD]: initLevel,
                     data: {}
                 };
                 groupItem.rows.push(footerItem);
@@ -1095,6 +1101,9 @@ export class DatagridFacadeService {
             const result = this.groupRows2Flat(groupData, 0, null);
 
             let k = 0;
+
+            const prow = (pid) => result.find(n => n[this._state.idField] === pid);
+
             result.map((n, i) => {
                 if (!n[IS_GROUP_ROW_FIELD] && !n[IS_GROUP_FOOTER_ROW_FIELD]) {
                     n[ROW_INDEX_FIELD] = k;
@@ -1103,7 +1112,7 @@ export class DatagridFacadeService {
 
                 // 更新合计行数据
                 if (n[IS_GROUP_FOOTER_ROW_FIELD]) {
-                    const rows = n[GROUP_ROW_FIELD].rows.filter((r: any) => !r[IS_GROUP_ROW_FIELD] && !r[IS_GROUP_FOOTER_ROW_FIELD]);
+                    const rows = prow(n[GROUP_ROW_FIELD]).rows.filter((r: any) => !r[IS_GROUP_ROW_FIELD] && !r[IS_GROUP_FOOTER_ROW_FIELD]);
                     columns.forEach(col => {
                         if (col.groupFooter && col.groupFooter.options) {
                             const options = col.groupFooter.options;

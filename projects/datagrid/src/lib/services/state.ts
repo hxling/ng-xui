@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-12 07:47:12
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-15 16:40:11
+ * @LastEditTime: 2019-11-19 19:36:40
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -131,7 +131,8 @@ export const ROW_INDEX_FIELD = '__row_index__';
 /** 是否为分组行 */
 export const IS_GROUP_ROW_FIELD = '__group__';
 /** 引用的分组行属性 */
-export const GROUP_ROW_FIELD = '__group_parent__';
+export const GROUP_ROW_FIELD = '__group_parent_id__';
 /** 是否为分组合计行 */
 export const IS_GROUP_FOOTER_ROW_FIELD = '__group_footer__';
 export const GROUP_VISIBLE_FIELD = '__group_visible__';
+export const GROUP_LEVEL_FIELD = '__group_level__';

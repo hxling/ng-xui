@@ -57,10 +57,27 @@ xui-datagrid {
   top: 120px;
   margin: 0;
   line-height: 40px;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
 }
 .xui-datagrid .xui-datagrid-ah td {
   padding: 0px 5px;
+}
+.xui-datagrid-group-panel {
+  width: 100%;
+  min-height: 45px;
+  display: block;
+  border-bottom: 1px solid #ccc;
+}
+.xui-datagrid-group-panel .field {
+  display: inline-block;
+  line-height: 14px;
+  border: 1px solid #c2c2c2;
+  padding: 5px 10px;
+  background: #ffffff;
+  border-radius: 20px;
+}
+.xui-datagrid-group-panel .field a {
+  cursor: pointer;
 }
 .xui-datagrid-group-row span.icon {
   background-repeat: no-repeat;

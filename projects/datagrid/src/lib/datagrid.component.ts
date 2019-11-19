@@ -3,7 +3,7 @@ import { FormGroup, ValidatorFn } from '@angular/forms';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-11-18 14:48:02
+ * @LastEditTime: 2019-11-19 13:40:48
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -228,6 +228,8 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
 
     /** 启用分组行 */
     @Input() groupRows = false;
+    /** 头部显示分组字段列列，且列拖动到这儿进行行(hang)分组  */
+    @Input() showRowGroupPanel = false;
     /** 启用行分组合计行 */
     @Input() groupFooter = false;
     /** 分组字段名称 */
@@ -416,6 +418,9 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
         this._flatColumns();
         if (this.showHeader) {
             this.realHeaderHeight = this.columns.length * this.headerHeight;
+            if (this.showRowGroupPanel) {
+                this.realHeaderHeight += this.headerHeight;
+            }
         }
     }
 

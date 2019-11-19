@@ -9,22 +9,18 @@
 
         <ng-container *ngIf="dg.groupRows">
             
-            <tr *ngIf="row[isGroupRow]"   [style.display]="row[visible] ? '': 'none'"  [style.height.px]="dg.rowHeight"
+            <tr *ngIf="row[isGroupRow]" [style.display]="row[visible] ? '': 'none'"  [style.height.px]="dg.rowHeight"
             class="xui-datagrid-body-row fixed-left-row xui-datagrid-group-row"
             [attr.index]="dgb.startRowIndex + i">
                 
                 <ng-container *ngIf="dg.showLineNumber && dg.showCheckbox; else groupActionCell">
                     <td class="xui-datagrid-cell xui-datagrid-cell-rownumber"></td>
                     <td class="xui-datagrid-cell xui-datagrid-cell-checkbox">
-                        <!-- <span class="icon group-expanded" *ngIf="!row.expanded" (click)="toggleGroupRow(row, true)"></span>
-                        <span class="icon group-collapsed" *ngIf="row.expanded" (click)="toggleGroupRow(row, false)"></span> -->
                     </td>
                 </ng-container>
                 
                 <ng-template #groupActionCell>
                     <td *ngIf="dg.showLineNumber || dg.showCheckbox" class="xui-datagrid-cell group-action" >
-                        <!-- <span class="icon group-expanded" *ngIf="!row.expanded" (click)="toggleGroupRow(row, true)"></span>
-                        <span class="icon group-collapsed" *ngIf="row.expanded" (click)="toggleGroupRow(row, false)"></span> -->
                     </td>
                 </ng-template>
                 

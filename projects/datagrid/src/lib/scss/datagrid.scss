@@ -54,6 +54,20 @@
     }
 
     &-group {
+        &-panel {
+            width: 100%;min-height: 45px;display: block;border-bottom: 1px solid #ccc;
+
+            .field {
+                display: inline-block;
+                line-height: 14px;
+                border: 1px solid #c2c2c2;
+                padding: 5px 10px;
+                background: #ffffff;
+                border-radius: 20px;
+
+                a { cursor: pointer; }
+            }
+        }
         &-row {
             span.icon {
                 background-repeat: no-repeat;
