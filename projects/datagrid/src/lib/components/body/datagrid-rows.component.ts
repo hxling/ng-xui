@@ -2,7 +2,7 @@
 * @Author: 疯狂秀才(Lucas Huang)
 * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-29 17:32:46
+ * @LastEditTime: 2019-11-19 20:27:51
 * @QQ: 1055818239
 * @Version: v0.0.1
 */
@@ -12,7 +12,8 @@ import { DataColumn } from '../../types';
 import { DatagridComponent } from '../../datagrid.component';
 import { DatagridBodyComponent } from './datagrid-body.component';
 import ResizeObserver from 'resize-observer-polyfill';
-import { IS_GROUP_ROW_FIELD, GROUP_ROW_FIELD, IS_GROUP_FOOTER_ROW_FIELD, GROUP_VISIBLE_FIELD } from '../../services/state';
+import { IS_GROUP_ROW_FIELD, GROUP_ROW_FIELD, IS_GROUP_FOOTER_ROW_FIELD,
+        GROUP_VISIBLE_FIELD, GROUP_LEVEL_FIELD } from '../../services/state';
 
 @Component({
     selector: 'datagrid-rows',
@@ -30,6 +31,7 @@ export class DatagridRowsComponent implements OnInit, AfterViewInit {
     groupRow = GROUP_ROW_FIELD;
     isGroupFooter = IS_GROUP_FOOTER_ROW_FIELD;
     visible = GROUP_VISIBLE_FIELD;
+    groupLevelField = GROUP_LEVEL_FIELD;
 
     private ro: ResizeObserver = null;
     public dg: DatagridComponent;
@@ -65,20 +67,21 @@ export class DatagridRowsComponent implements OnInit, AfterViewInit {
 
             if (footerRows && footerRows.length) {
                 footerRows.forEach(n => {
-                    n[this.visible] = open &&  n[this.groupRow].expanded;
+                    n[this.visible] = open &&  row.expanded;
                 });
             }
 
             groupRows.forEach(t => {
-                t[this.visible] = open && t[this.groupRow].expanded && t[this.groupRow][this.visible];
+                t[this.visible] = open && row.expanded && row[this.visible];
                 this.setGroupRowsVisible(t, open);
             });
 
             if (!groupRows.length) {
                 row.rows.forEach(t => {
-                    t[this.visible] = open && t[this.groupRow].expanded && t[this.groupRow][this.visible];
+                    t[this.visible] = open && row.expanded && row[this.visible];
                 });
             }
         }
     }
+
 }

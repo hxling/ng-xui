@@ -1,0 +1,15 @@
+<main-container [subtitle]="'Custom Row Formatter'">
+    <div class="col-xl-12">
+        <demo-panel [height]="600" >
+            <xui-datagrid [columns]="columns" [data]="items" #dg
+                [showLineNumber] ="true" [striped]="false" [showCheckbox]="false"
+                [virtualized]="true"
+                [sizeType]="'sm'"
+                [pagination]="true" [fit]="true" [fitColumns]="true"
+                [pageSize]= "pageSize" [pageIndex]="1"  [total]="total"
+                [pageList]="[10, 100, 200, 300, 500, 1000, 2000, 5000]" [showPageList]="true"
+            ></xui-datagrid>
+
+        </demo-panel>
+    </div>
+</main-container>

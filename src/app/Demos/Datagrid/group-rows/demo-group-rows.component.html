@@ -32,14 +32,16 @@
                     </div>
                     <demo-panel>
                         <!-- datatable start -->
-                       
+                       <!-- [groupStyler]="groupRowStyler" -->
                         <xui-datagrid [columns]="columns" [data]="items" #dg
                             [showLineNumber] ="showLineNumber" [striped]="false" [showCheckbox]="showCheckbox"
                             [pagination]="true" [fit]="true" [fitColumns]="true"
                             [pageSize]= "pageSize" [pageIndex]="1"  [total]="total"
                             [pageList]="[10, 100, 200, 300, 500, 1000, 2000, 5000]" [showPageList]="true"
 
-                            [groupRows]="true" [groupField]="'name,sex,maray'" [groupStyler]="groupRowStyler"
+                            [showRowGroupPanel]="true"
+                            [groupRows]="true" [groupField]="'name,sex,maray'"
+                            
                             [groupFooter]="showGroupFooter" [groupFormatter]="groupRowFormatter"
                         ></xui-datagrid>
 

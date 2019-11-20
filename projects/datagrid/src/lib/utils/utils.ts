@@ -2,11 +2,20 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-10 17:22:19
+ * @LastEditTime: 2019-11-19 20:14:17
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
 export class Utils {
+
+    static uuid() {
+        function S4() {
+            // tslint:disable-next-line: no-bitwise
+            return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+        }
+        return (S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + S4() + S4() + S4());
+    }
+
     /**
      * 获取对象中指定字段的值。 field: 可以为带有层级结构的路径，如： user.firstName | name 等
      */

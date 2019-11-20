@@ -3,7 +3,7 @@ import { FormGroup, ValidatorFn } from '@angular/forms';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-11-09 19:07:20
+ * @LastEditTime: 2019-11-19 13:40:48
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -228,6 +228,8 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
 
     /** 启用分组行 */
     @Input() groupRows = false;
+    /** 头部显示分组字段列列，且列拖动到这儿进行行(hang)分组  */
+    @Input() showRowGroupPanel = false;
     /** 启用行分组合计行 */
     @Input() groupFooter = false;
     /** 分组字段名称 */
@@ -236,6 +238,8 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     @Input() groupFormatter: (groupRow: any) => any;
     /** 分组行样式 */
     @Input() groupStyler: (groupRow: any) => any;
+    /** 双击表头自适应内容宽度 */
+    @Input() AutoColumnWidthUseDblclick = true;
 
 
     @Input() beforeEdit: (rowIndex: number, rowData: any, column?: DataColumn) => Observable<boolean>;
@@ -276,7 +280,8 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     @ViewChild('resizeProxy', { static: false}) resizeProxy: ElementRef;
     @ViewChild('resizeProxyBg', { static: false}) resizeProxyBg: ElementRef;
     @ViewChild('datagridContainer', { static: false}) dgContainer: ElementRef;
-
+    /** 最长文本临时区域 */
+    @ViewChild('longTextArea', {static: false}) longTextArea: ElementRef;
     colGroup: ColumnGroup;
 
     private _loading = false;
@@ -413,6 +418,9 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
         this._flatColumns();
         if (this.showHeader) {
             this.realHeaderHeight = this.columns.length * this.headerHeight;
+            if (this.showRowGroupPanel) {
+                this.realHeaderHeight += this.headerHeight;
+            }
         }
     }
 
@@ -1436,6 +1444,33 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
             newColWidth = 20;
         }
         col.width = newColWidth;
+        this.dfs.resizeColumns();
+        this.dgs.columnResized.emit();
+    }
+
+    /** 单元格内容自适应列宽 */
+    sizeToContent(col: DataColumn, th: ElementRef) {
+        if (!this.AutoColumnWidthUseDblclick) {
+            return false;
+        }
+        let longestText = '';
+        const items = this.data;
+        for (let i = items.length - 1; i >= 0; i--) {
+            const text = '' + Utils.getValue(col.field, items[i]);
+            if (text.length > longestText.length) {
+                longestText = text;
+            }
+        }
+
+        this.longTextArea.nativeElement.innerHTML = longestText;
+
+        const maxWidth = this.longTextArea.nativeElement.offsetWidth + 15;
+
+        this.longTextArea.nativeElement.innerHTML = th.nativeElement.innerText;
+        const thMinWidth = this.longTextArea.nativeElement.offsetWidth + 15;
+
+
+        col.width = (maxWidth > thMinWidth ? maxWidth : thMinWidth);
         this.dfs.resizeColumns();
         this.dgs.columnResized.emit();
     }

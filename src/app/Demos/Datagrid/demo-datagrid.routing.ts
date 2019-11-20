@@ -19,6 +19,7 @@ import { DemoFixedColumnsComponent } from './fixed-columns/demo-fixed-columns.co
 import { DemoDataWrapComponent } from './data-wrap/demo-data-wrap.component';
 import { DemoLargeDataComponent } from './virual-load/demo-large-data.component';
 import { DemoVirualScrollComponent } from './virual-load/demo-scroll-component';
+import { DemoEmptyDataComponent } from './empty-data/demo-empty-data.component';
 
 const routes: Routes = [
     { path: 'basic', component: DemoDatagridBasicComponent },
@@ -40,6 +41,7 @@ const routes: Routes = [
     { path: 'wrap', component: DemoDataWrapComponent },
     { path: 'large-data', component: DemoLargeDataComponent },
     { path: 'virual-scroll', component: DemoVirualScrollComponent },
+    { path: 'empty', component: DemoEmptyDataComponent},
     { path: '', redirectTo: 'basic'}
 ];
 

@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-10-28 15:55:49
+ * @LastEditTime: 2019-11-19 19:50:31
  * @QQ: 1055818239
  * @Version: v0.0.1
  -->
@@ -20,7 +20,7 @@
         <ng-container *ngIf="dg.groupRows">
             <tr *ngIf="row[isGroupRow]" class="xui-datagrid-body-row xui-datagrid-group-row" 
             [style.display]="row[visible] ? '': 'none'" [style.height.px]="dg.rowHeight">
-                <td class="xui-datagrid-cell" [attr.colspan]="row['colspan']" [style.paddingLeft.px]="row.level * 15" [group-row]="row">
+                <td class="xui-datagrid-cell" [attr.colspan]="row['colspan']" [style.paddingLeft.px]="row[groupLevelField] * 15" [group-row]="row">
                     <span class="group-expanded icon" *ngIf="!row.expanded" (click)="toggleGroupRow(row, i, true)"></span>
                     <span class="group-collapsed icon" *ngIf="row.expanded" (click)="toggleGroupRow(row, i, false)"></span>
                     <span [innerHTML]="row | formatGroupRow: dg.groupFormatter | safe: 'html' "></span>
@@ -35,7 +35,7 @@
                         [style.display]="row[visible] ? '': 'none'"  [style.height.px]="dg.rowHeight"
                     >
                         <td [attr.field]="col.field" class="xui-datagrid-cell" [attr.align]="col.align" 
-                            [style.paddingLeft.px]="ci === 0? row[groupRow].level * 10 + 25 : 0"
+                            [style.paddingLeft.px]="ci === 0? (row[groupLevelField]) * 10 + 25 : 0"
                             *ngFor="let col of columns; trackBy: trackByField; let ci = index;">
                             <span [innerHTML]="col | formatCellData: row.data : true: false | safe: 'html'"></span>
                         </td>
@@ -48,7 +48,7 @@
                         [class.xui-datagrid-row-selected]="dgb.currentRowId === row[dg.idField] || dgb.isSelected(row)"
                         [style.display]="row[visible] ? '': 'none'"  [style.height.px]="dg.rowHeight"
                     >
-                        <td [cell-editable]="row" [column]="col" [attr.field]="col.field"  [style.paddingLeft.px]="ci === 0? row[groupRow].level * 10 + 25 : 0"
+                        <td [cell-editable]="row" [column]="col" [attr.field]="col.field"  [style.paddingLeft.px]="ci === 0? (row[groupLevelField]) * 10 + 25 : 0"
                             class="xui-datagrid-cell" [attr.align]="col.align" *ngFor="let col of columns; trackBy: trackByField; let ci = index;">
                             <grid-body-cell [width]="col.width" [height]="dg.rowHeight" [column]="col" [rowData]="row" [rowIndex]="startRowIndex + i"></grid-body-cell>
                         </td>
