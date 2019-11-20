@@ -2,7 +2,7 @@
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-11-19 20:36:24
+ * @LastEditTime: 2019-11-20 07:42:20
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -623,7 +623,9 @@ export class DatagridFacadeService {
         }
 
         this.resetColumnsSize();
-        this.updateVirthualRows(this._state.virtual.scrollTop);
+        if (this._state.groupRows) {
+            this.updateVirthualRows(this._state.virtual.scrollTop);
+        }
     }
 
     fitColumns(fit) {
