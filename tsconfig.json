@@ -54,6 +54,12 @@
       ],
       "context-menu/*": [
         "dist/context-menu/*"
+      ],
+      "dnd": [
+        "dist/dnd"
+      ],
+      "dnd/*": [
+        "dist/dnd/*"
       ]
     }
   },

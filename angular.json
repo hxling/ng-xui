@@ -334,6 +334,41 @@
           }
         }
       }
+    },
+    "dnd": {
+      "projectType": "library",
+      "root": "projects/dnd",
+      "sourceRoot": "projects/dnd/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/dnd/tsconfig.lib.json",
+            "project": "projects/dnd/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/dnd/src/test.ts",
+            "tsConfig": "projects/dnd/tsconfig.spec.json",
+            "karmaConfig": "projects/dnd/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/dnd/tsconfig.lib.json",
+              "projects/dnd/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "xui-admin"
 }
