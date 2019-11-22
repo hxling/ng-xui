@@ -3,7 +3,7 @@ import { FormGroup, ValidatorFn } from '@angular/forms';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-11-19 13:40:48
+ * @LastEditTime: 2019-11-22 11:04:58
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -232,6 +232,10 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     @Input() showRowGroupPanel = false;
     /** 启用行分组合计行 */
     @Input() groupFooter = false;
+    /** 分组字段是否在表头中显示 */
+    @Input() hideGroupField = false;
+    /** 默认展开分组行 */
+    @Input() expandGroupRow = true;
     /** 分组字段名称 */
     @Input() groupField = '';
     /** 分组格式化 */

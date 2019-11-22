@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { fromEvent, animationFrameScheduler } from 'rxjs';
 import { switchMap, map, takeUntil, subscribeOn } from 'rxjs/operators';
 
@@ -9,7 +9,11 @@ import { switchMap, map, takeUntil, subscribeOn } from 'rxjs/operators';
 
 export class DemoDraggableComponent implements OnInit {
     @ViewChild('drag', { static: true }) target: ElementRef;
-    constructor() { }
+    @ViewChild('drop', { static: true }) dropArea: ElementRef;
+
+    proxy: any;
+    dropEntered = false;
+    constructor(private render: Renderer2) { }
 
     ngOnInit() {
         this.bindDragEvent();
@@ -17,9 +21,13 @@ export class DemoDraggableComponent implements OnInit {
 
     bindDragEvent() {
         const box = this.target.nativeElement;
+
+        // before drag
+        // 
+
         const mousedown$ = fromEvent<MouseEvent>(box, 'mousedown');
         const mousemove$ = fromEvent<MouseEvent>(document, 'mousemove');
-        const mouseup$ = fromEvent<MouseEvent>(box, 'mouseup');
+        const mouseup$ = fromEvent(document, 'mouseup');
 
         const drag$ = mousedown$.pipe(
             switchMap(
@@ -28,9 +36,13 @@ export class DemoDraggableComponent implements OnInit {
                     const startTop = box.offsetTop;
                     const startX = start.clientX;
                     const startY = start.clientY;
+                    box.style.cursor = 'move';
+                    this.createProxyElement();
+                    console.log('dragStart');
                     return mousemove$.pipe(
                         map(move => {
                             move.preventDefault();
+                            this.dragMove(move);
                             return {
                                 left: move.clientX - startX + startLeft,
                                 top: move.clientY - startY + startTop
@@ -44,77 +56,82 @@ export class DemoDraggableComponent implements OnInit {
         );
 
         position$.subscribe(pos => {
-            box.style.top = `${pos.top}px`;
-            box.style.left = `${pos.left}px`;
+
+            // box.style.top = `${pos.top}px`;
+            // box.style.left = `${pos.left}px`;
+            this.proxy.style.top = `${pos.top}px`;
+            this.proxy.style.left = `${pos.left}px`;
         });
 
         mouseup$.subscribe(e => {
-            alert('drop');
-            console.log(e);
+            this.onDragEnd(e);
         });
     }
 
-    getDropableAreas = (event) => {
-        let dropableAreas = document.querySelectorAll('.dropArea'); //needs a fresh DOM version
+    private createProxyElement() {
+        this.proxy = this.target.nativeElement.cloneNode(true);
+        this.proxy.style.position = 'absolute';
+        this.proxy.style.top = '0px';
+        this.proxy.style.opacity = 0.5;
+        this.proxy.style.left = '-1000px';
+        // this.proxy.style.cursor = 'move';
+        this.target.nativeElement.parentElement.append(this.proxy);
 
-        dropableAreas.filter = [].filter;
-        return dropableAreas.filter((dropableArea) =>
-            (event.pageY >= dropableArea.offsetTop && event.pageY <= dropableArea.offsetTop + dropableArea.offsetHeight) //in drop area from top
-            && (event.pageX >= dropableArea.offsetLeft && event.pageX <= dropableArea.offsetLeft + dropableArea.offsetWidth)
-        );
     }
 
-    animateGoBack = (draggable) => {
-        draggable.className += ' animateDraggableReturn';
-
-        draggable.style.top = draggable.parentNode.offsetTop;
-        draggable.style.left = draggable.parentNode.offsetLeft;
-        setTimeout(() => {
-            draggable.remove();
-        }, 350);
+    private isInDroparea(event: MouseEvent) {
+        const dropableArea = this.dropArea.nativeElement;
+        const isin =  (event.pageY >= dropableArea.offsetTop && event.pageY <= dropableArea.offsetTop + dropableArea.offsetHeight) // in drop area from top
+        && (event.pageX >= dropableArea.offsetLeft && event.pageX <= dropableArea.offsetLeft + dropableArea.offsetWidth);
+        return isin;
     }
 
-    generateDropedArea = (event, draggable, dropAreas) => {
-        let newDropArea = document.createElement('div'),
-            dropArea = dropAreas[dropAreas.length - 1]; //fully nested
-        //dropArea = dropAreas[0];  //2 level nesting
+    // private generateDrag
 
-        newDropArea.innerHTML = draggable.innerHTML
-        newDropArea.className = 'droped dropArea';
-        if (dropAreas.length > 1) {
-            // dropArea = dropAreas[1] //2 level nesting
-            newDropArea.className = 'droped sub dropArea';
+    dragMove(event) {
+        const isinDroparea = this.isInDroparea(event);
+        console.log('dragging');
+        if (isinDroparea) {
+            if (!this.dropEntered) {
+                // emit dropEnter
+                console.log('dropEnter');
+                this.dropEntered = true;
+            }
+            // emit dropOver
+            console.log('dropOver');
+        } else {
+            if (this.dropEntered) {
+                // emit dropLeave
+                console.log('dropLeave');
+                this.dropEntered = false;
+            }
         }
-
-        dropArea.appendChild(newDropArea);
-        draggable.remove();
+        // if (this.isInDroparea(event)) {
+        //     this.render.setStyle(this.dropArea.nativeElement, 'background', 'red');
+        // } else {
+        //     this.render.setStyle(this.dropArea.nativeElement, 'background', 'white');
+        // }
     }
 
-    dragElement = (draggable, event) => {
-        draggable.style.boxShadow = "1px 2px 1px 0.5px #000"
-        draggable.style.top = event.pageY - draggable.offsetHeight / 2;
-        draggable.style.left = event.pageX - draggable.offsetWidth / 2;
-    }
+    onDragEnd(e) {
+        console.log('dragEnd'); // 放下拖对物件前触发。
 
-    generateNewDraggable = (event) => {
-        let newElement,
-            activeDraggables = document.querySelectorAll('.active') || []; //needs a fresh DOM version due to multiple click
+        console.log('droped'); // 放下拖动对象
 
-        activeDraggables.forEach = [].forEach;
 
-        activeDraggables.forEach(e => e.remove());
-        newElement = event.target.cloneNode(true);
-        event.target.className = 'draggable active'
-        event.target.style.position = 'absolute';
-        event.target.parentNode.appendChild(newElement);
-    }
+        console.log('dragStop'); // 结束拖动
 
-    handleDropabble = (event, draggable) => {
-        let dropAreas = this.getDropableAreas(event);
 
-        dropAreas.length >= 1 ?
-            this.generateDropedArea(event, draggable, dropAreas) :
-            this.animateGoBack(draggable);
+        const isIn = this.isInDroparea(e);
+        if (isIn) {
+            this.render.setStyle(this.dropArea.nativeElement, 'background', 'white');
+            // this.dropArea.nativeElement.append(this.target.nativeElement);
+            // emit output event
+        }
+        if (this.proxy) {
+            (this.proxy as HTMLElement).remove();
+        }
+        this.target.nativeElement.style.cursor = '';
     }
 
 }
