@@ -3,7 +3,7 @@ import { FormGroup, ValidatorFn } from '@angular/forms';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:07
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-11-22 11:04:58
+ * @LastEditTime: 2019-11-25 16:40:21
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -368,7 +368,10 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
             if (this.showFooter && this.footerDataFrom === 'client') {
                 this.footerData = this.dfs.getFooterData(this.data);
             }
-            // this.app.tick();
+
+            if (!this.pagination) {
+                this.pagerOpts.itemsPerPage = this.ds.rows.length;
+            }
             this.cd.detectChanges();
 
             this.loadSuccess.emit(this.ds.rows);

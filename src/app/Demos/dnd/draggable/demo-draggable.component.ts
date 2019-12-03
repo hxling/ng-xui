@@ -1,10 +1,40 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, NgZone } from '@angular/core';
 import { fromEvent, animationFrameScheduler } from 'rxjs';
 import { switchMap, map, takeUntil, subscribeOn } from 'rxjs/operators';
 
+
+
+export function getDirectChildElement( parentElement:Element, childElement:Element ):Element | null {
+
+    let directChild:Node = childElement;
+  
+    while( directChild.parentNode !== parentElement ) {
+  
+      // reached root node without finding given parent
+      if( !directChild.parentNode ) {
+  
+        return null;
+      }
+  
+      directChild = directChild.parentNode;
+    }
+  
+    return directChild as Element;
+  }
+
+
 @Component({
     selector: 'demo-draggable',
-    templateUrl: 'demo-draggable.component.html'
+    templateUrl: 'demo-draggable.component.html',
+    styles: [
+        `
+        .dropover {
+            border: 1px solid red;
+            background-color: #fecc26;
+            opacity: 0.2;
+        }
+        `
+    ]
 })
 
 export class DemoDraggableComponent implements OnInit {
@@ -13,18 +43,27 @@ export class DemoDraggableComponent implements OnInit {
 
     proxy: any;
     dropEntered = false;
-    constructor(private render: Renderer2) { }
+    constructor(private render: Renderer2, private el: ElementRef, private ngZone: NgZone) { }
 
     ngOnInit() {
-        this.bindDragEvent();
+
+        this.ngZone.runOutsideAngular(() => {
+            this.el.nativeElement.querySelectorAll('li').forEach(n => {
+                this.render.listen(n, 'mouseover', (e) => {
+                    this.render.insertBefore(e.target.parentElement, e.target.cloneNode(true), getDirectChildElement(e.target.parent, e.target) );
+                });
+            });
+        });
+    }
+
+    onDrop($event) {
+
     }
 
     bindDragEvent() {
         const box = this.target.nativeElement;
 
         // before drag
-        // 
-
         const mousedown$ = fromEvent<MouseEvent>(box, 'mousedown');
         const mousemove$ = fromEvent<MouseEvent>(document, 'mousemove');
         const mouseup$ = fromEvent(document, 'mouseup');
@@ -37,6 +76,7 @@ export class DemoDraggableComponent implements OnInit {
                     const startX = start.clientX;
                     const startY = start.clientY;
                     box.style.cursor = 'move';
+                    start['dragData'] = '附加数据';
                     this.createProxyElement();
                     console.log('dragStart');
                     return mousemove$.pipe(
@@ -81,8 +121,15 @@ export class DemoDraggableComponent implements OnInit {
 
     private isInDroparea(event: MouseEvent) {
         const dropableArea = this.dropArea.nativeElement;
-        const isin =  (event.pageY >= dropableArea.offsetTop && event.pageY <= dropableArea.offsetTop + dropableArea.offsetHeight) // in drop area from top
-        && (event.pageX >= dropableArea.offsetLeft && event.pageX <= dropableArea.offsetLeft + dropableArea.offsetWidth);
+        const dropAreaRect = dropableArea.getBoundingClientRect();
+        const dropAreaX = dropAreaRect.x;
+        const dropAreaY = dropAreaRect.y;
+        // const isin =  (event.pageY >= dropableArea.offsetTop && event.pageY <= dropableArea.offsetTop + dropableArea.offsetHeight) // in drop area from top
+        // && (event.pageX >= dropableArea.offsetLeft && event.pageX <= dropableArea.offsetLeft + dropableArea.offsetWidth);
+        const isin =  (event.pageY >= dropAreaY && event.pageY <= dropAreaY + dropableArea.offsetHeight) // in drop area from top
+        && (event.pageX >= dropAreaX && event.pageX <= dropAreaX + dropableArea.offsetWidth);
+
+
         return isin;
     }
 
@@ -97,6 +144,8 @@ export class DemoDraggableComponent implements OnInit {
                 console.log('dropEnter');
                 this.dropEntered = true;
             }
+
+            this.render.setStyle(this.dropArea.nativeElement, 'background', 'red');
             // emit dropOver
             console.log('dropOver');
         } else {
@@ -105,16 +154,13 @@ export class DemoDraggableComponent implements OnInit {
                 console.log('dropLeave');
                 this.dropEntered = false;
             }
+
+            this.render.setStyle(this.dropArea.nativeElement, 'background', 'white');
         }
-        // if (this.isInDroparea(event)) {
-        //     this.render.setStyle(this.dropArea.nativeElement, 'background', 'red');
-        // } else {
-        //     this.render.setStyle(this.dropArea.nativeElement, 'background', 'white');
-        // }
     }
 
     onDragEnd(e) {
-        console.log('dragEnd'); // 放下拖对物件前触发。
+        console.log('dragEnd'); // 放下拖动物件前触发。
 
         console.log('droped'); // 放下拖动对象
 

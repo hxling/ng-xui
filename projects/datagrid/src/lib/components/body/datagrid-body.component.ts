@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-12 07:47:12
  * @LastEditors: 疯狂秀才(Lucas Huang)
- * @LastEditTime: 2019-11-11 11:20:57
+ * @LastEditTime: 2019-11-26 10:04:09
  * @QQ: 1055818239
  * @Version: v0.0.1
  */
@@ -58,7 +58,7 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
     @Input() data: any;
 
     @ViewChild('ps', {static: true}) ps?: ScrollbarDirective;
-    @ViewChild('tableRows', {static: true}) tableRowsCmp: any;
+    @ViewChild('tableRows', {static: false}) tableRowsCmp: any;
     @ViewChild('fixedLeft', {static: false}) fixedLeftEl: ElementRef;
     @ViewChild('fixedRight', {static: false}) fixedRightEl: ElementRef;
     @ViewChild('main', {static: true}) mainArea: ElementRef;
@@ -97,6 +97,8 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
     private clearCheckedsSubscribe: Subscription;
 
     private subscriptions = [];
+
+    private _virtualRowsPosition: any = null;
 
     public dfs: DatagridFacadeService;
     public dgs: DatagridService;
@@ -141,6 +143,12 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
             // if (!this.cd['destroyed']) {
             //     this.cd.detectChanges();
             // }
+
+            if (!changes.data.currentValue || !changes.data.currentValue.length) {
+                if (this.tableRowsCmp) {
+                    this._virtualRowsPosition = this.getVirtualRowPosition();
+                }
+            }
         }
 
         if (changes.footerHeight !== undefined && !changes.footerHeight.isFirstChange()) {
@@ -482,6 +490,7 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
 
     private needFetchData() {
         const virtualRowPos = this.getVirtualRowPosition();
+
         if (!virtualRowPos) { return false; }
 
         const { top, bottom, containerBottom } = { ...virtualRowPos };
@@ -497,16 +506,20 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
     }
 
     private getVirtualRowPosition(): { top: number, bottom: number, containerBottom: number } {
-        const headerHeight = this.top;
-        const bodyRect = this.dg.getBoundingClientRect(this.el);
-        const datatableRect = this.dg.getBoundingClientRect(this.tableRowsCmp.tableEl);
-        const topDivHeight = datatableRect.top - bodyRect.top - headerHeight;
-        const bottomDivHeight = datatableRect.bottom;
-        const top = Math.floor(topDivHeight);
-        const bottom = Math.floor(bottomDivHeight);
-        // grid 容器距底部的尺寸
-        const containerBottom = this.dg.getBoundingClientRect(this.scrollbarDirectiveRef.elementRef).bottom;
-        return { top, bottom, containerBottom };
+        if (this.tableRowsCmp) {
+            const headerHeight = this.top;
+            const bodyRect = this.dg.getBoundingClientRect(this.el);
+            const datatableRect = this.dg.getBoundingClientRect(this.tableRowsCmp.tableEl);
+            const topDivHeight = datatableRect.top - bodyRect.top - headerHeight;
+            const bottomDivHeight = datatableRect.bottom;
+            const top = Math.floor(topDivHeight);
+            const bottom = Math.floor(bottomDivHeight);
+            // grid 容器距底部的尺寸
+            const containerBottom = this.dg.getBoundingClientRect(this.scrollbarDirectiveRef.elementRef).bottom;
+            return { top, bottom, containerBottom };
+        } else {
+            return this._virtualRowsPosition;
+        }
     }
 
     private scrolling(isUp: boolean) {

@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
-import { DndComponent } from './dnd.component';
-
-
+import { DndDirective } from './dnd.directive';
 
 @NgModule({
-  declarations: [DndComponent],
+  declarations: [
+    DndDirective
+  ],
   imports: [
   ],
-  exports: [DndComponent]
+  exports: [
+    DndDirective
+  ]
 })
 export class DndModule { }

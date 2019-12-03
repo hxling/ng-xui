@@ -1,9 +1,50 @@
 
 
-<div #drag style=" position:absolute; width: 100px;height: 100px; background-color: rebeccapurple; z-index: 9;"></div>
+<div #drag  dnd 
+(dropped) = "onDrop($event)"
+ style=" position:absolute; width: 50px;height: 50px; background-color: rebeccapurple; z-index: 9;"></div>
 
 
 
 <div class="droparea" #drop
-style="width: 300px; height: 300px; background-color: goldenrod; position: absolute; top: 100px; left: 300px; border:2px dotted blue">
+style="width: 300px; height: 300px;  position: absolute; top: 100px; left: 300px; border:2px dotted blue">
 </div>
+
+<div class="droparea xui-droppable"
+style="width: 300px; height: 300px;  position: absolute; top: 410px; left: 300px; border:2px dotted blue">
+
+
+<div style="position: relative; top: 100px; left: 100px; width:150px; height: 150px; background-color: yellow;"></div>
+</div>
+
+
+<div class="droparea xui-droppable" 
+style="width: 300px; height: 300px;  position: absolute; top: 410px; left: 605px; border:2px dotted yellowgreen">
+
+    <ul style="list-style: none; margin: 0;">
+        <li style="    width: 50px;
+        height: 50px;    float: left;
+        background: red;margin-top: 10px;
+        margin-right: 10px;"></li>
+        <li style="    width: 50px;
+        height: 50px;
+        background: red;    float: left;margin-top: 10px;
+        margin-right: 10px;"></li>
+        <li style="    width: 50px;
+        height: 50px;
+        background: red;    float: left;margin-top: 10px;
+        margin-right: 10px;"></li>
+        <li style="    width: 50px;margin-top: 10px;
+        height: 50px;    float: left;
+        background: red;
+        margin-right: 10px;"></li>
+        <li style="    width: 50px;margin-top: 10px;
+        height: 50px;    float: left;
+        background: red;
+        margin-right: 10px;"></li>
+    </ul>
+
+
+
+</div>
+
