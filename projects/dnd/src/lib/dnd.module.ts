@@ -1,14 +1,27 @@
 import { NgModule } from '@angular/core';
-import { DndDirective } from './dnd.directive';
+import { CommonModule } from '@angular/common';
+import { DndDraggableDirective, DndDragImageRefDirective } from './dnd-draggable.directive';
+import { DndDropzoneDirective, DndPlaceholderRefDirective } from './dnd-dropzone.directive';
+import { DndHandleDirective } from './dnd-handle.directive';
 
-@NgModule({
-  declarations: [
-    DndDirective
-  ],
+@NgModule( {
   imports: [
+    CommonModule
+  ],
+  declarations: [
+    DndDraggableDirective,
+    DndDropzoneDirective,
+    DndHandleDirective,
+    DndPlaceholderRefDirective,
+    DndDragImageRefDirective
   ],
   exports: [
-    DndDirective
+    DndDraggableDirective,
+    DndDropzoneDirective,
+    DndHandleDirective,
+    DndPlaceholderRefDirective,
+    DndDragImageRefDirective
   ]
-})
-export class DndModule { }
+} )
+export class DndModule {
+}
