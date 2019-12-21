@@ -21,7 +21,7 @@
                     [style.width.px]="leftFixedWidth" [style.height.px]="wheelHeight - topHideHeight">
 
                     <fixed-left-rows [columns]="columnsGroup?.leftFixed" ></fixed-left-rows>
-            </div>
+                </div>
 
                 <div #fixedRight class="xui-datagrid-body-fixed-right" [style.width.px]="rightFixedWidth" 
                     *ngIf="columnsGroup?.rightFixed && columnsGroup?.rightFixed.length"

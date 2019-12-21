@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { DataSeed } from '../../data-factory/data-seed';
 import { DemoDataService } from '../../data-factory/demo-data-service';
 import { DATAGRID_REST_SERVICEE, CalculationType, DatagridComponent } from 'ng-xui/datagrid';
@@ -20,11 +20,10 @@ export class DemoDatagridSelectComponent implements OnInit {
     showCheckbox = false;
     @ViewChild('dg', { static: true}) dg: DatagridComponent;
 
-    get selectRow() {
-        return this.dg.selectedRow;
-    }
+    currentRow = null;
 
-    constructor() { }
+
+    constructor(private cd: ChangeDetectorRef) { }
 
     ngOnInit(): void {
 
@@ -51,5 +50,9 @@ export class DemoDatagridSelectComponent implements OnInit {
             { field: 'zhiwei', width: 100, title: '职位', formatter: {type: 'enum', options: enumOpts} }
         ];
 
+    }
+    onSelectChanged($event) {
+        this.currentRow = $event;
+        this.cd.detectChanges();
     }
 }

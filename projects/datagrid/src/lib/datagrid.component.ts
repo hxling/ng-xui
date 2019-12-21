@@ -356,7 +356,7 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     constructor(public cd: ChangeDetectorRef,
                 public el: ElementRef,
                 private inject: Injector, private zone: NgZone,
-                private dfs: DatagridFacadeService,
+                public dfs: DatagridFacadeService,
                 private dgs: DatagridService,
                 private app: ApplicationRef,
                 protected domSanitizer: DomSanitizer, private render2: Renderer2) {
@@ -395,10 +395,12 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
             this.bindDocumentEditListener();
         });
 
-        this.dfs.selectRow$.subscribe( () => {
+        this.dfs.selectRow$.subscribe( (sr: SelectedRow) => {
             if (!this.currentCell) {
                 this.bindDocumentMoveSelectRowEvent();
             }
+            this.selectChanged.emit(sr);
+            this.cd.detectChanges();
         });
 
         this.subscriptions.push(currentCellSubscription);
@@ -889,7 +891,12 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     }
 
     endCellEdit() {
-        document.body.click();
+        if (this.currentCell) {
+            DomHandler.removeClass(this.currentCell.cellElement, CELL_SELECTED_CLS);
+            if (this.currentCell.isEditing) {
+                this.currentCell.cellElement.closeEdit();
+            }
+        }
     }
 
     editRow(rowId?: any) {
@@ -1463,7 +1470,11 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
         let longestText = '';
         const items = this.data;
         for (let i = items.length - 1; i >= 0; i--) {
-            const text = '' + Utils.getValue(col.field, items[i]);
+            const value = Utils.getValue(col.field, items[i]);
+            let text = '' + value;
+            if (col.formatter) {
+                text = this.colFormatSer.format(value, items[i], col.formatter);
+            }
             if (text.length > longestText.length) {
                 longestText = text;
             }
@@ -1471,13 +1482,18 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
 
         this.longTextArea.nativeElement.innerHTML = longestText;
 
-        const maxWidth = this.longTextArea.nativeElement.offsetWidth + 15;
+        const maxWidth = this.longTextArea.nativeElement.offsetWidth + 22;
 
         this.longTextArea.nativeElement.innerHTML = th.nativeElement.innerText;
-        const thMinWidth = this.longTextArea.nativeElement.offsetWidth + 15;
-
+        const thMinWidth = this.longTextArea.nativeElement.offsetWidth + 22;
 
         col.width = (maxWidth > thMinWidth ? maxWidth : thMinWidth);
+
+        const colIndex = this.flatColumns.findIndex(c => c.field === col.field);
+        if (colIndex === this.flatColumns.length - 1) {
+            col.width += 6;
+        }
+
         this.dfs.resizeColumns();
         this.dgs.columnResized.emit();
     }

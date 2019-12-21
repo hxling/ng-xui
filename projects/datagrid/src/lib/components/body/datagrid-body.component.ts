@@ -140,9 +140,6 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
         if (changes.data && !changes.data.isFirstChange()) {
             this.setWheelHeight();
             this.scrollBarUpdate();
-            // if (!this.cd['destroyed']) {
-            //     this.cd.detectChanges();
-            // }
 
             if (!changes.data.currentValue || !changes.data.currentValue.length) {
                 if (this.tableRowsCmp) {
@@ -161,30 +158,11 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
     }
 
     ngAfterViewInit() {
-        // this.setGroupRowViewHeight();
     }
 
     private scrollBarUpdate() {
         this.scrollbarDirectiveRef.update();
     }
-
-    // /** 启用分组行时，将高度重置为 100% */
-    // private setGroupRowViewHeight() {
-    //     this.ngZone.runOutsideAngular(() => {
-    //         setTimeout(() => {
-    //             if (this.dg.groupRows) {
-    //                 this.mainArea.nativeElement.style.height = '100%';
-    //                 if (this.fixedLeftEl) {
-    //                     this.fixedLeftEl.nativeElement.style.height = '100%';
-    //                 }
-    //                 if (this.fixedRightEl) {
-    //                     this.fixedRightEl.nativeElement.style.height = '100%';
-    //                 }
-    //                 this.mainArea.nativeElement.parentElement.style.height = '100%';
-    //             }
-    //         }, 100);
-    //     });
-    // }
 
     private destroySubscriptions() {
         if (this.subscriptions && this.subscriptions.length) {
@@ -264,9 +242,8 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
             if (row) {
                 this.currentRowId = row.id;
             }
-            this.dg.selectChanged.emit(row);
-            this.cd.detectChanges();
-            this.app.tick();
+            // this.dg.selectChanged.emit(row);
+            // this.cd.detectChanges();
         });
         this.subscriptions.push(this.selectRowSubscribe);
 
@@ -381,13 +358,20 @@ export class DatagridBodyComponent implements OnInit, OnDestroy, OnChanges, Afte
     private setWheelHeight() {
         if (this.dg.nowrap) {
             const rh = this.dg.rowHeight;
-            this.wheelHeight = this.dg.pagination ?
-                                    this.dg.pageSize * rh :
-                                    (this.dg.data.length) * rh;
+            let itemsCount = this.dg.pageSize;
+            if (this.dg.pagination) {
+                if (this.dg.total < this.dg.pageSize) {
+                    itemsCount = this.dg.total;
+                }
+            } else {
+                itemsCount = this.dg.data.length;
+            }
+            this.wheelHeight = itemsCount * rh;
 
             if (this.dg.virtualizedAsyncLoad) {
                 this.wheelHeight = this.dg.total * rh;
             }
+
             if (!this.dg.footerTemplate) {
                 this.wheelHeight = this.wheelHeight - this.footerHeight;
             }

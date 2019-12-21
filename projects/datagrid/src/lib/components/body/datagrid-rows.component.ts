@@ -34,13 +34,16 @@ export class DatagridRowsComponent implements OnInit, AfterViewInit {
     groupLevelField = GROUP_LEVEL_FIELD;
 
     private ro: ResizeObserver = null;
-    public dg: DatagridComponent;
     public dgb: DatagridBodyComponent;
     constructor(
         private cd: ChangeDetectorRef,
+        private dg: DatagridComponent,
         public el: ElementRef, private injector: Injector, private ngZone: NgZone) {
             this.dgb = this.injector.get(DatagridBodyComponent);
-            this.dg = this.dgb.dg;
+            this.dg.dfs.selectRow$.subscribe( () => {
+                this.cd.detectChanges();
+            });
+
     }
 
     ngOnInit(): void {

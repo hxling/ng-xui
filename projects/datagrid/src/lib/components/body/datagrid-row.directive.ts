@@ -1,5 +1,5 @@
 
-import { QueryList, Renderer2, Self, NgZone, SimpleChanges, OnChanges } from '@angular/core';
+import { QueryList, Renderer2, Self, NgZone, SimpleChanges, OnChanges, ChangeDetectorRef } from '@angular/core';
 /*
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-12 07:47:12
@@ -44,7 +44,7 @@ export class DatagridRowDirective implements OnInit, AfterViewInit, DatagridRow,
     public dg: DatagridComponent;
     constructor(
         private injector: Injector, private fb: FormBuilder, public el: ElementRef,
-        private render: Renderer2, @Self() public drHover: DatagridRowHoverDirective) {
+        private render: Renderer2, @Self() public drHover: DatagridRowHoverDirective, private cd: ChangeDetectorRef) {
         this.dfs = this.injector.get(DatagridFacadeService);
         this.ngZone = this.injector.get(NgZone);
         this.dg = this.injector.get(DatagridComponent);
@@ -116,6 +116,7 @@ export class DatagridRowDirective implements OnInit, AfterViewInit, DatagridRow,
                 });
             }
         }
+        this.cd.detectChanges();
     }
 
     onMouseEnter($event: MouseEvent) {

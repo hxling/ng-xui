@@ -17,12 +17,14 @@
         <demo-panel>
             <!-- datatable start -->
             <xui-datagrid [columns]="columns" [data]="items" #dg [pageSize]="50" [showBorder]="true"
-                [pagination]="false" [showCheckbox]="showCheckbox" [keepSelect]="!keepSelect"></xui-datagrid>
+                [pagination]="false" [showCheckbox]="showCheckbox" [keepSelect]="!keepSelect"
+                (selectChanged)="onSelectChanged($event)">
+            </xui-datagrid>
             <!-- datatable end -->
 
             <div class="row p-3 p-sm-0 p-md-1 p-lg-2 p-xl-3">
                 <div class="col-xl-12">
-                    当前选中ID：{{ selectRow?.id }}
+                    当前选中ID：{{ currentRow?.id }}
                 </div>
             </div>
 

@@ -30,6 +30,10 @@ export class FixedLeftRowsComponent implements OnInit {
         public el: ElementRef, private injector: Injector, private ngZone: NgZone) {
             this.dg = this.injector.get(DatagridComponent);
             this.dgb = this.injector.get(DatagridBodyComponent);
+            this.dfs.selectRow$.subscribe( () => {
+                this.cd.detectChanges();
+            });
+
         }
 
     ngOnInit() { }
