@@ -9,6 +9,9 @@
       ],
       "ng-xui/utils": [
         "projects/utils/src/public-api"
+      ],
+      "ng-xui/dnd": [
+        "projects/dnd/src/public-api"
       ]
     }
   },

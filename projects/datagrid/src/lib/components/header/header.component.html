@@ -10,20 +10,16 @@
 <!-- <div class="xui-datagrid-header xui-datagrid-group-rows"  style="width: 100%;"  [style.min-height.px]="height" ></div> -->
 <div class="xui-datagrid-header d-flex flex-column" style="width: 100%;"  [style.min-height.px]="height" #header>
 
-    <div *ngIf="dg.showRowGroupPanel" class="xui-datagrid-group-panel">
+    <div *ngIf="dg.showRowGroupPanel" class="xui-datagrid-group-panel" dndDropzone (dndDrop)="onDrop($event)">
         <!-- <span style="line-height: 45px;margin-left: 15px;color: #ccc;">
             Drag here to set row groups
         </span> -->
 
-        <span class="ml-3 mt-2 field">
-            <span class="mr-2">姓名</span>
-            <a><i class="fal fa-times"></i></a>
+        <span class="ml-3 mt-2 field" *ngFor="let col of groupFieldColumns">
+            <span class="mr-2">{{ col.title }}</span>
+            <a (click)="removeGroupField(col)"><i class="fal fa-times"></i></a>
         </span>
 
-        <span class="ml-1 mt-2 field">
-            <span class="mr-2">职务</span>
-            <a><i class="fal fa-times"></i></a>
-        </span>
 
     </div>
 
@@ -87,7 +83,9 @@
                                 <td [resize-column]="col" class="xui-datagrid-header-cell" 
                                     [attr.align]="col.halign" 
                                     [attr.field]="col.field"
-                                    [attr.rowspan]="col.rowspan">
+                                    [attr.rowspan]="col.rowspan"
+                                    [dndDraggable]="col"
+                                >
                                     <div class="xui-datagrid-header-cell-content" [style.width.px]="col.width">
                                         {{ col.title }}
                                         <ng-container *ngIf="col.sortable">

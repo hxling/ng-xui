@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
 import { NgXuiUtilsModule } from 'ng-xui/utils';
+import { DndModule } from 'ng-xui/dnd';
 
 import { DatagridComponent } from './datagrid.component';
 import { NgxPaginationModule } from './pagination/ngx-pagination.module';
@@ -59,6 +60,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: ScrollbarConfigInterface = {
         ReactiveFormsModule,
         HttpClientModule,
         NgxPaginationModule,
+        DndModule,
         ScrollbarModule,
         NgXuiUtilsModule.forRoot()
     ],

@@ -1141,6 +1141,11 @@ export class DatagridFacadeService {
         return [];
     }
 
+    setGroupField(groupField: string) {
+        this.updateState({groupField}, false);
+        this.refresh();
+    }
+
     showGroupFooter(groupFooter) {
         this.updateState({groupFooter}, false);
         this.updateVirthualRows(0);

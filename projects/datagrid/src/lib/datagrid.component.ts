@@ -239,7 +239,7 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     /** 分组字段名称 */
     @Input() groupField = '';
     /** 分组格式化 */
-    @Input() groupFormatter: (groupRow: any) => any;
+    @Input() groupFormatter: (groupColumn: any, groupRow: any) => any;
     /** 分组行样式 */
     @Input() groupStyler: (groupRow: any) => any;
     /** 双击表头自适应内容宽度 */
@@ -1563,4 +1563,9 @@ export class DatagridComponent implements OnInit, OnDestroy, OnChanges, AfterCon
     }
 
     //#endregion
+
+    setGroupField(groupFields: string) {
+        this.groupField = groupFields;
+        this.dfs.setGroupField(this.groupField);
+    }
 }

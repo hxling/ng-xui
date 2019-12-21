@@ -49,6 +49,7 @@ export class DatagridHeaderComponent implements OnInit, AfterViewInit {
     private dfs: DatagridFacadeService;
     private ro: ResizeObserver | null = null;
 
+    groupFieldColumns = [];
     constructor(
         private render2: Renderer2, private injector: Injector,
         @Optional() public dg: DatagridComponent, private ngZone: NgZone ) {
@@ -121,6 +122,9 @@ export class DatagridHeaderComponent implements OnInit, AfterViewInit {
             }
         });
 
+        this.groupFieldColumns = this.dg.groupField.split(',').map(f => {
+            return this.dg.flatColumns.find(n => n.field === f);
+        });
         // this.dgs.onDataSourceChange.subscribe(() => {
         //     this._chkall.chk.nativeElement.checked = false;
         // });
@@ -211,5 +215,21 @@ export class DatagridHeaderComponent implements OnInit, AfterViewInit {
             }
         });
 
+    }
+
+    private refresh() {
+        const groupFields = this.groupFieldColumns.map(f => f.field).join(',');
+        this.dg.setGroupField(groupFields);
+    }
+
+    onDrop($event) {
+        console.log($event);
+        this.groupFieldColumns.push($event.data);
+        this.refresh();
+    }
+
+    removeGroupField(col) {
+        this.groupFieldColumns = this.groupFieldColumns.filter(c => c.field !== col.field);
+        this.refresh();
     }
 }
