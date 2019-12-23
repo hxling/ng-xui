@@ -64,7 +64,10 @@ export class DndDropzoneDirective implements AfterViewInit, OnDestroy {
     dndDropzoneDisabledClass = 'dndDropzoneDisabled';
 
     @Output()
-    readonly dndDragover: EventEmitter<DragEvent> = new EventEmitter<DragEvent>();
+    readonly dndDragover: EventEmitter<any> = new EventEmitter<any>();
+
+    @Output()
+    readonly dndDragleave: EventEmitter<any> = new EventEmitter<any>();
 
     @Output()
     readonly dndDrop: EventEmitter<DndDropEvent> = new EventEmitter<DndDropEvent>();
@@ -188,7 +191,9 @@ export class DndDropzoneDirective implements AfterViewInit, OnDestroy {
         // set the drop effect
         setDropEffect(event, dropEffect);
 
-        this.dndDragover.emit(event);
+        const dropData = getDropData(event, false);
+
+        this.dndDragover.emit({event, data: dropData.data});
 
         this.renderer.addClass(this.elementRef.nativeElement, this.dndDragoverClass);
     }
@@ -268,6 +273,8 @@ export class DndDropzoneDirective implements AfterViewInit, OnDestroy {
 
         // cleanup drop effect when leaving dropzone
         setDropEffect(event, 'none');
+
+        this.dndDragleave.emit(event);
     }
 
     private isDropAllowed(type?: string) {

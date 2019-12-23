@@ -1,3 +1,4 @@
+import { ChangeDetectorRef } from '@angular/core';
 /*
  * @Author: 疯狂秀才(Lucas Huang)
  * @Date: 2019-08-06 07:43:53
@@ -50,9 +51,10 @@ export class DatagridHeaderComponent implements OnInit, AfterViewInit {
     private ro: ResizeObserver | null = null;
 
     groupFieldColumns = [];
+    dropField = null;
     constructor(
         private render2: Renderer2, private injector: Injector,
-        @Optional() public dg: DatagridComponent, private ngZone: NgZone ) {
+        @Optional() public dg: DatagridComponent, private ngZone: NgZone, private cd: ChangeDetectorRef ) {
         this.dfs = this.injector.get(DatagridFacadeService);
         this.dgs = this.injector.get(DatagridService);
 
@@ -226,10 +228,23 @@ export class DatagridHeaderComponent implements OnInit, AfterViewInit {
         console.log($event);
         this.groupFieldColumns.push($event.data);
         this.refresh();
+        this.dropField = null;
+    }
+
+    onDropOver($event) {
+        console.log($event);
+        this.dropField = $event.data;
+        this.cd.detectChanges();
+    }
+
+    onDragleave($event) {
+        this.dropField = null;
+        this.cd.detectChanges();
     }
 
     removeGroupField(col) {
         this.groupFieldColumns = this.groupFieldColumns.filter(c => c.field !== col.field);
+        console.log(this.groupFieldColumns);
         this.refresh();
     }
 }

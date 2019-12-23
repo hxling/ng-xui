@@ -129,8 +129,12 @@ export class DatagridFacadeService {
                 }
             } else {
                 // 行分组数据处理
-                const groupRows = this.groupRows2(data);
-                virtual.virtualRows = groupRows;
+                if (this._state.groupField) {
+                    const groupRows = this.groupRows2(data);
+                    virtual.virtualRows = groupRows;
+                } else {
+                    virtual.virtualRows = data;
+                }
             }
         }
         return virtual;

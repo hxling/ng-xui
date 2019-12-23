@@ -10,17 +10,21 @@
 <!-- <div class="xui-datagrid-header xui-datagrid-group-rows"  style="width: 100%;"  [style.min-height.px]="height" ></div> -->
 <div class="xui-datagrid-header d-flex flex-column" style="width: 100%;"  [style.min-height.px]="height" #header>
 
-    <div *ngIf="dg.showRowGroupPanel" class="xui-datagrid-group-panel" dndDropzone (dndDrop)="onDrop($event)">
-        <!-- <span style="line-height: 45px;margin-left: 15px;color: #ccc;">
-            Drag here to set row groups
-        </span> -->
+    <div *ngIf="dg.showRowGroupPanel" class="xui-datagrid-group-panel" 
+        dndDropzone (dndDrop)="onDrop($event)" (dndDragover)="onDropOver($event)"
+        (dndDragleave)="onDragleave($event)">
+        <span *ngIf="(!groupFieldColumns || !groupFieldColumns.length) && !dropField" style="line-height: 45px;margin-left: 15px;color: #ccc;">
+            Drag here to set row groups.
+        </span>
 
         <span class="ml-3 mt-2 field" *ngFor="let col of groupFieldColumns">
             <span class="mr-2">{{ col.title }}</span>
             <a (click)="removeGroupField(col)"><i class="fal fa-times"></i></a>
         </span>
 
-
+        <span dndPlaceholderRef class="ml-3 mt-2 field" style="border:1px dashed #c2c2c2;background: red">
+            <span class="mr-2">{{ dropField?.title }}</span>
+        </span>
     </div>
 
     <div class="flex-fill">
