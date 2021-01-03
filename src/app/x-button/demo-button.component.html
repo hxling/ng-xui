@@ -1,0 +1,57 @@
+
+<div style="width: 100px; height: 100px; color:white; background-color: red" [x-ripple]="true">
+</div>
+
+<div class="m-2">
+<label for="chkRounded">
+    <input id="chkRounded" [(ngModel)]="btnRounded" type="checkbox">
+    圆角
+</label>
+<label for="chkOutline">
+    <input id="chkOutline" [(ngModel)]="btnOutline" type="checkbox">
+    空心
+</label>
+<label for="chkDisabled">
+    <input id="chkDisabled" [(ngModel)]="chkDisabled" type="checkbox">
+    禁用
+</label>
+<label for="chkripple">
+    <input id="chkripple" [(ngModel)]="chkripple" type="checkbox">
+    水波纹
+</label>
+
+<select [(ngModel)]="btnSize">
+    <option value="">默认尺寸</option>
+    <option value="xs">小号</option>
+    <option value="sm">中号</option>
+    <option value="lg">大号</option>
+</select>
+<select [(ngModel)]="showType">
+    <option value="0">图标+文本</option>
+    <option value="1">图标</option>
+    <option value="2">文本</option>
+</select>
+</div>
+<div class="m-3">
+
+    <br>
+    <x-button class="mr-2" [ripple]="chkripple" [disabled]="chkDisabled" [size]="btnSize" [color]="'primary'" [rounded]="btnRounded" [outline]="btnOutline" [icon]="showType < 2 ?'fal fa-print' : ''" [text]=" showType != 1 ?'文本': ''"></x-button>
+    <x-button class="mr-2" [ripple]="chkripple" [disabled]="chkDisabled" [size]="btnSize" [color]="'secondary'" [rounded]="btnRounded" [outline]="btnOutline" [icon]="showType < 2 ?'fal fa-check' : ''" [text]=" showType != 1 ?'文本': ''"></x-button>
+    <x-button class="mr-2" [ripple]="chkripple" [disabled]="chkDisabled" [size]="btnSize" [color]="'success'" [rounded]="btnRounded" [outline]="btnOutline" [icon]="showType < 2 ?'fal fa-download' : ''" [text]=" showType != 1 ?'文本': ''"></x-button>
+    <x-button class="mr-2" [ripple]="chkripple" [disabled]="chkDisabled" [size]="btnSize" [color]="'warning'" [rounded]="btnRounded" [outline]="btnOutline" [icon]="showType < 2 ?'fal fa-exclamation-triangle' : ''" [text]=" showType != 1 ?'文本': ''"></x-button>
+    <x-button class="mr-2" [ripple]="chkripple" [disabled]="chkDisabled" [size]="btnSize" [color]="'info'" [rounded]="btnRounded" [outline]="btnOutline" [icon]="showType < 2 ?'fal fa-times' : ''" [text]=" showType != 1 ?'文本': ''"></x-button>
+    <x-button class="mr-2" [ripple]="chkripple" [disabled]="chkDisabled" [size]="btnSize" [color]="'danger'" [rounded]="btnRounded" [outline]="btnOutline" [icon]="showType < 2 ?'fal fa-eject' : ''" [text]=" showType != 1 ?'文本': ''"></x-button>
+    <x-button class="mr-2" [ripple]="chkripple" [disabled]="chkDisabled" [size]="btnSize" [color]="'dark'" [rounded]="btnRounded" [outline]="btnOutline" [icon]="showType < 2 ?'fal fa-volume-mute' : ''" [text]=" showType != 1 ?'文本': ''"></x-button>
+    <x-button class="mr-2" [ripple]="chkripple" [disabled]="chkDisabled" [size]="btnSize" [rounded]="btnRounded" [outline]="btnOutline" [icon]="showType < 2 ?'fal fa-bug' : ''" [text]=" showType != 1 ?'文本': ''"></x-button>
+</div>
+
+<div class="row">
+    <div class="col-xl-6">
+        <x-button [fit]="true">按钮文本</x-button>
+    </div>
+</div>
+
+
+
+
+

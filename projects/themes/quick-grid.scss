@@ -1,0 +1,109 @@
+.quick-grid {
+    *{
+        box-sizing: border-box;
+    }
+    overflow: hidden; outline: 0px; position: relative;
+    font-size: 12px;
+
+    &-border {
+        border: 1px solid #808080;
+    }
+
+    &-focus-sink {
+        position:fixed;width:0;height:0;top:0;left:0;outline:0;
+    }
+
+    &-pane {
+        position: absolute;
+        outline: 0;
+        overflow: hidden;
+        width: 100%;
+
+        &-header {
+            width: 100%;
+            display: block;    
+        }
+    }
+
+    &-header {
+        width: 100%;
+        overflow: inherit;
+        position: relative;
+        border-left: 0px !important;
+        background: #e6e6e6;
+        font-weight: normal;
+        color: #555555;
+
+        &-columns {
+            border-bottom: 1px solid silver;
+            position: relative;
+            white-space: nowrap;
+            cursor: default;
+            overflow: hidden;
+            height: 27px;
+        }
+
+        &-column {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            height: 27px;
+            line-height: 19px;
+            margin: 0;
+            padding: 4px;
+            border: 1px solid #d3d3d3;
+            background: #e6e6e6;
+            font-weight: normal;
+            color: #555555;
+            border-right: 1px solid silver;
+            border-left: 0px !important;
+            border-top: 0px !important;
+            border-bottom: 0px !important;
+            float: left;
+        }
+    }
+
+
+    &-viewport {
+        position: relative;
+        outline: 0;
+        width: 100%;
+    }
+
+    &-canvas {
+        position: relative;
+        outline: 0;
+    }
+
+    &-row {
+        position: absolute;
+        border: 0px;
+        width: 100%;
+        background: #fff;
+        line-height: 19px;
+        color: #222;
+
+        &.odd {
+            background: #fafafa;
+        }
+    }
+
+    &-cell {
+        position: absolute;
+        border: 0px;
+        border-right: 1px solid #c0c0c0;
+        border-bottom:1px solid #c0c0c0;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+        z-index: 1;
+        height: 25px;
+        padding: 1px 2px 2px 1px;
+        margin: 0;
+        white-space: nowrap;
+        cursor: default;
+    }
+}

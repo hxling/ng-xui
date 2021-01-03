@@ -1,0 +1,8 @@
+
+   
+<div  id="{{ 'quickgrid-row-' + (i+startIndex) }}" class="quick-grid-row " [style.top.px]="(i+ startIndex) * 25"
+    *ngFor="let r of rows; trackBy:trackByFn; let i=index;">
+    <div class="quick-grid-cell l{{k}} r{{k}}" *ngFor="let c of columns; let k=index;" >
+        {{ r[c.field] }}
+    </div>
+</div>

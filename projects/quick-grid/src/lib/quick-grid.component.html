@@ -1,0 +1,28 @@
+<div #container id="{{ id }}" [class]="'quick-grid ' + uid " [class.quick-grid-border]="showBorder" [ngStyle]="gridStyle">
+    <!-- Header --> 
+    <div #header class="quick-grid-pane quick-grid-pane-header quick-grid-pane-left" tabindex="0">
+        <div #headerC class="quick-grid-header quick-grid-header-left">
+            <div [style.left.px]="-1000" [style.width.px]="centerHeaderWidth$ | async"
+                class="quick-grid-header-columns quick-grid-header-columns-left" unselectable="on">
+                <grid-header [columns]="columns"></grid-header>
+            </div>
+        </div>
+
+    </div>  
+
+    <!-- Body -->
+    <div #body class="quick-grid-pane quick-grid-pane-top quick-grid-pane-left " tabindex="0">
+        <div #viewportScrollContainer class="quick-grid-viewport quick-grid-viewport-top quick-grid-viewport-left" tabindex="0" hidefocus style="overflow: auto; height:100%; width: 100%;">
+            <div class="quick-grid-canvas quick-grid-canvas-top quick-grid-canvas-left" hidefocus tabindex="0"
+                [style.height.px]="canvasHeight" [style.width.px]="canvasWidth">
+            
+                <grid-body [height]="canvasHeight" 
+                [columns]="columns" [width]="canvasWidth" [rows]="rows"
+                [startIndex]="rowStartIndex"></grid-body>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>

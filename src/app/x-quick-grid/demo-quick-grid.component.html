@@ -1,0 +1,26 @@
+
+<div style="height: 30px;">
+数据总录数:
+<select name="datatotal" [(ngModel)]="rowsTotal" (ngModelChange)="loadData()">
+    <option value="100">100条</option>
+    <option value="200">200条</option>
+    <option value="500">500条</option>
+    <option value="1000">1000条</option>
+    <option value="2000">2000条</option>
+    <option value="5000">5000条</option>
+    <option value="10000">10000条</option>
+    <option value="20000">20000条</option>
+    <option value="30000">30000条</option>
+    <option value="50000">50000条</option>
+    <option value="100000">100000条</option>
+    <option value="200000">200000条</option>
+    <option value="500000">500000条</option>
+    <option value="1000000">1000000条</option>
+
+</select>
+<!-- <input type="number" [(ngModel)]="rowsTotal"> <button type="button" (click)="loadData()">加载</button> -->
+</div>
+
+<div style="height: 600px; width: 100%;margin-top: 15px;">
+    <x-quick-grid [columns]="columns" [fit]="true" [data]="items"></x-quick-grid>
+</div>
