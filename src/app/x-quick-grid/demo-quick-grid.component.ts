@@ -5,8 +5,8 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: './demo-quick-grid.component.html',
 })
 export class DemoQuickGridComponent implements OnInit {
-
-    columns = [
+    columns = [];
+    _columns = [
         { field: 'id', title:'Id', width: 100 },
         { field: 'title', title:'Title', width: 100 },
         { field: 'duration', title:'Duration', width: 100 },
@@ -45,11 +45,11 @@ export class DemoQuickGridComponent implements OnInit {
     items = [];
 
     constructor() {
-        this.loadData();
     }
-
+    
     ngOnInit(): void {
-        
+        this.onColumnsChanged();
+        this.loadData();
     }
 
     loadData() {
@@ -102,5 +102,9 @@ export class DemoQuickGridComponent implements OnInit {
         }
 
         return arr;
+    }
+
+    onColumnsChanged(colcount = 5) {
+        this.columns = this._columns.slice(0, colcount);
     }
 }

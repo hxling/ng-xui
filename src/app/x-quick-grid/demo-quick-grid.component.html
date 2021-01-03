@@ -16,8 +16,17 @@
     <option value="200000">200000条</option>
     <option value="500000">500000条</option>
     <option value="1000000">1000000条</option>
-
 </select>
+
+显示列数：
+<select #datacolumns name="datacolumns" (change)="onColumnsChanged(datacolumns.value)">
+    <option value="5">5列</option>
+    <option value="10">10列</option>
+    <option value="20">20列</option>
+    <option value="30">30列</option>
+    <option value="37">所有列</option>
+</select>
+
 <!-- <input type="number" [(ngModel)]="rowsTotal"> <button type="button" (click)="loadData()">加载</button> -->
 </div>
 

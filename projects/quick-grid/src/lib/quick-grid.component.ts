@@ -69,7 +69,6 @@ export class QuickGridComponent implements OnInit, AfterViewInit, OnChanges {
         this.gridService = this.inject.get(GridService);
         this.el = this.elRef.nativeElement;
 
-
         this.centerHeaderWidth$ = this.gridSizeMgr.resize$.pipe(
             map( (n: any) => n.centerHeaderWidth)
         );
@@ -78,15 +77,11 @@ export class QuickGridComponent implements OnInit, AfterViewInit, OnChanges {
             this.rowStartIndex = n.rowStartIndex;
             this.canvasHeight = n.canvasHeight;
             this.rows = n.rows;
-
             this.gridSizeMgr.updateCanvasWidth();
         });
-
     }
 
     ngOnInit(): void {
-       
-       
         this.init();
     }
     
@@ -98,21 +93,30 @@ export class QuickGridComponent implements OnInit, AfterViewInit, OnChanges {
         if (changes.data && !changes.data.isFirstChange()) {
             this.gridOptionMgr.loadData(changes.data.currentValue);
         }
+
+        if (changes.columns && !changes.columns.isFirstChange()) {
+            this.gridOptionMgr.updateOptions({columns: this.columns});
+            this.updateColumnSize();
+            this.gridSizeMgr.updateCanvasWidth();
+        }
     }
 
     private init() {
         this.createId();
         this.gridOptionMgr.initOptions({...this});
         this.setStyle();
-        const _size =  this.gridSizeMgr.setLayoutSize();
-        this.canvasWidth = _size.canvasWidth;
-        this.gridSizeMgr.applyColumnWidths();
-
+        this.updateColumnSize();
         if (this.data) {
             this.gridOptionMgr.loadData();
         }
     }
 
+    private updateColumnSize() {
+        const _size =  this.gridSizeMgr.setLayoutSize();
+        this.canvasWidth = _size.canvasWidth;
+        this.gridSizeMgr.applyColumnWidths();
+    }
+    
     private createId() {
         if (!this.id) {
             this.id = 'x-quickgrid_' + Math.round(10000000 * Math.random())

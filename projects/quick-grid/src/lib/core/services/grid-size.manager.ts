@@ -132,8 +132,17 @@ export class GridSizeManager {
     
     private createCssRules() {
         const htmlHead = document.querySelector('head');
-        this.$style = document.createElement('style');
-        this.render.appendChild(htmlHead, this.$style);
+
+        const styleEleId = this.gridOption.id + '_styles';
+
+        if (document.querySelector('#' + styleEleId )) {
+            this.$style = document.querySelector('#' + styleEleId );
+            this.$style.innerText = '';
+        } else {
+            this.$style = document.createElement('style');
+            this.$style.id = this.gridOption.id + '_styles';
+            this.render.appendChild(htmlHead, this.$style);
+        }
 
         const uid = this.gridOption.uid;
 
@@ -157,35 +166,31 @@ export class GridSizeManager {
     }
 
     private getColumnCssRules(columnIndex: number) {
+        var sheets = document.styleSheets;
+        for (let i = 0; i < sheets.length; i++) {
+            if ((sheets[i].ownerNode || sheets[i]['owningElement']) == this.$style) {
+                this.stylesheet = sheets[i];
+                break;
+            }
+        }
+        
         if (!this.stylesheet) {
-            var sheets = document.styleSheets;
-            for (let i = 0; i < sheets.length; i++) {
-                if ((sheets[i].ownerNode || sheets[i]['owningElement']) == this.$style) {
-                    this.stylesheet = sheets[i];
-                    break;
-                }
+            throw new Error("Cannot find stylesheet.");
+        }
+        // find and cache column CSS rules
+        this.columnCssRulesL = [];
+        this.columnCssRulesR = [];
+        var cssRules = (this.stylesheet.cssRules || this.stylesheet.rules);
+        var matches, columnIdx;
+        for (let i = 0; i < cssRules.length; i++) {
+            var selector = cssRules[i].selectorText;
+            if (matches = /\.l\d+/.exec(selector)) {
+                columnIdx = parseInt(matches[0].substr(2, matches[0].length - 2), 10);
+                this.columnCssRulesL[columnIdx] = cssRules[i];
+            } else if (matches = /\.r\d+/.exec(selector)) {
+                columnIdx = parseInt(matches[0].substr(2, matches[0].length - 2), 10);
+                this.columnCssRulesR[columnIdx] = cssRules[i];
             }
-
-            if (!this.stylesheet) {
-                throw new Error("Cannot find stylesheet.");
-            }
-
-             // find and cache column CSS rules
-             this.columnCssRulesL = [];
-             this.columnCssRulesR = [];
-             var cssRules = (this.stylesheet.cssRules || this.stylesheet.rules);
-             var matches, columnIdx;
-             for (let i = 0; i < cssRules.length; i++) {
-                 var selector = cssRules[i].selectorText;
-                 if (matches = /\.l\d+/.exec(selector)) {
-                     columnIdx = parseInt(matches[0].substr(2, matches[0].length - 2), 10);
-                     this.columnCssRulesL[columnIdx] = cssRules[i];
-                 } else if (matches = /\.r\d+/.exec(selector)) {
-                     columnIdx = parseInt(matches[0].substr(2, matches[0].length - 2), 10);
-                     this.columnCssRulesR[columnIdx] = cssRules[i];
-                 }
-             }
-
         }
 
         return {
@@ -198,6 +203,8 @@ export class GridSizeManager {
         let x = 0, w, rule;
 
         this.createCssRules();
+
+
         const canvasWidth = this.getCanvasWidth();
         this.gridOption.columns.forEach((n, i) => {
             w = n.width;
