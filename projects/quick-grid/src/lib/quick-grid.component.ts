@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, Renderer2, Injector, OnChanges, SimpleChanges } from '@angular/core';
 import { fromEvent, Observable } from 'rxjs';
-import { debounceTime, map, throttleTime } from 'rxjs/operators';
+import { auditTime, debounceTime, map, throttleTime } from 'rxjs/operators';
 import { QuickGridColumn } from './types/quick-column';
 import { GridService } from './core/services/grid.service';
 import { GridOptionsManager } from './core/services/grid-options.manager';
@@ -129,8 +129,9 @@ export class QuickGridComponent implements OnInit, AfterViewInit, OnChanges {
 
     private bindScrollEvent() {
         fromEvent(this.viewportScrollContainer.nativeElement, 'scroll').pipe(
-            debounceTime(0),
-            throttleTime(0)
+            debounceTime(10),
+            throttleTime(10)
+            // auditTime(20)
         ).subscribe(() => {
             this.handleScroll();
         });
