@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic": "~8.2.11",
     "@angular/router": "~8.2.11",
     "date-fns": "^2.5.1",
-    "lodash-es": "^4.17.15",
+    "lodash-es": "^4.17.21",
     "perfect-scrollbar": "^1.4.0",
     "resize-observer-polyfill": "^1.5.1",
     "rxjs": "~6.4.0",
